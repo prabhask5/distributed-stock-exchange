@@ -1,0 +1,27 @@
+/* Don't modify, automatically generated file by QuickFIX2FastDDS.py*/
+#include "Header.idl"
+
+module MarketDataSnapshotFullRefresh
+{
+
+	struct NoMDEntries
+	{
+		char MDEntryType;
+		float MDEntryPx;
+		long MDEntrySize;
+		char TimeInForce;
+		string ExecInst;
+		string Text;
+	};
+	typedef sequence<NoMDEntries> NoMDEntriesSeq;
+
+	
+	struct MarketDataSnapshotFullRefresh
+	{
+		Header header;
+		string MDReqID;
+		string Symbol;
+		string SecurityExchange;
+		NoMDEntriesSeq c_NoMDEntries;
+	};
+};

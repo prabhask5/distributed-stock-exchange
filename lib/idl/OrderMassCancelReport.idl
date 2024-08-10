@@ -1,0 +1,19 @@
+/* Don't modify, automatically generated file by QuickFIX2FastDDS.py*/
+#include "Header.idl"
+
+module OrderMassCancelReport
+{
+
+	
+	struct OrderMassCancelReport
+	{
+		Header header;
+		string OrderID;
+		char MassCancelRequestType;
+		char MassCancelResponse;
+		string Symbol;
+		string SecurityExchange;
+		unsigned long long TransactTime;
+		string Text;
+	};
+};

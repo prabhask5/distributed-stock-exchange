@@ -1,0 +1,17 @@
+/* Don't modify, automatically generated file by QuickFIX2FastDDS.py*/
+#include "Header.idl"
+
+module Logon
+{
+
+	
+	struct Logon
+	{
+		Header header;
+		long EncryptMethod;
+		long HeartBtInt;
+		string RawData;
+		string Username;
+		string Password;
+	};
+};

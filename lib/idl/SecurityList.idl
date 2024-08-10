@@ -1,0 +1,24 @@
+/* Don't modify, automatically generated file by QuickFIX2FastDDS.py*/
+#include "Header.idl"
+
+module SecurityList
+{
+
+	struct NoRelatedSym
+	{
+		string Symbol;
+		string SecurityExchange;
+		string Text;
+	};
+	typedef sequence<NoRelatedSym> NoRelatedSymSeq;
+
+	
+	struct SecurityList
+	{
+		Header header;
+		string SecurityReqID;
+		string SecurityResponseID;
+		long SecurityRequestResult;
+		NoRelatedSymSeq c_NoRelatedSym;
+	};
+};

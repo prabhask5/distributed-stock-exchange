@@ -7,49 +7,54 @@
 
 class OrderMatcher
 {
-  typedef std::map < std::string, Market > Markets;
+  typedef std::map<std::string, Market> Markets;
+
 public:
-  bool insert( const Order& order )
+  bool insert(const Order &order)
   {
-    Markets::iterator i = m_markets.find( order.getSymbol() );
-    if ( i == m_markets.end() )
-      i = m_markets.insert( std::make_pair( order.getSymbol(), Market() ) ).first;
-    return i->second.insert( order );
+    Markets::iterator i = m_markets.find(order.getSymbol());
+    if (i == m_markets.end())
+      i = m_markets.insert(std::make_pair(order.getSymbol(), Market())).first;
+    return i->second.insert(order);
   }
 
-  void erase( const Order& order )
+  void erase(const Order &order)
   {
-    Markets::iterator i = m_markets.find( order.getSymbol() );
-    if ( i == m_markets.end() ) return ;
-    i->second.erase( order );
+    Markets::iterator i = m_markets.find(order.getSymbol());
+    if (i == m_markets.end())
+      return;
+    i->second.erase(order);
   }
 
-  Order& find( std::string symbol, Order::Side side, std::string id )
+  Order &find(std::string symbol, Order::Side side, std::string id)
   {
-    Markets::iterator i = m_markets.find( symbol );
-    if ( i == m_markets.end() ) throw std::exception();
-    return i->second.find( side, id );
+    Markets::iterator i = m_markets.find(symbol);
+    if (i == m_markets.end())
+      throw std::exception();
+    return i->second.find(side, id);
   }
 
-  bool match( std::string symbol, std::queue < Order > & orders )
+  bool match(std::string symbol, std::queue<Order> &orders)
   {
-    Markets::iterator i = m_markets.find( symbol );
-    if ( i == m_markets.end() ) return false;
-    return i->second.match( orders );
+    Markets::iterator i = m_markets.find(symbol);
+    if (i == m_markets.end())
+      return false;
+    return i->second.match(orders);
   }
 
-  bool match( std::queue < Order > & orders )
+  bool match(std::queue<Order> &orders)
   {
     Markets::iterator i;
-    for ( i = m_markets.begin(); i != m_markets.end(); ++i )
-      i->second.match( orders );
+    for (i = m_markets.begin(); i != m_markets.end(); ++i)
+      i->second.match(orders);
     return orders.size() != 0;
   }
 
-  void display( std::string symbol ) const
+  void display(std::string symbol) const
   {
-    Markets::const_iterator i = m_markets.find( symbol );
-    if ( i == m_markets.end() ) return ;
+    Markets::const_iterator i = m_markets.find(symbol);
+    if (i == m_markets.end())
+      return;
     i->second.display();
   }
 
@@ -59,7 +64,7 @@ public:
     std::cout << "--------" << std::endl;
 
     Markets::const_iterator i;
-    for ( i = m_markets.begin(); i != m_markets.end(); ++i )
+    for (i = m_markets.begin(); i != m_markets.end(); ++i)
       std::cout << i->first << std::endl;
   }
 

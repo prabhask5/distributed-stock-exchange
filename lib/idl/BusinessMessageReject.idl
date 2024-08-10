@@ -1,0 +1,15 @@
+/* Don't modify, automatically generated file by QuickFIX2FastDDS.py*/
+#include "Header.idl"
+
+module BusinessMessageReject
+{
+
+	
+	struct BusinessMessageReject
+	{
+		Header header;
+		string RefMsgType;
+		long BusinessRejectReason;
+		string Text;
+	};
+};

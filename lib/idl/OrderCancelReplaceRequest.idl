@@ -1,0 +1,25 @@
+/* Don't modify, automatically generated file by QuickFIX2FastDDS.py*/
+#include "Header.idl"
+
+module OrderCancelReplaceRequest
+{
+
+	
+	struct OrderCancelReplaceRequest
+	{
+		Header header;
+		string OrigClOrdID;
+		string ClOrdID;
+		string ExecInst;
+		string Symbol;
+		string SecurityExchange;
+		char Side;
+		unsigned long long TransactTime;
+		long OrderQty;
+		char OrdType;
+		float Price;
+		float StopPx;
+		char TimeInForce;
+		string Text;
+	};
+};

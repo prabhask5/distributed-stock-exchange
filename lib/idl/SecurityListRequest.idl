@@ -1,0 +1,17 @@
+/* Don't modify, automatically generated file by QuickFIX2FastDDS.py*/
+#include "Header.idl"
+
+module SecurityListRequest
+{
+
+	
+	struct SecurityListRequest
+	{
+		Header header;
+		string SecurityReqID;
+		long SecurityListRequestType;
+		string Symbol;
+		string SecurityExchange;
+		string Text;
+	};
+};

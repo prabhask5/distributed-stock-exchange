@@ -1,0 +1,19 @@
+/* Don't modify, automatically generated file by QuickFIX2FastDDS.py*/
+#include "Header.idl"
+
+module OrderCancelReject
+{
+
+	
+	struct OrderCancelReject
+	{
+		Header header;
+		string OrderID;
+		string ClOrdID;
+		string OrigClOrdID;
+		char OrdStatus;
+		unsigned long long TransactTime;
+		char CxlRejResponseTo;
+		string Text;
+	};
+};
