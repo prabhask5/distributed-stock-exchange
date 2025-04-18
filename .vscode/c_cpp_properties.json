@@ -4,7 +4,9 @@
             "name": "Mac",
             "includePath": [
                 "${workspaceFolder}/**",
-                "/Users/prabhask/Documents/Modules/Fast-DDS/install/include"
+                "/Users/prabhask/Documents/Modules/Fast-DDS/install/include",
+                "/opt/homebrew/opt/log4cxx/include",
+                "/opt/homebrew/opt/boost/include"
             ],
             "defines": [],
             "macFrameworkPath": [
