@@ -1,7 +1,3 @@
-#include <atomic>
-#include <exception>
-#include <iostream>
-
 #include <DomainParticipantHelper.hpp>
 
 #include <boost/program_options.hpp>
@@ -48,6 +44,14 @@ int main(int argc, char *argv[])
 
         LOG4CXX_INFO(logger, "Market Name|" << market
                                             << "|Data Service Name|" << data_service << "|Market Data Publication Interval|" << data_pub_interval);
+
+        std::atomic_init(&is_running, true);
+
+        auto participant_ptr =
+            std::make_shared<basic_domain_participant>(0, "MatchingEngine");
+
+        participant_ptr->create_subscriber();
+        participant_ptr->create_publisher();
     }
     catch (std::exception &e)
     {
