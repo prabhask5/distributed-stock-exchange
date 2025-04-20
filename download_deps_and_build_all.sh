@@ -21,7 +21,8 @@ fi
 
 FAST_CDR_PKG=2.3.0
 FAST_DDS_PKG=3.2.1
-BOOST_PKG=boost_1_88_0
+BOOST_PKG=1.88.0
+BOOST_PKG_NAME=boost_1_88_0
 LOG4CXX_PKG=1.4.0
 FOONATHAN_MEMORY_PKG=0.7-3
 TINYXML2_PKG=11.0.0
@@ -31,19 +32,28 @@ APR_UTIL_PKG=1.6.3
 QUICKFIX_PKG=1.15.1
 SQLITE_PKG=release
 
-[[ ! -f $DEPS_BUILD_DIR/$BOOST_PKG.tar.gz ]] && curl -L "https://boostorg.jfrog.io/artifactory/main/release/1.80.0/source/$BOOST_PKG.tar.gz"  -o $DEPS_BUILD_DIR/$BOOST_PKG.tar.gz
+[[ ! -f $DEPS_BUILD_DIR/$BOOST_PKG.tar.gz ]] && curl -L "https://boostorg.jfrog.io/artifactory/main/release/$BOOST_PKG/source/$BOOST_PKG_NAME.tar.gz"  -o $DEPS_BUILD_DIR/$BOOST_PKG.tar.gz
 [[ ! -f $DEPS_BUILD_DIR/log4cxx-$LOG4CXX_PKG.tar.gz ]] && curl -L "https://github.com/apache/logging-log4cxx/archive/refs/tags/rel/v$LOG4CXX_PKG.tar.gz"  -o $DEPS_BUILD_DIR/log4cxx-$LOG4CXX_PKG.tar.gz
 [[ ! -f $DEPS_BUILD_DIR/Fast-CDR-v$FAST_CDR_PKG.tar.gz ]] && curl -L "https://github.com/eProsima/Fast-CDR/archive/refs/tags/v$FAST_CDR_PKG.tar.gz"  -o $DEPS_BUILD_DIR/Fast-CDR-v$FAST_CDR_PKG.tar.gz
 [[ ! -f $DEPS_BUILD_DIR/Fast-DDS-v$FAST_DDS_PKG.tar.gz ]] && curl -L "https://github.com/eProsima/Fast-DDS/archive/refs/tags/v$FAST_DDS_PKG.tar.gz"  -o $DEPS_BUILD_DIR/Fast-DDS-v$FAST_DDS_PKG.tar.gz
 [[ ! -f $DEPS_BUILD_DIR/memory-v$FOONATHAN_MEMORY_PKG.tar.gz ]] && curl -L "https://github.com/foonathan/memory/archive/refs/tags/v$FOONATHAN_MEMORY_PKG.tar.gz"  -o $DEPS_BUILD_DIR/memory-v$FOONATHAN_MEMORY_PKG.tar.gz
 [[ ! -f $DEPS_BUILD_DIR/tinyxml2-$TINYXML2_PKG.tar.gz ]] && curl -L "https://github.com/leethomason/tinyxml2/archive/refs/tags/$TINYXML2_PKG.tar.gz"  -o $DEPS_BUILD_DIR/tinyxml2-$TINYXML2_PKG.tar.gz
-[[ ! -f $DEPS_BUILD_DIR/asio-$ASIO_PKG.tar.gz ]] && curl -L "https://sourceforge.net/projects/asio/files/asio/1.28.1%20%28Stable%29/asio-$ASIO_PKG.tar.gz/download/"  -o $DEPS_BUILD_DIR/asio-$ASIO_PKG.tar.gz
+[[ ! -f $DEPS_BUILD_DIR/asio-$ASIO_PKG.tar.gz ]] && curl -L "https://sourceforge.net/projects/asio/files/asio/$ASIO_PKG%20%28Stable%29/asio-$ASIO_PKG.tar.gz/download/"  -o $DEPS_BUILD_DIR/asio-$ASIO_PKG.tar.gz
 [[ ! -f $DEPS_BUILD_DIR/apr-$APR_PKG.tar.gz ]] && curl -L "https://github.com/apache/apr/archive/refs/tags/$APR_PKG.tar.gz"  -o $DEPS_BUILD_DIR/apr-$APR_PKG.tar.gz
 [[ ! -f $DEPS_BUILD_DIR/apr-util-$APR_UTIL_PKG.tar.gz ]] && curl -L "https://github.com/apache/apr-util/archive/refs/tags/$APR_UTIL_PKG.tar.gz"  -o $DEPS_BUILD_DIR/apr-util-$APR_UTIL_PKG.tar.gz
 [[ ! -f $DEPS_BUILD_DIR/quickfix-v$QUICKFIX_PKG.tar.gz ]] && curl -L "https://github.com/quickfix/quickfix/archive/refs/tags/v$QUICKFIX_PKG.tar.gz"  -o $DEPS_BUILD_DIR/quickfix-v$QUICKFIX_PKG.tar.gz
 [[ ! -f $DEPS_BUILD_DIR/sqlite-$SQLITE_PKG.tar.gz ]] && curl -L "https://github.com/sqlite/sqlite/archive/refs/tags/$SQLITE_PKG.tar.gz"  -o $DEPS_BUILD_DIR/sqlite-$SQLITE_PKG.tar.gz
 
 export INSTALL_PREFIX=$INSTALL_DIR
+
+if [[ ! -f $INSTALL_DIR/include/boost/version.hpp ]]
+then
+cd $DEPS_BUILD_DIR
+[[ ! -d $BOOST_PKG ]] && tar xvf $BOOST_PKG.tar.gz
+cd $BOOST_PKG
+./bootstrap.sh --prefix=$INSTALL_DIR --exec-prefix=$INSTALL_DIR
+./b2 install
+fi
 
 if [[ ! -f $INSTALL_DIR/include/apr-1/apr.h ]]
 then
@@ -55,7 +65,7 @@ cd apr-$APR_PKG
 make install -j 20
 fi
 
-if [[ ! -f $INSTALL_DIR/include/apr-util-1/apr.h ]]
+if [[ ! -f $INSTALL_DIR/include/apr-1/apu.h ]]
 then
 cd $DEPS_BUILD_DIR
 [[ ! -d $APR_UTIL_PKG ]] && tar xvf apr-util-$APR_UTIL_PKG.tar.gz
@@ -65,23 +75,24 @@ cd apr-util-$APR_UTIL_PKG
 make install -j 20
 fi
 
+if [[ ! -f $INSTALL_DIR/include/log4cxx/log4cxx.h ]]
+then
+cd $DEPS_BUILD_DIR
+[[ ! -d $LOG4CXX ]] && tar xvf log4cxx-$LOG4CXX_PKG.tar.gz
+cd logging-log4cxx-rel-v$LOG4CXX_PKG
+mkdir -p build; cd build;
+cmake .. -DCMAKE_INSTALL_PREFIX=$INSTALL_PREFIX -DBUILD_SHARED_LIBS=ON  -DAPR_LIBRARIES=$INSTALL_PREFIX -DAPR_UTIL_LIBRARIES=$INSTALL_PREFIX -DBUILD_TESTING=false
+cmake --build . --target install
+fi
+
 if [[ ! -f $INSTALL_DIR/include/tinyxml2.h ]]
 then
 cd $DEPS_BUILD_DIR
 [[ ! -d tinyxml2-$TINYXML2_PKG ]] && tar xvf tinyxml2-$TINYXML2_PKG.tar.gz
 cd tinyxml2-$TINYXML2_PKG
-mkdir build; cd build;
+mkdir -p build; cd build;
 cmake .. -DCMAKE_INSTALL_PREFIX=$INSTALL_PREFIX -DBUILD_SHARED_LIBS=ON
 cmake --build . --target install
-fi
-
-if [[ ! -f $INSTALL_DIR/include/boost/version.hpp ]]
-then
-cd $DEPS_BUILD_DIR
-[[ ! -d $BOOST_PKG ]] && tar xvf $BOOST_PKG.tar.gz
-cd $BOOST_PKG
-./bootstrap.sh --prefix=$INSTALL_DIR --exec-prefix=$INSTALL_DIR
-./b2 install
 fi
 
 if [[ ! -f $INSTALL_DIR/include/asio.hpp ]]
@@ -93,22 +104,12 @@ cd asio-$ASIO_PKG
 make install -j 20
 fi
 
-if [[ ! -f $INSTALL_DIR/include/log4cxx/log4cxx.h ]]
-then
-cd $DEPS_BUILD_DIR
-[[ ! -d $LOG4CXX ]] && tar xvf log4cxx-$LOG4CXX_PKG.tar.gz
-cd logging-log4cxx-rel-v$LOG4CXX_PKG
-mkdir build; cd build;
-cmake .. -DCMAKE_INSTALL_PREFIX=$INSTALL_PREFIX -DBUILD_SHARED_LIBS=ON  -DAPR_LIBRARIES=$INSTALL_PREFIX -DAPR_UTIL_LIBRARIES=$INSTALL_PREFIX -DBUILD_TESTING=false
-cmake --build . --target install
-fi
-
 if [[ ! -f $INSTALL_DIR/include/foonathan_memory/foonathan/memory/config.hpp ]]
 then
 cd $DEPS_BUILD_DIR
 [[ ! -d $FOONATHAN_MEMORY_PKG ]] && tar xvf memory-v$FOONATHAN_MEMORY_PKG.tar.gz
 cd memory-$FOONATHAN_MEMORY_PKG
-mkdir build; cd build;
+mkdir -p build; cd build;
 cmake .. -DCMAKE_INSTALL_PREFIX=$INSTALL_PREFIX -DBUILD_SHARED_LIBS=ON
 cmake --build . --target install
 fi
@@ -118,7 +119,7 @@ then
 cd $DEPS_BUILD_DIR
 [[ ! -d $FAST_CDR_PKG ]] && tar xvf Fast-CDR-v$FAST_CDR_PKG.tar.gz
 cd Fast-CDR-$FAST_CDR_PKG
-mkdir build; cd build;
+mkdir -p build; cd build;
 cmake .. -DCMAKE_INSTALL_PREFIX=$INSTALL_PREFIX -DBUILD_SHARED_LIBS=ON
 cmake --build . --target install
 fi
@@ -128,17 +129,18 @@ then
 cd $DEPS_BUILD_DIR
 [[ ! -d $FAST_DDS_PKG ]] && tar xvf Fast-DDS-v$FAST_DDS_PKG.tar.gz
 cd Fast-DDS-$FAST_DDS_PKG
-mkdir build; cd build;
+mkdir -p build; cd build;
 cmake .. -DCMAKE_INSTALL_PREFIX=$INSTALL_PREFIX -DBUILD_SHARED_LIBS=ON -DSHM_TRANSPORT_DEFAULT=OFF -DCOMPILE_EXAMPLES=ON -DINSTALL_EXAMPLES=ON -DAsio_INCLUDE_DIR=$INSTALL_DIR/include
 cmake --build . --target install
 fi
 
+# There's an error quickfix-1.15.1/src/C++/AtomicCount.h:163:18 for MacOS, need to fix by switching comment/uncomment
 if [[ ! -f $INSTALL_DIR/include/quickfix/config-all.h ]]
 then
 cd $DEPS_BUILD_DIR
 [[ ! -d quickfix-$QUICKFIX_PKG ]] && tar xvf quickfix-v$QUICKFIX_PKG.tar.gz
 cd quickfix-$QUICKFIX_PKG
-mkdir build; cd build;
+mkdir -p build; cd build;
 cmake .. -DCMAKE_INSTALL_PREFIX=$INSTALL_PREFIX -DBUILD_SHARED_LIBS=ON -DCMAKE_CXX_FLAGS="-std=c++0x"
 cmake --build . --target install
 fi
@@ -167,13 +169,13 @@ export EXCHANGE_LOGDIR=$EXCHANGE_BASEDIR/logs
 
 EOM
 
-mkdir build
+mkdir -p build
 cd build
 
 # For MacOS target
 cmake -G Xcode .. -Dfastcdr_DIR=$INSTALL_DIR/lib/cmake/fastcdr/ -Dfastrtps_DIR=$INSTALL_DIR/share/fastrtps/cmake/ -Dfoonathan_memory_DIR=$INSTALL_DIR/lib/foonathan_memory/cmake/ -Dlog4cxx_DIR=$INSTALL_DIR/lib/cmake/log4cxx -DCMAKE_INSTALL_PREFIX=$DSE_SOURCE_DIR -DBoost_INCLUDE_DIR=$INSTALL_DIR/include -DQUICKFIX_INSTALL_PREFIX=$INSTALL_DIR
 
 # For Linux target
-#cmake .. -Dfastcdr_DIR=$INSTALL_DIR/lib/cmake/fastcdr/ -Dfastrtps_DIR=$INSTALL_DIR/share/fastrtps/cmake/ -Dfoonathan_memory_DIR=$INSTALL_DIR/lib/foonathan_memory/cmake/ -Dlog4cxx_DIR=$INSTALL_DIR/lib/cmake/log4cxx -DCMAKE_INSTALL_PREFIX=$DSE_SOURCE_DIR -DBoost_INCLUDE_DIR=$INSTALL_DIR/include -DQUICKFIX_INSTALL_PREFIX=$INSTALL_DIR
+# cmake .. -Dfastcdr_DIR=$INSTALL_DIR/lib/cmake/fastcdr/ -Dfastrtps_DIR=$INSTALL_DIR/share/fastrtps/cmake/ -Dfoonathan_memory_DIR=$INSTALL_DIR/lib/foonathan_memory/cmake/ -Dlog4cxx_DIR=$INSTALL_DIR/lib/cmake/log4cxx -DCMAKE_INSTALL_PREFIX=$DSE_SOURCE_DIR -DBoost_INCLUDE_DIR=$INSTALL_DIR/include -DQUICKFIX_INSTALL_PREFIX=$INSTALL_DIR
 
 cmake --build . --target install --config Debug
