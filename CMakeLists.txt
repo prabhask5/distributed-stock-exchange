@@ -6,7 +6,7 @@ find_package(fastcdr REQUIRED)
 find_package(fastdds REQUIRED)
 
 # C++ Standard
-set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD 11)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 find_package(Boost 1.40 REQUIRED COMPONENTS program_options)
@@ -17,8 +17,8 @@ link_directories(${QUICKFIX_INSTALL_PREFIX}/lib)
 
 include_directories(lib)
 
-add_subdirectory(lib/idl)
-include_directories(lib/idl)
+# add_subdirectory(lib/idl)
+# include_directories(lib/idl)
 
 # add_subdirectory(fix-gateway/src)
 # add_subdirectory(data-service/src)
