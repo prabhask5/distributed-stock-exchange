@@ -5,3 +5,4 @@ env.sh
 log.txt
 scripts/
 spec/
+bin/
