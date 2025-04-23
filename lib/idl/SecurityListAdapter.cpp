@@ -1,6 +1,6 @@
 /* Don't modify, automatically generated file by QuickFIX2FastDDS.py*/
 #include "SecurityListAdapter.hpp"
-#include <ConvertUtils.h>
+#include <ConvertUtils.hpp>
 
 void SecurityListAdapter::FIX2DDS(const FIX::Message &fixMsg, SecurityList::SecurityList &ddsMsg)
 {

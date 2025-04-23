@@ -1,7 +1,7 @@
 /* Don't modify, automatically generated file by QuickFIX2FastDDS.py*/
 #include "HeaderAdapter.hpp"
 
-#include <ConvertUtils.h>
+#include <ConvertUtils.hpp>
 
 void HeaderAdapter::FIX2DDS(const FIX::FieldMap &fixMsg, Header &ddsMsg)
 {

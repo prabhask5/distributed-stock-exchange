@@ -32,7 +32,7 @@ APR_UTIL_PKG=1.6.3
 QUICKFIX_PKG=1.15.1
 SQLITE_PKG=release
 
-[[ ! -f $DEPS_BUILD_DIR/$BOOST_PKG.tar.gz ]] && curl -L "https://boostorg.jfrog.io/artifactory/main/release/$BOOST_PKG/source/$BOOST_PKG_NAME.tar.gz"  -o $DEPS_BUILD_DIR/$BOOST_PKG.tar.gz
+[[ ! -f $DEPS_BUILD_DIR/$BOOST_PKG_NAME.tar.gz ]] && curl -L "https://archives.boost.io/release/$BOOST_PKG/source/$BOOST_PKG_NAME.tar.gz"  -o $DEPS_BUILD_DIR/$BOOST_PKG_NAME.tar.gz
 [[ ! -f $DEPS_BUILD_DIR/log4cxx-$LOG4CXX_PKG.tar.gz ]] && curl -L "https://github.com/apache/logging-log4cxx/archive/refs/tags/rel/v$LOG4CXX_PKG.tar.gz"  -o $DEPS_BUILD_DIR/log4cxx-$LOG4CXX_PKG.tar.gz
 [[ ! -f $DEPS_BUILD_DIR/Fast-CDR-v$FAST_CDR_PKG.tar.gz ]] && curl -L "https://github.com/eProsima/Fast-CDR/archive/refs/tags/v$FAST_CDR_PKG.tar.gz"  -o $DEPS_BUILD_DIR/Fast-CDR-v$FAST_CDR_PKG.tar.gz
 [[ ! -f $DEPS_BUILD_DIR/Fast-DDS-v$FAST_DDS_PKG.tar.gz ]] && curl -L "https://github.com/eProsima/Fast-DDS/archive/refs/tags/v$FAST_DDS_PKG.tar.gz"  -o $DEPS_BUILD_DIR/Fast-DDS-v$FAST_DDS_PKG.tar.gz
@@ -49,8 +49,8 @@ export INSTALL_PREFIX=$INSTALL_DIR
 if [[ ! -f $INSTALL_DIR/include/boost/version.hpp ]]
 then
 cd $DEPS_BUILD_DIR
-[[ ! -d $BOOST_PKG ]] && tar xvf $BOOST_PKG.tar.gz
-cd $BOOST_PKG
+[[ ! -d $BOOST_PKG_NAME ]] && tar xvf $BOOST_PKG_NAME.tar.gz
+cd $BOOST_PKG_NAME
 ./bootstrap.sh --prefix=$INSTALL_DIR --exec-prefix=$INSTALL_DIR
 ./b2 install
 fi
@@ -124,7 +124,7 @@ cmake .. -DCMAKE_INSTALL_PREFIX=$INSTALL_PREFIX -DBUILD_SHARED_LIBS=ON
 cmake --build . --target install
 fi
 
-if [[ ! -f $INSTALL_DIR/include/fastdds/rtps/rtps_all.h ]]
+if [[ ! -f $INSTALL_DIR/include/fastdds/config.hpp ]]
 then
 cd $DEPS_BUILD_DIR
 [[ ! -d $FAST_DDS_PKG ]] && tar xvf Fast-DDS-v$FAST_DDS_PKG.tar.gz
@@ -134,7 +134,7 @@ cmake .. -DCMAKE_INSTALL_PREFIX=$INSTALL_PREFIX -DBUILD_SHARED_LIBS=ON -DSHM_TRA
 cmake --build . --target install
 fi
 
-# There's an error quickfix-1.15.1/src/C++/AtomicCount.h:163:18 for MacOS, need to fix by switching comment/uncomment
+# There's an error in quickfix-1.15.1/src/C++/AtomicCount.h:163:18 for MacOS, need to fix by switching comment/uncomment
 if [[ ! -f $INSTALL_DIR/include/quickfix/config-all.h ]]
 then
 cd $DEPS_BUILD_DIR
@@ -173,9 +173,9 @@ mkdir -p build
 cd build
 
 # For MacOS target
-cmake -G Xcode .. -Dfastcdr_DIR=$INSTALL_DIR/lib/cmake/fastcdr/ -Dfastrtps_DIR=$INSTALL_DIR/share/fastrtps/cmake/ -Dfoonathan_memory_DIR=$INSTALL_DIR/lib/foonathan_memory/cmake/ -Dlog4cxx_DIR=$INSTALL_DIR/lib/cmake/log4cxx -DCMAKE_INSTALL_PREFIX=$DSE_SOURCE_DIR -DBoost_INCLUDE_DIR=$INSTALL_DIR/include -DQUICKFIX_INSTALL_PREFIX=$INSTALL_DIR
+cmake -G Xcode .. -Dfastcdr_DIR=$INSTALL_DIR/lib/cmake/fastcdr/ -Dfastdds_DIR=$INSTALL_DIR/share/fastdds/cmake/ -Dfoonathan_memory_DIR=$INSTALL_DIR/lib/foonathan_memory/cmake/ -Dlog4cxx_DIR=$INSTALL_DIR/lib/cmake/log4cxx -DCMAKE_INSTALL_PREFIX=$DSE_SOURCE_DIR -DBoost_INCLUDE_DIR=$INSTALL_DIR/include -DQUICKFIX_INSTALL_PREFIX=$INSTALL_DIR
 
 # For Linux target
-# cmake .. -Dfastcdr_DIR=$INSTALL_DIR/lib/cmake/fastcdr/ -Dfastrtps_DIR=$INSTALL_DIR/share/fastrtps/cmake/ -Dfoonathan_memory_DIR=$INSTALL_DIR/lib/foonathan_memory/cmake/ -Dlog4cxx_DIR=$INSTALL_DIR/lib/cmake/log4cxx -DCMAKE_INSTALL_PREFIX=$DSE_SOURCE_DIR -DBoost_INCLUDE_DIR=$INSTALL_DIR/include -DQUICKFIX_INSTALL_PREFIX=$INSTALL_DIR
+# cmake .. -Dfastcdr_DIR=$INSTALL_DIR/lib/cmake/fastcdr/ -Dfastdds_DIR=$INSTALL_DIR/share/fastdds/cmake/ -Dfoonathan_memory_DIR=$INSTALL_DIR/lib/foonathan_memory/cmake/ -Dlog4cxx_DIR=$INSTALL_DIR/lib/cmake/log4cxx -DCMAKE_INSTALL_PREFIX=$DSE_SOURCE_DIR -DBoost_INCLUDE_DIR=$INSTALL_DIR/include -DQUICKFIX_INSTALL_PREFIX=$INSTALL_DIR
 
 cmake --build . --target install --config Debug

@@ -1,6 +1,6 @@
 /* Don't modify, automatically generated file by QuickFIX2FastDDS.py*/
 #include "LogonAdapter.hpp"
-#include <ConvertUtils.h>
+#include <ConvertUtils.hpp>
 
 void LogonAdapter::FIX2DDS(const FIX::Message &fixMsg, Logon::Logon &ddsMsg)
 {

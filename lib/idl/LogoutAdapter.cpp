@@ -1,6 +1,6 @@
 /* Don't modify, automatically generated file by QuickFIX2FastDDS.py*/
 #include "LogoutAdapter.hpp"
-#include <ConvertUtils.h>
+#include <ConvertUtils.hpp>
 
 void LogoutAdapter::FIX2DDS(const FIX::Message &fixMsg, Logout::Logout &ddsMsg)
 {

@@ -1,6 +1,6 @@
 /* Don't modify, automatically generated file by QuickFIX2FastDDS.py*/
 #include "BusinessMessageRejectAdapter.hpp"
-#include <ConvertUtils.h>
+#include <ConvertUtils.hpp>
 
 void BusinessMessageRejectAdapter::FIX2DDS(const FIX::Message &fixMsg, BusinessMessageReject::BusinessMessageReject &ddsMsg)
 {

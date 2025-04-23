@@ -1,6 +1,6 @@
 /* Don't modify, automatically generated file by QuickFIX2FastDDS.py*/
 #include "MarketDataRequestAdapter.hpp"
-#include <ConvertUtils.h>
+#include <ConvertUtils.hpp>
 
 void MarketDataRequestAdapter::FIX2DDS(const FIX::Message &fixMsg, MarketDataRequest::MarketDataRequest &ddsMsg)
 {

@@ -1,6 +1,6 @@
 /* Don't modify, automatically generated file by QuickFIX2FastDDS.py*/
 #include "ExecutionReportAdapter.hpp"
-#include <ConvertUtils.h>
+#include <ConvertUtils.hpp>
 
 void ExecutionReportAdapter::FIX2DDS(const FIX::Message &fixMsg, ExecutionReport::ExecutionReport &ddsMsg)
 {

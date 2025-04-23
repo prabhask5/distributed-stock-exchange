@@ -1,6 +1,6 @@
 /* Don't modify, automatically generated file by QuickFIX2FastDDS.py*/
 #include "NewOrderSingleAdapter.hpp"
-#include <ConvertUtils.h>
+#include <ConvertUtils.hpp>
 
 void NewOrderSingleAdapter::FIX2DDS(const FIX::Message &fixMsg, NewOrderSingle::NewOrderSingle &ddsMsg)
 {

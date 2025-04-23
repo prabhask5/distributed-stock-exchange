@@ -1,6 +1,6 @@
 /* Don't modify, automatically generated file by QuickFIX2FastDDS.py*/
 #include "HeartbeatAdapter.hpp"
-#include <ConvertUtils.h>
+#include <ConvertUtils.hpp>
 
 void HeartbeatAdapter::FIX2DDS(const FIX::Message &fixMsg, Heartbeat::Heartbeat &ddsMsg)
 {

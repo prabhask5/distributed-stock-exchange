@@ -1,6 +1,6 @@
 /* Don't modify, automatically generated file by QuickFIX2FastDDS.py*/
 #include "OrderCancelRejectAdapter.hpp"
-#include <ConvertUtils.h>
+#include <ConvertUtils.hpp>
 
 void OrderCancelRejectAdapter::FIX2DDS(const FIX::Message &fixMsg, OrderCancelReject::OrderCancelReject &ddsMsg)
 {

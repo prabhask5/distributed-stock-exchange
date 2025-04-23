@@ -3,7 +3,7 @@ project(DistributedStockExchange LANGUAGES CXX)
 
 # Find requirements
 find_package(fastcdr REQUIRED)
-find_package(fastrtps REQUIRED)
+find_package(fastdds REQUIRED)
 
 # C++ Standard
 set(CMAKE_CXX_STANDARD 17)
