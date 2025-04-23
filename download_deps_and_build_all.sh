@@ -178,4 +178,4 @@ cmake -G Xcode .. -Dfastcdr_DIR=$INSTALL_DIR/lib/cmake/fastcdr/ -Dfastdds_DIR=$I
 # For Linux target
 # cmake .. -Dfastcdr_DIR=$INSTALL_DIR/lib/cmake/fastcdr/ -Dfastdds_DIR=$INSTALL_DIR/share/fastdds/cmake/ -Dfoonathan_memory_DIR=$INSTALL_DIR/lib/foonathan_memory/cmake/ -Dlog4cxx_DIR=$INSTALL_DIR/lib/cmake/log4cxx -DCMAKE_INSTALL_PREFIX=$DSE_SOURCE_DIR -DBoost_INCLUDE_DIR=$INSTALL_DIR/include -DQUICKFIX_INSTALL_PREFIX=$INSTALL_DIR
 
-cmake --build . --target install --config Debug
+cmake --build . --target install

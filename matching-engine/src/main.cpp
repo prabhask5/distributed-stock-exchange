@@ -1,4 +1,4 @@
-#include <DomainParticipantHelper.hpp>
+#include <BasicDomainParticipant.hpp>
 
 #include <boost/program_options.hpp>
 #include <boost/property_tree/ptree.hpp>

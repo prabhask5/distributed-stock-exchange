@@ -3,3 +3,5 @@ build/
 include/
 env.sh
 log.txt
+scripts/
+spec/
