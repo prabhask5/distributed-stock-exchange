@@ -1,5 +1,6 @@
 #!/bin/bash
 
+exec &>log.txt
 set -x 
 
 DSE_SOURCE_DIR=`pwd`

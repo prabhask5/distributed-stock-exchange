@@ -6,3 +6,4 @@ log.txt
 scripts/
 spec/
 bin/
+.DS_Store
