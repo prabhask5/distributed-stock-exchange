@@ -101,16 +101,17 @@ class DefaultDomainParticipant
 public:
     // Instantiate a domain participant for a provided domain id
     DefaultDomainParticipant(eprosima::fastdds::dds::DomainId_t domain_id, const std::string &participant_name)
+        : m_participant_name(participant_name)
     {
         eprosima::fastdds::dds::DomainParticipantQos participantQos;
-        participantQos.name(participant_name);
+        participantQos.name(m_participant_name);
         participantQos.setup_transports(eprosima::fastdds::rtps::BuiltinTransports::LARGE_DATA);
 
         m_participant = DomainParticipantPtr(eprosima::fastdds::dds::DomainParticipantFactory::get_instance()->create_participant(domain_id, participantQos));
 
         if (m_participant == nullptr)
         {
-            throw std::runtime_error("Failed to create a participant : " + participant_name);
+            throw std::runtime_error("Failed to create a participant : " + m_participant_name);
         }
     }
 
@@ -148,9 +149,29 @@ public:
     template <class TOPIC_TYPE>
     DataReaderTuplePtr<TOPIC_TYPE> make_data_reader_tuple(const TopicTuplePtr<TOPIC_TYPE> &topic_tuple,
                                                           eprosima::fastdds::dds::DataReaderListener *data_reader_listener,
-                                                          const std::string &filter_name, const std::string &filter)
+                                                          const std::string &filter_name, const std::string &filter,
+                                                          const std::vector<std::string> &expression_parameters, bool quote_all_expressions = true)
     {
-        auto filter_ptr = make_content_filtered_topic<TOPIC_TYPE>(filter_name, topic_tuple, filter);
+        std::vector<std::string> final_expression_parameters;
+        if (quote_all_expressions)
+        {
+            final_expression_parameters.reserve(expression_parameters.size());
+            for (const auto &v : expression_parameters)
+            {
+                final_expression_parameters.push_back("'" + v + "'");
+            }
+        }
+        else
+        {
+            final_expression_parameters = expression_parameters;
+        }
+
+        auto filter_ptr = make_content_filtered_topic<TOPIC_TYPE>(filter_name, topic_tuple, filter, final_expression_parameters);
+
+        if (filter_ptr == nullptr)
+        {
+            throw std::runtime_error("make_content_filtered_topic failed : " + filter_name);
+        }
         DataReaderListenerPtr drl_ptr(data_reader_listener);
         auto data_reader = make_datareader(filter_ptr, drl_ptr);
 
@@ -187,10 +208,13 @@ public:
         const TopicTuplePtr<TOPIC_TYPE> &topic_tuple,
         const std::string &filter_expression)
     {
+        auto *topic = std::get<0>(*topic_tuple).get();
+        if (topic == nullptr)
+        {
+            throw std::runtime_error("Topic is null in make_content_filtered_topic : " + filter_name);
+        }
 
-        return ContentFilteredTopicPtr(m_participant->create_contentfilteredtopic(
-            filter_name, std::get<0>(*topic_tuple).get(), filter_expression,
-            std::vector<std::string>()));
+        return ContentFilteredTopicPtr(m_participant->create_contentfilteredtopic(filter_name, topic, filter_expression, std::vector<std::string>()));
     }
 
     template <class TOPIC_TYPE>
@@ -207,7 +231,7 @@ public:
                     const DataReaderListenerPtr &listener)
     {
         return DataReaderPtr(m_subscriber->create_datareader(
-            content_filtered_topic.get(), 
+            content_filtered_topic.get(),
             eprosima::fastdds::dds::DATAREADER_QOS_DEFAULT, listener.get()));
     };
 
@@ -216,10 +240,16 @@ public:
         return m_participant;
     }
 
+    const std::string &get_participant_name()
+    {
+        return m_participant_name;
+    };
+
 private:
     DomainParticipantPtr m_participant;
     PublisherPtr m_publisher;
     SubscriberPtr m_subscriber;
+    std::string m_participant_name;
 };
 
 using DefaultDomainParticipantPtr = std::shared_ptr<DefaultDomainParticipant>;

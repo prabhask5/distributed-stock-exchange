@@ -3,11 +3,12 @@ project(DistributedStockExchange LANGUAGES CXX)
 
 # Find requirements
 find_package(fastcdr REQUIRED)
-find_package(fastdds REQUIRED)
+find_package(fastdds 3 REQUIRED)
 
 # C++ Standard
 set(CMAKE_CXX_STANDARD 14)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
+set(CMAKE_CXX_EXTENSIONS OFF)
 
 find_package(Boost 1.40 REQUIRED COMPONENTS program_options)
 include_directories(${Boost_INCLUDE_DIR})
