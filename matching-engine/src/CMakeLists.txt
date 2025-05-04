@@ -7,7 +7,7 @@ find_package(fastdds REQUIRED)
 find_package(log4cxx REQUIRED)
 
 # C++ Standard
-set(CMAKE_CXX_STANDARD 11)
+set(CMAKE_CXX_STANDARD 14)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 link_directories(${CMAKE_INSTALL_PREFIX}/lib)

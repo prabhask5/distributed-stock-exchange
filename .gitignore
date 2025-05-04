@@ -7,3 +7,4 @@ scripts/
 spec/
 bin/
 .DS_Store
+.vscode/

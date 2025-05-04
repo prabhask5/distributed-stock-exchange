@@ -6,7 +6,7 @@ find_package(fastcdr REQUIRED)
 find_package(fastdds REQUIRED)
 
 # C++ Standard
-set(CMAKE_CXX_STANDARD 11)
+set(CMAKE_CXX_STANDARD 14)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 find_package(Boost 1.40 REQUIRED COMPONENTS program_options)

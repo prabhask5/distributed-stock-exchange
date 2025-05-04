@@ -1,4 +1,4 @@
-#include <BasicDomainParticipant.hpp>
+#include <DefaultDomainParticipant.hpp>
 
 #include <boost/program_options.hpp>
 #include <boost/property_tree/ptree.hpp>
@@ -48,7 +48,7 @@ int main(int argc, char *argv[])
         std::atomic_init(&is_running, true);
 
         auto participant_ptr =
-            std::make_shared<basic_domain_participant>(0, "MatchingEngine");
+            std::make_shared<DefaultDomainParticipant>(0, "MatchingEngine");
 
         participant_ptr->create_subscriber();
         participant_ptr->create_publisher();
