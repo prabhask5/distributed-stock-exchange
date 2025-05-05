@@ -40,4 +40,4 @@ struct DataWriterContainer {
   DataWriterPtr marketDataRequestDW;
 };
 
-using DataWriterContainerPtr = std::unique_ptr<DataWriterContainer>;
+using DataWriterContainerPtr = std::shared_ptr<DataWriterContainer>;
