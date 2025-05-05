@@ -1,0 +1,5 @@
+This folder concerns all the hlper files needs to set up DDS connections between the different nodes in the distributed stock exchange, specifically concerning message types & data, conversion from FIX messages to DDS messages, and auto-generated code from FastDDS that deals with the low level conversions. All of the final code for this is found in the `/idl` folder.
+
+The `/gentools` folder concerns the helper generation files to use to generate the files inthe `/idl` folder. These files parse the message requirements for FIX (found in `fix-gateway/specs/Fix44.xml`) and FastDDS (found in `specs/dds_requirements.xml`) and generate the raw .idl files used by the FastDDS autogen, and the conversion and logging files used within this project.
+
+The FastDDS autogen is run using the `dds_gen.sh` script, using the dependency from the autogen FastDDS git repository.

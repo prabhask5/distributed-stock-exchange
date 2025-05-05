@@ -11,6 +11,8 @@ std::atomic<bool> is_running;
 
 int main(int argc, char *argv[]) {
   try {
+    // Set up program options to select config file to use for matching engine
+    // preferences
     std::string config_file = "";
     boost::program_options::options_description options{"Options"};
 
@@ -36,12 +38,11 @@ int main(int argc, char *argv[]) {
     boost::property_tree::ptree pt;
     boost::property_tree::ini_parser::read_ini(config_file, pt);
 
+    // Parse preferences from config file
     std::string data_service =
         pt.get<std::string>("matchingengine.dataservice");
     std::string market = pt.get<std::string>("matchingengine.market");
 
-    // this defines the interval on how often to publish market data to the data
-    // service
     int data_pub_interval = pt.get<int>("marketdata.data_pub_interval");
 
     LOG4CXX_INFO(logger, "Market Name|" << market << "|Data Service Name|"
@@ -49,13 +50,16 @@ int main(int argc, char *argv[]) {
                                         << "|Market Data Publication Interval|"
                                         << data_pub_interval);
 
+    // Flip running flag
     std::atomic_init(&is_running, true);
 
+    // Make DDS participant representing matching engine, and set up
+    // publisher/subscriber
     auto participant_ptr =
         std::make_shared<DefaultDomainParticipant>(0, "MatchingEngine");
 
-    participant_ptr->create_subscriber();
     participant_ptr->create_publisher();
+    participant_ptr->create_subscriber();
   } catch (std::exception &e) {
     LOG4CXX_ERROR(
         logger,
