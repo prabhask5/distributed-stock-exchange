@@ -1,164 +1,176 @@
 #include "ExecutionReportAdapter.hpp"
 #include <ConvertUtils.h>
 
+void ExecutionReportAdapter::FIX2DDS(
+    const FIX::Message &fixMsg,
+    DistributedStockExchange_ExecutionReport::ExecutionReport &ddsMsg) {
+  HeaderAdapter::FIX2DDS(fixMsg.getHeader(), ddsMsg.fix_header());
 
-void ExecutionReportAdapter::FIX2DDS(const FIX::Message& fixMsg, DistributedStockExchange_ExecutionReport::ExecutionReport& ddsMsg )
-{
-	HeaderAdapter::FIX2DDS(fixMsg.getHeader(), ddsMsg.fix_header());
+  if (fixMsg.isSetField(FIX::FIELD::OrderID))
+    ddsMsg.OrderID(((FIX::OrderID)fixMsg.getField(FIX::FIELD::OrderID))
+                       .getString()
+                       .c_str());
 
-	if (fixMsg.isSetField(FIX::FIELD::OrderID) )
-		ddsMsg.OrderID ( ((FIX::OrderID)fixMsg.getField(FIX::FIELD::OrderID)).getString().c_str());
+  if (fixMsg.isSetField(FIX::FIELD::OrigClOrdID))
+    ddsMsg.OrigClOrdID(
+        ((FIX::OrigClOrdID)fixMsg.getField(FIX::FIELD::OrigClOrdID))
+            .getString()
+            .c_str());
 
-	if (fixMsg.isSetField(FIX::FIELD::OrigClOrdID) )
-		ddsMsg.OrigClOrdID ( ((FIX::OrigClOrdID)fixMsg.getField(FIX::FIELD::OrigClOrdID)).getString().c_str());
+  if (fixMsg.isSetField(FIX::FIELD::ExecID))
+    ddsMsg.ExecID(
+        ((FIX::ExecID)fixMsg.getField(FIX::FIELD::ExecID)).getString().c_str());
 
-	if (fixMsg.isSetField(FIX::FIELD::ExecID) )
-		ddsMsg.ExecID ( ((FIX::ExecID)fixMsg.getField(FIX::FIELD::ExecID)).getString().c_str());
+  if (fixMsg.isSetField(FIX::FIELD::ExecType))
+    ddsMsg.ExecType(FIELD_GET_REF(fixMsg, ExecType));
 
-	if (fixMsg.isSetField(FIX::FIELD::ExecType) )
-		ddsMsg.ExecType ( FIELD_GET_REF( fixMsg,ExecType));
+  if (fixMsg.isSetField(FIX::FIELD::OrdStatus))
+    ddsMsg.OrdStatus(FIELD_GET_REF(fixMsg, OrdStatus));
 
-	if (fixMsg.isSetField(FIX::FIELD::OrdStatus) )
-		ddsMsg.OrdStatus ( FIELD_GET_REF( fixMsg,OrdStatus));
+  if (fixMsg.isSetField(FIX::FIELD::OrdRejReason))
+    ddsMsg.OrdRejReason(FIELD_GET_REF(fixMsg, OrdRejReason));
+  else
+    ddsMsg.OrdRejReason(0);
 
-	if (fixMsg.isSetField(FIX::FIELD::OrdRejReason) )
-		ddsMsg.OrdRejReason ( FIELD_GET_REF( fixMsg,OrdRejReason));
-	else 
-		ddsMsg.OrdRejReason ( 0 );
+  if (fixMsg.isSetField(FIX::FIELD::Symbol))
+    ddsMsg.Symbol(
+        ((FIX::Symbol)fixMsg.getField(FIX::FIELD::Symbol)).getString().c_str());
 
-	if (fixMsg.isSetField(FIX::FIELD::Symbol) )
-		ddsMsg.Symbol ( ((FIX::Symbol)fixMsg.getField(FIX::FIELD::Symbol)).getString().c_str());
+  if (fixMsg.isSetField(FIX::FIELD::SecurityExchange))
+    ddsMsg.SecurityExchange(
+        ((FIX::SecurityExchange)fixMsg.getField(FIX::FIELD::SecurityExchange))
+            .getString()
+            .c_str());
 
-	if (fixMsg.isSetField(FIX::FIELD::SecurityExchange) )
-		ddsMsg.SecurityExchange ( ((FIX::SecurityExchange)fixMsg.getField(FIX::FIELD::SecurityExchange)).getString().c_str());
+  if (fixMsg.isSetField(FIX::FIELD::Side))
+    ddsMsg.Side(FIELD_GET_REF(fixMsg, Side));
 
-	if (fixMsg.isSetField(FIX::FIELD::Side) )
-		ddsMsg.Side ( FIELD_GET_REF( fixMsg,Side));
+  if (fixMsg.isSetField(FIX::FIELD::OrderQty))
+    ddsMsg.OrderQty(FIELD_GET_REF(fixMsg, OrderQty));
+  else
+    ddsMsg.OrderQty(0);
 
-	if (fixMsg.isSetField(FIX::FIELD::OrderQty) )
-		ddsMsg.OrderQty ( FIELD_GET_REF( fixMsg,OrderQty));
-	else 
-		ddsMsg.OrderQty ( 0 );
+  if (fixMsg.isSetField(FIX::FIELD::OrdType))
+    ddsMsg.OrdType(FIELD_GET_REF(fixMsg, OrdType));
 
-	if (fixMsg.isSetField(FIX::FIELD::OrdType) )
-		ddsMsg.OrdType ( FIELD_GET_REF( fixMsg,OrdType));
+  if (fixMsg.isSetField(FIX::FIELD::Price))
+    ddsMsg.Price(FIELD_GET_REF(fixMsg, Price));
+  else
+    ddsMsg.Price(0);
 
-	if (fixMsg.isSetField(FIX::FIELD::Price) )
-		ddsMsg.Price ( FIELD_GET_REF( fixMsg,Price));
-	else 
-		ddsMsg.Price ( 0 );
+  if (fixMsg.isSetField(FIX::FIELD::StopPx))
+    ddsMsg.StopPx(FIELD_GET_REF(fixMsg, StopPx));
+  else
+    ddsMsg.StopPx(0);
 
-	if (fixMsg.isSetField(FIX::FIELD::StopPx) )
-		ddsMsg.StopPx ( FIELD_GET_REF( fixMsg,StopPx));
-	else 
-		ddsMsg.StopPx ( 0 );
+  if (fixMsg.isSetField(FIX::FIELD::TimeInForce))
+    ddsMsg.TimeInForce(FIELD_GET_REF(fixMsg, TimeInForce));
 
-	if (fixMsg.isSetField(FIX::FIELD::TimeInForce) )
-		ddsMsg.TimeInForce ( FIELD_GET_REF( fixMsg,TimeInForce));
+  if (fixMsg.isSetField(FIX::FIELD::ExecInst))
+    ddsMsg.ExecInst(((FIX::ExecInst)fixMsg.getField(FIX::FIELD::ExecInst))
+                        .getString()
+                        .c_str());
 
-	if (fixMsg.isSetField(FIX::FIELD::ExecInst) )
-		ddsMsg.ExecInst ( ((FIX::ExecInst)fixMsg.getField(FIX::FIELD::ExecInst)).getString().c_str());
+  if (fixMsg.isSetField(FIX::FIELD::LastQty))
+    ddsMsg.LastQty(FIELD_GET_REF(fixMsg, LastQty));
+  else
+    ddsMsg.LastQty(0);
 
-	if (fixMsg.isSetField(FIX::FIELD::LastQty) )
-		ddsMsg.LastQty ( FIELD_GET_REF( fixMsg,LastQty));
-	else 
-		ddsMsg.LastQty ( 0 );
+  if (fixMsg.isSetField(FIX::FIELD::LastPx))
+    ddsMsg.LastPx(FIELD_GET_REF(fixMsg, LastPx));
+  else
+    ddsMsg.LastPx(0);
 
-	if (fixMsg.isSetField(FIX::FIELD::LastPx) )
-		ddsMsg.LastPx ( FIELD_GET_REF( fixMsg,LastPx));
-	else 
-		ddsMsg.LastPx ( 0 );
+  if (fixMsg.isSetField(FIX::FIELD::LeavesQty))
+    ddsMsg.LeavesQty(FIELD_GET_REF(fixMsg, LeavesQty));
+  else
+    ddsMsg.LeavesQty(0);
 
-	if (fixMsg.isSetField(FIX::FIELD::LeavesQty) )
-		ddsMsg.LeavesQty ( FIELD_GET_REF( fixMsg,LeavesQty));
-	else 
-		ddsMsg.LeavesQty ( 0 );
+  if (fixMsg.isSetField(FIX::FIELD::CumQty))
+    ddsMsg.CumQty(FIELD_GET_REF(fixMsg, CumQty));
+  else
+    ddsMsg.CumQty(0);
 
-	if (fixMsg.isSetField(FIX::FIELD::CumQty) )
-		ddsMsg.CumQty ( FIELD_GET_REF( fixMsg,CumQty));
-	else 
-		ddsMsg.CumQty ( 0 );
+  if (fixMsg.isSetField(FIX::FIELD::AvgPx))
+    ddsMsg.AvgPx(FIELD_GET_REF(fixMsg, AvgPx));
+  else
+    ddsMsg.AvgPx(0);
 
-	if (fixMsg.isSetField(FIX::FIELD::AvgPx) )
-		ddsMsg.AvgPx ( FIELD_GET_REF( fixMsg,AvgPx));
-	else 
-		ddsMsg.AvgPx ( 0 );
+  if (fixMsg.isSetField(FIX::FIELD::TransactTime))
+    ddsMsg.TransactTime(((FIX::TransactTime)FIELD_GET_REF(fixMsg, TransactTime))
+                            .getValue()
+                            .getJulianDate());
+  else
+    ddsMsg.TransactTime(0);
 
-	if (fixMsg.isSetField(FIX::FIELD::TransactTime) )
-		ddsMsg.TransactTime ( ((FIX::TransactTime)FIELD_GET_REF( fixMsg,TransactTime)).getValue().getJulianDate());
-	else 
-		ddsMsg.TransactTime ( 0 );
-
-	if (fixMsg.isSetField(FIX::FIELD::Text) )
-		ddsMsg.Text ( ((FIX::Text)fixMsg.getField(FIX::FIELD::Text)).getString().c_str());
-
-
+  if (fixMsg.isSetField(FIX::FIELD::Text))
+    ddsMsg.Text(
+        ((FIX::Text)fixMsg.getField(FIX::FIELD::Text)).getString().c_str());
 };
 
+void ExecutionReportAdapter::DDS2FIX(
+    const DistributedStockExchange_ExecutionReport::ExecutionReport &ddsMsg,
+    FIX::Message &fixMsg) {
+  HeaderAdapter::DDS2FIX(ddsMsg.fix_header(), fixMsg.getHeader());
 
+  convert_dds_string_to_fix(ddsMsg.OrderID(), FIX::FIELD::OrderID, fixMsg);
 
-void ExecutionReportAdapter::DDS2FIX(const DistributedStockExchange_ExecutionReport::ExecutionReport& ddsMsg, FIX::Message& fixMsg)
-{
-	HeaderAdapter::DDS2FIX(ddsMsg.fix_header(), fixMsg.getHeader());
+  convert_dds_string_to_fix(ddsMsg.OrigClOrdID(), FIX::FIELD::OrigClOrdID,
+                            fixMsg);
 
-	convert_dds_string_to_fix(ddsMsg.OrderID(), FIX::FIELD::OrderID, fixMsg);
+  convert_dds_string_to_fix(ddsMsg.ExecID(), FIX::FIELD::ExecID, fixMsg);
 
-	convert_dds_string_to_fix(ddsMsg.OrigClOrdID(), FIX::FIELD::OrigClOrdID, fixMsg);
+  FIX::ExecType fixExecType(ddsMsg.ExecType());
+  fixMsg.setField(fixExecType);
 
-	convert_dds_string_to_fix(ddsMsg.ExecID(), FIX::FIELD::ExecID, fixMsg);
+  FIX::OrdStatus fixOrdStatus(ddsMsg.OrdStatus());
+  fixMsg.setField(fixOrdStatus);
 
-	FIX::ExecType fixExecType(ddsMsg.ExecType());
-	fixMsg.setField(fixExecType);
+  FIX::OrdRejReason fixOrdRejReason(ddsMsg.OrdRejReason());
+  fixMsg.setField(fixOrdRejReason);
 
-	FIX::OrdStatus fixOrdStatus(ddsMsg.OrdStatus());
-	fixMsg.setField(fixOrdStatus);
+  convert_dds_string_to_fix(ddsMsg.Symbol(), FIX::FIELD::Symbol, fixMsg);
 
-	FIX::OrdRejReason fixOrdRejReason(ddsMsg.OrdRejReason());
-	fixMsg.setField(fixOrdRejReason);
+  convert_dds_string_to_fix(ddsMsg.SecurityExchange(),
+                            FIX::FIELD::SecurityExchange, fixMsg);
 
-	convert_dds_string_to_fix(ddsMsg.Symbol(), FIX::FIELD::Symbol, fixMsg);
+  FIX::Side fixSide(ddsMsg.Side());
+  fixMsg.setField(fixSide);
 
-	convert_dds_string_to_fix(ddsMsg.SecurityExchange(), FIX::FIELD::SecurityExchange, fixMsg);
+  FIX::OrderQty fixOrderQty(ddsMsg.OrderQty());
+  fixMsg.setField(fixOrderQty);
 
-	FIX::Side fixSide(ddsMsg.Side());
-	fixMsg.setField(fixSide);
+  FIX::OrdType fixOrdType(ddsMsg.OrdType());
+  fixMsg.setField(fixOrdType);
 
-	FIX::OrderQty fixOrderQty(ddsMsg.OrderQty());
-	fixMsg.setField(fixOrderQty);
+  FIX::Price fixPrice(ddsMsg.Price());
+  fixMsg.setField(fixPrice);
 
-	FIX::OrdType fixOrdType(ddsMsg.OrdType());
-	fixMsg.setField(fixOrdType);
+  FIX::StopPx fixStopPx(ddsMsg.StopPx());
+  fixMsg.setField(fixStopPx);
 
-	FIX::Price fixPrice(ddsMsg.Price());
-	fixMsg.setField(fixPrice);
+  FIX::TimeInForce fixTimeInForce(ddsMsg.TimeInForce());
+  fixMsg.setField(fixTimeInForce);
 
-	FIX::StopPx fixStopPx(ddsMsg.StopPx());
-	fixMsg.setField(fixStopPx);
+  convert_dds_string_to_fix(ddsMsg.ExecInst(), FIX::FIELD::ExecInst, fixMsg);
 
-	FIX::TimeInForce fixTimeInForce(ddsMsg.TimeInForce());
-	fixMsg.setField(fixTimeInForce);
+  FIX::LastQty fixLastQty(ddsMsg.LastQty());
+  fixMsg.setField(fixLastQty);
 
-	convert_dds_string_to_fix(ddsMsg.ExecInst(), FIX::FIELD::ExecInst, fixMsg);
+  FIX::LastPx fixLastPx(ddsMsg.LastPx());
+  fixMsg.setField(fixLastPx);
 
-	FIX::LastQty fixLastQty(ddsMsg.LastQty());
-	fixMsg.setField(fixLastQty);
+  FIX::LeavesQty fixLeavesQty(ddsMsg.LeavesQty());
+  fixMsg.setField(fixLeavesQty);
 
-	FIX::LastPx fixLastPx(ddsMsg.LastPx());
-	fixMsg.setField(fixLastPx);
+  FIX::CumQty fixCumQty(ddsMsg.CumQty());
+  fixMsg.setField(fixCumQty);
 
-	FIX::LeavesQty fixLeavesQty(ddsMsg.LeavesQty());
-	fixMsg.setField(fixLeavesQty);
+  FIX::AvgPx fixAvgPx(ddsMsg.AvgPx());
+  fixMsg.setField(fixAvgPx);
 
-	FIX::CumQty fixCumQty(ddsMsg.CumQty());
-	fixMsg.setField(fixCumQty);
+  convert_dds_timestamp_to_fix(ddsMsg.TransactTime(), FIX::FIELD::TransactTime,
+                               fixMsg);
 
-	FIX::AvgPx fixAvgPx(ddsMsg.AvgPx());
-	fixMsg.setField(fixAvgPx);
-
-	convert_dds_timestamp_to_fix(ddsMsg.TransactTime(), FIX::FIELD::TransactTime, fixMsg);
-
-	convert_dds_string_to_fix(ddsMsg.Text(), FIX::FIELD::Text, fixMsg);
-
-
+  convert_dds_string_to_fix(ddsMsg.Text(), FIX::FIELD::Text, fixMsg);
 };
-

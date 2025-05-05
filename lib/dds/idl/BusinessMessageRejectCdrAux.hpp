@@ -24,9 +24,12 @@
 
 #include "BusinessMessageReject.hpp"
 
-constexpr uint32_t DistributedStockExchange_BusinessMessageReject_BusinessMessageReject_max_cdr_typesize {3148UL};
-constexpr uint32_t DistributedStockExchange_BusinessMessageReject_BusinessMessageReject_max_key_cdr_typesize {0UL};
-
+constexpr uint32_t
+    DistributedStockExchange_BusinessMessageReject_BusinessMessageReject_max_cdr_typesize{
+        3148UL};
+constexpr uint32_t
+    DistributedStockExchange_BusinessMessageReject_BusinessMessageReject_max_key_cdr_typesize{
+        0UL};
 
 namespace eprosima {
 namespace fastcdr {
@@ -35,12 +38,11 @@ class Cdr;
 class CdrSizeCalculator;
 
 eProsima_user_DllExport void serialize_key(
-        eprosima::fastcdr::Cdr& scdr,
-        const DistributedStockExchange_BusinessMessageReject::BusinessMessageReject& data);
-
+    eprosima::fastcdr::Cdr &scdr,
+    const DistributedStockExchange_BusinessMessageReject::BusinessMessageReject
+        &data);
 
 } // namespace fastcdr
 } // namespace eprosima
 
 #endif // FAST_DDS_GENERATED__DISTRIBUTEDSTOCKEXCHANGE_BUSINESSMESSAGEREJECT_BUSINESSMESSAGEREJECTCDRAUX_HPP
-

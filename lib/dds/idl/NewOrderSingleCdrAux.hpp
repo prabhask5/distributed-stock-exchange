@@ -24,10 +24,12 @@
 
 #include "NewOrderSingle.hpp"
 
-constexpr uint32_t DistributedStockExchange_NewOrderSingle_NewOrderSingle_max_cdr_typesize {3960UL};
-constexpr uint32_t DistributedStockExchange_NewOrderSingle_NewOrderSingle_max_key_cdr_typesize {0UL};
-
-
+constexpr uint32_t
+    DistributedStockExchange_NewOrderSingle_NewOrderSingle_max_cdr_typesize{
+        3960UL};
+constexpr uint32_t
+    DistributedStockExchange_NewOrderSingle_NewOrderSingle_max_key_cdr_typesize{
+        0UL};
 
 namespace eprosima {
 namespace fastcdr {
@@ -36,12 +38,10 @@ class Cdr;
 class CdrSizeCalculator;
 
 eProsima_user_DllExport void serialize_key(
-        eprosima::fastcdr::Cdr& scdr,
-        const DistributedStockExchange_NewOrderSingle::NewOrderSingle& data);
-
+    eprosima::fastcdr::Cdr &scdr,
+    const DistributedStockExchange_NewOrderSingle::NewOrderSingle &data);
 
 } // namespace fastcdr
 } // namespace eprosima
 
 #endif // FAST_DDS_GENERATED__DISTRIBUTEDSTOCKEXCHANGE_NEWORDERSINGLE_NEWORDERSINGLECDRAUX_HPP
-

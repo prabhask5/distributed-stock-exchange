@@ -24,10 +24,12 @@
 
 #include "ExecutionReport.hpp"
 
-constexpr uint32_t DistributedStockExchange_ExecutionReport_ExecutionReport_max_cdr_typesize {4508UL};
-constexpr uint32_t DistributedStockExchange_ExecutionReport_ExecutionReport_max_key_cdr_typesize {0UL};
-
-
+constexpr uint32_t
+    DistributedStockExchange_ExecutionReport_ExecutionReport_max_cdr_typesize{
+        4508UL};
+constexpr uint32_t
+    DistributedStockExchange_ExecutionReport_ExecutionReport_max_key_cdr_typesize{
+        0UL};
 
 namespace eprosima {
 namespace fastcdr {
@@ -36,12 +38,10 @@ class Cdr;
 class CdrSizeCalculator;
 
 eProsima_user_DllExport void serialize_key(
-        eprosima::fastcdr::Cdr& scdr,
-        const DistributedStockExchange_ExecutionReport::ExecutionReport& data);
-
+    eprosima::fastcdr::Cdr &scdr,
+    const DistributedStockExchange_ExecutionReport::ExecutionReport &data);
 
 } // namespace fastcdr
 } // namespace eprosima
 
 #endif // FAST_DDS_GENERATED__DISTRIBUTEDSTOCKEXCHANGE_EXECUTIONREPORT_EXECUTIONREPORTCDRAUX_HPP
-

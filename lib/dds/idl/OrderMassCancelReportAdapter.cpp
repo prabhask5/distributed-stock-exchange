@@ -1,59 +1,67 @@
 #include "OrderMassCancelReportAdapter.hpp"
 #include <ConvertUtils.h>
 
+void OrderMassCancelReportAdapter::FIX2DDS(
+    const FIX::Message &fixMsg,
+    DistributedStockExchange_OrderMassCancelReport::OrderMassCancelReport
+        &ddsMsg) {
+  HeaderAdapter::FIX2DDS(fixMsg.getHeader(), ddsMsg.fix_header());
 
-void OrderMassCancelReportAdapter::FIX2DDS(const FIX::Message& fixMsg, DistributedStockExchange_OrderMassCancelReport::OrderMassCancelReport& ddsMsg )
-{
-	HeaderAdapter::FIX2DDS(fixMsg.getHeader(), ddsMsg.fix_header());
+  if (fixMsg.isSetField(FIX::FIELD::OrderID))
+    ddsMsg.OrderID(((FIX::OrderID)fixMsg.getField(FIX::FIELD::OrderID))
+                       .getString()
+                       .c_str());
 
-	if (fixMsg.isSetField(FIX::FIELD::OrderID) )
-		ddsMsg.OrderID ( ((FIX::OrderID)fixMsg.getField(FIX::FIELD::OrderID)).getString().c_str());
+  if (fixMsg.isSetField(FIX::FIELD::MassCancelRequestType))
+    ddsMsg.MassCancelRequestType(FIELD_GET_REF(fixMsg, MassCancelRequestType));
 
-	if (fixMsg.isSetField(FIX::FIELD::MassCancelRequestType) )
-		ddsMsg.MassCancelRequestType ( FIELD_GET_REF( fixMsg,MassCancelRequestType));
+  if (fixMsg.isSetField(FIX::FIELD::MassCancelResponse))
+    ddsMsg.MassCancelResponse(FIELD_GET_REF(fixMsg, MassCancelResponse));
 
-	if (fixMsg.isSetField(FIX::FIELD::MassCancelResponse) )
-		ddsMsg.MassCancelResponse ( FIELD_GET_REF( fixMsg,MassCancelResponse));
+  if (fixMsg.isSetField(FIX::FIELD::Symbol))
+    ddsMsg.Symbol(
+        ((FIX::Symbol)fixMsg.getField(FIX::FIELD::Symbol)).getString().c_str());
 
-	if (fixMsg.isSetField(FIX::FIELD::Symbol) )
-		ddsMsg.Symbol ( ((FIX::Symbol)fixMsg.getField(FIX::FIELD::Symbol)).getString().c_str());
+  if (fixMsg.isSetField(FIX::FIELD::SecurityExchange))
+    ddsMsg.SecurityExchange(
+        ((FIX::SecurityExchange)fixMsg.getField(FIX::FIELD::SecurityExchange))
+            .getString()
+            .c_str());
 
-	if (fixMsg.isSetField(FIX::FIELD::SecurityExchange) )
-		ddsMsg.SecurityExchange ( ((FIX::SecurityExchange)fixMsg.getField(FIX::FIELD::SecurityExchange)).getString().c_str());
+  if (fixMsg.isSetField(FIX::FIELD::TransactTime))
+    ddsMsg.TransactTime(((FIX::TransactTime)FIELD_GET_REF(fixMsg, TransactTime))
+                            .getValue()
+                            .getJulianDate());
+  else
+    ddsMsg.TransactTime(0);
 
-	if (fixMsg.isSetField(FIX::FIELD::TransactTime) )
-		ddsMsg.TransactTime ( ((FIX::TransactTime)FIELD_GET_REF( fixMsg,TransactTime)).getValue().getJulianDate());
-	else 
-		ddsMsg.TransactTime ( 0 );
-
-	if (fixMsg.isSetField(FIX::FIELD::Text) )
-		ddsMsg.Text ( ((FIX::Text)fixMsg.getField(FIX::FIELD::Text)).getString().c_str());
-
-
+  if (fixMsg.isSetField(FIX::FIELD::Text))
+    ddsMsg.Text(
+        ((FIX::Text)fixMsg.getField(FIX::FIELD::Text)).getString().c_str());
 };
 
+void OrderMassCancelReportAdapter::DDS2FIX(
+    const DistributedStockExchange_OrderMassCancelReport::OrderMassCancelReport
+        &ddsMsg,
+    FIX::Message &fixMsg) {
+  HeaderAdapter::DDS2FIX(ddsMsg.fix_header(), fixMsg.getHeader());
 
+  convert_dds_string_to_fix(ddsMsg.OrderID(), FIX::FIELD::OrderID, fixMsg);
 
-void OrderMassCancelReportAdapter::DDS2FIX(const DistributedStockExchange_OrderMassCancelReport::OrderMassCancelReport& ddsMsg, FIX::Message& fixMsg)
-{
-	HeaderAdapter::DDS2FIX(ddsMsg.fix_header(), fixMsg.getHeader());
+  FIX::MassCancelRequestType fixMassCancelRequestType(
+      ddsMsg.MassCancelRequestType());
+  fixMsg.setField(fixMassCancelRequestType);
 
-	convert_dds_string_to_fix(ddsMsg.OrderID(), FIX::FIELD::OrderID, fixMsg);
+  FIX::MassCancelResponse fixMassCancelResponse(ddsMsg.MassCancelResponse());
+  fixMsg.setField(fixMassCancelResponse);
 
-	FIX::MassCancelRequestType fixMassCancelRequestType(ddsMsg.MassCancelRequestType());
-	fixMsg.setField(fixMassCancelRequestType);
+  convert_dds_string_to_fix(ddsMsg.Symbol(), FIX::FIELD::Symbol, fixMsg);
 
-	FIX::MassCancelResponse fixMassCancelResponse(ddsMsg.MassCancelResponse());
-	fixMsg.setField(fixMassCancelResponse);
+  convert_dds_string_to_fix(ddsMsg.SecurityExchange(),
+                            FIX::FIELD::SecurityExchange, fixMsg);
 
-	convert_dds_string_to_fix(ddsMsg.Symbol(), FIX::FIELD::Symbol, fixMsg);
+  convert_dds_timestamp_to_fix(ddsMsg.TransactTime(), FIX::FIELD::TransactTime,
+                               fixMsg);
 
-	convert_dds_string_to_fix(ddsMsg.SecurityExchange(), FIX::FIELD::SecurityExchange, fixMsg);
-
-	convert_dds_timestamp_to_fix(ddsMsg.TransactTime(), FIX::FIELD::TransactTime, fixMsg);
-
-	convert_dds_string_to_fix(ddsMsg.Text(), FIX::FIELD::Text, fixMsg);
-
-
+  convert_dds_string_to_fix(ddsMsg.Text(), FIX::FIELD::Text, fixMsg);
 };
-

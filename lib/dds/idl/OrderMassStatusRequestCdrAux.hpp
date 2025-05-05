@@ -24,9 +24,12 @@
 
 #include "OrderMassStatusRequest.hpp"
 
-constexpr uint32_t DistributedStockExchange_OrderMassStatusRequest_OrderMassStatusRequest_max_cdr_typesize {3408UL};
-constexpr uint32_t DistributedStockExchange_OrderMassStatusRequest_OrderMassStatusRequest_max_key_cdr_typesize {0UL};
-
+constexpr uint32_t
+    DistributedStockExchange_OrderMassStatusRequest_OrderMassStatusRequest_max_cdr_typesize{
+        3408UL};
+constexpr uint32_t
+    DistributedStockExchange_OrderMassStatusRequest_OrderMassStatusRequest_max_key_cdr_typesize{
+        0UL};
 
 namespace eprosima {
 namespace fastcdr {
@@ -34,13 +37,12 @@ namespace fastcdr {
 class Cdr;
 class CdrSizeCalculator;
 
-eProsima_user_DllExport void serialize_key(
-        eprosima::fastcdr::Cdr& scdr,
-        const DistributedStockExchange_OrderMassStatusRequest::OrderMassStatusRequest& data);
-
+eProsima_user_DllExport void
+serialize_key(eprosima::fastcdr::Cdr &scdr,
+              const DistributedStockExchange_OrderMassStatusRequest::
+                  OrderMassStatusRequest &data);
 
 } // namespace fastcdr
 } // namespace eprosima
 
 #endif // FAST_DDS_GENERATED__DISTRIBUTEDSTOCKEXCHANGE_ORDERMASSSTATUSREQUEST_ORDERMASSSTATUSREQUESTCDRAUX_HPP
-

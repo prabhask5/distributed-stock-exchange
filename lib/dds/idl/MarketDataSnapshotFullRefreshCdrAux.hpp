@@ -24,12 +24,19 @@
 
 #include "MarketDataSnapshotFullRefresh.hpp"
 
-constexpr uint32_t DistributedStockExchange_MarketDataSnapshotFullRefresh_NoMDEntries_max_cdr_typesize {540UL};
-constexpr uint32_t DistributedStockExchange_MarketDataSnapshotFullRefresh_NoMDEntries_max_key_cdr_typesize {0UL};
+constexpr uint32_t
+    DistributedStockExchange_MarketDataSnapshotFullRefresh_NoMDEntries_max_cdr_typesize{
+        540UL};
+constexpr uint32_t
+    DistributedStockExchange_MarketDataSnapshotFullRefresh_NoMDEntries_max_key_cdr_typesize{
+        0UL};
 
-constexpr uint32_t DistributedStockExchange_MarketDataSnapshotFullRefresh_MarketDataSnapshotFullRefresh_max_cdr_typesize {3412UL};
-constexpr uint32_t DistributedStockExchange_MarketDataSnapshotFullRefresh_MarketDataSnapshotFullRefresh_max_key_cdr_typesize {0UL};
-
+constexpr uint32_t
+    DistributedStockExchange_MarketDataSnapshotFullRefresh_MarketDataSnapshotFullRefresh_max_cdr_typesize{
+        3412UL};
+constexpr uint32_t
+    DistributedStockExchange_MarketDataSnapshotFullRefresh_MarketDataSnapshotFullRefresh_max_key_cdr_typesize{
+        0UL};
 
 namespace eprosima {
 namespace fastcdr {
@@ -38,16 +45,16 @@ class Cdr;
 class CdrSizeCalculator;
 
 eProsima_user_DllExport void serialize_key(
-        eprosima::fastcdr::Cdr& scdr,
-        const DistributedStockExchange_MarketDataSnapshotFullRefresh::NoMDEntries& data);
+    eprosima::fastcdr::Cdr &scdr,
+    const DistributedStockExchange_MarketDataSnapshotFullRefresh::NoMDEntries
+        &data);
 
-eProsima_user_DllExport void serialize_key(
-        eprosima::fastcdr::Cdr& scdr,
-        const DistributedStockExchange_MarketDataSnapshotFullRefresh::MarketDataSnapshotFullRefresh& data);
-
+eProsima_user_DllExport void
+serialize_key(eprosima::fastcdr::Cdr &scdr,
+              const DistributedStockExchange_MarketDataSnapshotFullRefresh::
+                  MarketDataSnapshotFullRefresh &data);
 
 } // namespace fastcdr
 } // namespace eprosima
 
 #endif // FAST_DDS_GENERATED__DISTRIBUTEDSTOCKEXCHANGE_MARKETDATASNAPSHOTFULLREFRESH_MARKETDATASNAPSHOTFULLREFRESHCDRAUX_HPP
-

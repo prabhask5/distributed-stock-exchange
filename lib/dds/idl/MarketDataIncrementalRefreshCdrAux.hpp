@@ -24,14 +24,19 @@
 
 #include "MarketDataIncrementalRefresh.hpp"
 
-constexpr uint32_t DistributedStockExchange_MarketDataIncrementalRefresh_MarketDataIncrementalRefresh_max_cdr_typesize {2892UL};
-constexpr uint32_t DistributedStockExchange_MarketDataIncrementalRefresh_MarketDataIncrementalRefresh_max_key_cdr_typesize {0UL};
+constexpr uint32_t
+    DistributedStockExchange_MarketDataIncrementalRefresh_MarketDataIncrementalRefresh_max_cdr_typesize{
+        2892UL};
+constexpr uint32_t
+    DistributedStockExchange_MarketDataIncrementalRefresh_MarketDataIncrementalRefresh_max_key_cdr_typesize{
+        0UL};
 
-
-constexpr uint32_t DistributedStockExchange_MarketDataIncrementalRefresh_NoMDEntries_max_cdr_typesize {1060UL};
-constexpr uint32_t DistributedStockExchange_MarketDataIncrementalRefresh_NoMDEntries_max_key_cdr_typesize {0UL};
-
-
+constexpr uint32_t
+    DistributedStockExchange_MarketDataIncrementalRefresh_NoMDEntries_max_cdr_typesize{
+        1060UL};
+constexpr uint32_t
+    DistributedStockExchange_MarketDataIncrementalRefresh_NoMDEntries_max_key_cdr_typesize{
+        0UL};
 
 namespace eprosima {
 namespace fastcdr {
@@ -40,16 +45,16 @@ class Cdr;
 class CdrSizeCalculator;
 
 eProsima_user_DllExport void serialize_key(
-        eprosima::fastcdr::Cdr& scdr,
-        const DistributedStockExchange_MarketDataIncrementalRefresh::NoMDEntries& data);
+    eprosima::fastcdr::Cdr &scdr,
+    const DistributedStockExchange_MarketDataIncrementalRefresh::NoMDEntries
+        &data);
 
-eProsima_user_DllExport void serialize_key(
-        eprosima::fastcdr::Cdr& scdr,
-        const DistributedStockExchange_MarketDataIncrementalRefresh::MarketDataIncrementalRefresh& data);
-
+eProsima_user_DllExport void
+serialize_key(eprosima::fastcdr::Cdr &scdr,
+              const DistributedStockExchange_MarketDataIncrementalRefresh::
+                  MarketDataIncrementalRefresh &data);
 
 } // namespace fastcdr
 } // namespace eprosima
 
 #endif // FAST_DDS_GENERATED__DISTRIBUTEDSTOCKEXCHANGE_MARKETDATAINCREMENTALREFRESH_MARKETDATAINCREMENTALREFRESHCDRAUX_HPP
-

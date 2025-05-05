@@ -24,10 +24,12 @@
 
 #include "SecurityListRequest.hpp"
 
-constexpr uint32_t DistributedStockExchange_SecurityListRequest_SecurityListRequest_max_cdr_typesize {3668UL};
-constexpr uint32_t DistributedStockExchange_SecurityListRequest_SecurityListRequest_max_key_cdr_typesize {0UL};
-
-
+constexpr uint32_t
+    DistributedStockExchange_SecurityListRequest_SecurityListRequest_max_cdr_typesize{
+        3668UL};
+constexpr uint32_t
+    DistributedStockExchange_SecurityListRequest_SecurityListRequest_max_key_cdr_typesize{
+        0UL};
 
 namespace eprosima {
 namespace fastcdr {
@@ -36,12 +38,11 @@ class Cdr;
 class CdrSizeCalculator;
 
 eProsima_user_DllExport void serialize_key(
-        eprosima::fastcdr::Cdr& scdr,
-        const DistributedStockExchange_SecurityListRequest::SecurityListRequest& data);
-
+    eprosima::fastcdr::Cdr &scdr,
+    const DistributedStockExchange_SecurityListRequest::SecurityListRequest
+        &data);
 
 } // namespace fastcdr
 } // namespace eprosima
 
 #endif // FAST_DDS_GENERATED__DISTRIBUTEDSTOCKEXCHANGE_SECURITYLISTREQUEST_SECURITYLISTREQUESTCDRAUX_HPP
-

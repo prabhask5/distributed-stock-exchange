@@ -4,11 +4,13 @@
 
 #include "HeaderAdapter.hpp"
 
-
-class OrderMassCancelReportAdapter
-{
-	public:
-		static void FIX2DDS(const FIX::Message&, DistributedStockExchange_OrderMassCancelReport::OrderMassCancelReport& ddsMsg )  __attribute__ ((visibility ("default")));
-		static void DDS2FIX(const DistributedStockExchange_OrderMassCancelReport::OrderMassCancelReport& ddsMsg, FIX::Message&)  __attribute__ ((visibility ("default")));
-
+class OrderMassCancelReportAdapter {
+public:
+  static void
+  FIX2DDS(const FIX::Message &,
+          DistributedStockExchange_OrderMassCancelReport::OrderMassCancelReport
+              &ddsMsg) __attribute__((visibility("default")));
+  static void DDS2FIX(const DistributedStockExchange_OrderMassCancelReport::
+                          OrderMassCancelReport &ddsMsg,
+                      FIX::Message &) __attribute__((visibility("default")));
 };

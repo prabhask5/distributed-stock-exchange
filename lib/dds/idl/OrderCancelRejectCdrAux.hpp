@@ -24,9 +24,12 @@
 
 #include "OrderCancelReject.hpp"
 
-constexpr uint32_t DistributedStockExchange_OrderCancelReject_OrderCancelReject_max_cdr_typesize {3680UL};
-constexpr uint32_t DistributedStockExchange_OrderCancelReject_OrderCancelReject_max_key_cdr_typesize {0UL};
-
+constexpr uint32_t
+    DistributedStockExchange_OrderCancelReject_OrderCancelReject_max_cdr_typesize{
+        3680UL};
+constexpr uint32_t
+    DistributedStockExchange_OrderCancelReject_OrderCancelReject_max_key_cdr_typesize{
+        0UL};
 
 namespace eprosima {
 namespace fastcdr {
@@ -35,12 +38,10 @@ class Cdr;
 class CdrSizeCalculator;
 
 eProsima_user_DllExport void serialize_key(
-        eprosima::fastcdr::Cdr& scdr,
-        const DistributedStockExchange_OrderCancelReject::OrderCancelReject& data);
-
+    eprosima::fastcdr::Cdr &scdr,
+    const DistributedStockExchange_OrderCancelReject::OrderCancelReject &data);
 
 } // namespace fastcdr
 } // namespace eprosima
 
 #endif // FAST_DDS_GENERATED__DISTRIBUTEDSTOCKEXCHANGE_ORDERCANCELREJECT_ORDERCANCELREJECTCDRAUX_HPP
-

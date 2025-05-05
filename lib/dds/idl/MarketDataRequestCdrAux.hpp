@@ -24,16 +24,26 @@
 
 #include "MarketDataRequest.hpp"
 
-constexpr uint32_t DistributedStockExchange_MarketDataRequest_NoRelatedSym_max_cdr_typesize {524UL};
-constexpr uint32_t DistributedStockExchange_MarketDataRequest_NoRelatedSym_max_key_cdr_typesize {0UL};
+constexpr uint32_t
+    DistributedStockExchange_MarketDataRequest_NoRelatedSym_max_cdr_typesize{
+        524UL};
+constexpr uint32_t
+    DistributedStockExchange_MarketDataRequest_NoRelatedSym_max_key_cdr_typesize{
+        0UL};
 
-constexpr uint32_t DistributedStockExchange_MarketDataRequest_NoMDEntryTypes_max_cdr_typesize {5UL};
-constexpr uint32_t DistributedStockExchange_MarketDataRequest_NoMDEntryTypes_max_key_cdr_typesize {0UL};
+constexpr uint32_t
+    DistributedStockExchange_MarketDataRequest_NoMDEntryTypes_max_cdr_typesize{
+        5UL};
+constexpr uint32_t
+    DistributedStockExchange_MarketDataRequest_NoMDEntryTypes_max_key_cdr_typesize{
+        0UL};
 
-
-constexpr uint32_t DistributedStockExchange_MarketDataRequest_MarketDataRequest_max_cdr_typesize {2908UL};
-constexpr uint32_t DistributedStockExchange_MarketDataRequest_MarketDataRequest_max_key_cdr_typesize {0UL};
-
+constexpr uint32_t
+    DistributedStockExchange_MarketDataRequest_MarketDataRequest_max_cdr_typesize{
+        2908UL};
+constexpr uint32_t
+    DistributedStockExchange_MarketDataRequest_MarketDataRequest_max_key_cdr_typesize{
+        0UL};
 
 namespace eprosima {
 namespace fastcdr {
@@ -42,20 +52,18 @@ class Cdr;
 class CdrSizeCalculator;
 
 eProsima_user_DllExport void serialize_key(
-        eprosima::fastcdr::Cdr& scdr,
-        const DistributedStockExchange_MarketDataRequest::NoMDEntryTypes& data);
+    eprosima::fastcdr::Cdr &scdr,
+    const DistributedStockExchange_MarketDataRequest::NoMDEntryTypes &data);
 
 eProsima_user_DllExport void serialize_key(
-        eprosima::fastcdr::Cdr& scdr,
-        const DistributedStockExchange_MarketDataRequest::NoRelatedSym& data);
+    eprosima::fastcdr::Cdr &scdr,
+    const DistributedStockExchange_MarketDataRequest::NoRelatedSym &data);
 
 eProsima_user_DllExport void serialize_key(
-        eprosima::fastcdr::Cdr& scdr,
-        const DistributedStockExchange_MarketDataRequest::MarketDataRequest& data);
-
+    eprosima::fastcdr::Cdr &scdr,
+    const DistributedStockExchange_MarketDataRequest::MarketDataRequest &data);
 
 } // namespace fastcdr
 } // namespace eprosima
 
 #endif // FAST_DDS_GENERATED__DISTRIBUTEDSTOCKEXCHANGE_MARKETDATAREQUEST_MARKETDATAREQUESTCDRAUX_HPP
-
