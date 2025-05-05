@@ -1,0 +1,5 @@
+#!/bin/sh
+
+echo "Formatting all .cpp/.hpp files..."
+git ls-files '*.cpp' '*.hpp' | xargs clang-format -i
+git add .
