@@ -1,5 +1,5 @@
 #include "LogoutAdapter.hpp"
-#include <ConvertUtils.h>
+#include <QuickFixDDSConvertUtils.hpp>
 
 void LogoutAdapter::FIX2DDS(const FIX::Message &fixMsg,
                             DistributedStockExchange_Logout::Logout &ddsMsg) {

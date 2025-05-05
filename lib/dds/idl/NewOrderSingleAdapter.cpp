@@ -1,5 +1,5 @@
 #include "NewOrderSingleAdapter.hpp"
-#include <ConvertUtils.h>
+#include <QuickFixDDSConvertUtils.hpp>
 
 void NewOrderSingleAdapter::FIX2DDS(
     const FIX::Message &fixMsg,

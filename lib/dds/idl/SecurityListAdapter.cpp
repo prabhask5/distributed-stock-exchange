@@ -1,5 +1,5 @@
 #include "SecurityListAdapter.hpp"
-#include <ConvertUtils.h>
+#include <QuickFixDDSConvertUtils.hpp>
 
 void SecurityListAdapter::FIX2DDS(
     const FIX::Message &fixMsg,

@@ -1,5 +1,5 @@
 #include "HeartbeatAdapter.hpp"
-#include <ConvertUtils.h>
+#include <QuickFixDDSConvertUtils.hpp>
 
 void HeartbeatAdapter::FIX2DDS(
     const FIX::Message &fixMsg,

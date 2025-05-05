@@ -1,5 +1,5 @@
 #include "BusinessMessageRejectAdapter.hpp"
-#include <ConvertUtils.h>
+#include <QuickFixDDSConvertUtils.hpp>
 
 void BusinessMessageRejectAdapter::FIX2DDS(
     const FIX::Message &fixMsg,

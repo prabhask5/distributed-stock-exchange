@@ -1,5 +1,5 @@
 #include "LogonAdapter.hpp"
-#include <ConvertUtils.h>
+#include <QuickFixDDSConvertUtils.hpp>
 
 void LogonAdapter::FIX2DDS(const FIX::Message &fixMsg,
                            DistributedStockExchange_Logon::Logon &ddsMsg) {

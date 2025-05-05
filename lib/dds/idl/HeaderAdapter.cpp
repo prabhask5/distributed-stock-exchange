@@ -1,6 +1,6 @@
 #include "HeaderAdapter.hpp"
 
-#include <ConvertUtils.h>
+#include <QuickFixDDSConvertUtils.hpp>
 
 void HeaderAdapter::FIX2DDS(const FIX::FieldMap &fixMsg,
                             DistributedStockExchange::Header &ddsMsg) {

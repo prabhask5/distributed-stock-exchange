@@ -1,5 +1,5 @@
 #include "OrderCancelRequestAdapter.hpp"
-#include <ConvertUtils.h>
+#include <QuickFixDDSConvertUtils.hpp>
 
 void OrderCancelRequestAdapter::FIX2DDS(
     const FIX::Message &fixMsg,

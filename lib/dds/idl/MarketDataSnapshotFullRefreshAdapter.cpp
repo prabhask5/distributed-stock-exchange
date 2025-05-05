@@ -1,5 +1,5 @@
 #include "MarketDataSnapshotFullRefreshAdapter.hpp"
-#include <ConvertUtils.h>
+#include <QuickFixDDSConvertUtils.hpp>
 
 void MarketDataSnapshotFullRefreshAdapter::FIX2DDS(
     const FIX::Message &fixMsg,

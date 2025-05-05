@@ -1,5 +1,5 @@
 #include "ExecutionReportAdapter.hpp"
-#include <ConvertUtils.h>
+#include <QuickFixDDSConvertUtils.hpp>
 
 void ExecutionReportAdapter::FIX2DDS(
     const FIX::Message &fixMsg,
