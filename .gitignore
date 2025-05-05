@@ -9,5 +9,5 @@ log.txt
 .DS_Store
 /.vscode/
 /venv/
-lib/dds/gentools/__pycache__
+library/dds/gentools/__pycache__
 /lib/
