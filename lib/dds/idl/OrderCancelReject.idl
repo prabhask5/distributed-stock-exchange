@@ -1,0 +1,25 @@
+#include "Header.idl"
+
+module DistributedStockExchange_OrderCancelReject
+{
+
+	
+	struct OrderCancelReject
+	{
+		string Source;
+     		string Destination;
+    		string SourceUser;
+    		string DestinationUser;
+
+
+		DistributedStockExchange::Header fix_header;
+
+		string OrderID;
+		string ClOrdID;
+		string OrigClOrdID;
+		char OrdStatus;
+		unsigned long long TransactTime;
+		char CxlRejResponseTo;
+		string Text;
+	};
+};

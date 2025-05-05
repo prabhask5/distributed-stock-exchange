@@ -1,0 +1,19 @@
+#include "Header.idl"
+
+module DistributedStockExchange_Logout
+{
+
+	
+	struct Logout
+	{
+		string Source;
+     		string Destination;
+    		string SourceUser;
+    		string DestinationUser;
+
+
+		DistributedStockExchange::Header fix_header;
+
+		string Text;
+	};
+};

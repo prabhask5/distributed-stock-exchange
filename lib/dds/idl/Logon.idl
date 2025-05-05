@@ -1,0 +1,23 @@
+#include "Header.idl"
+
+module DistributedStockExchange_Logon
+{
+
+	
+	struct Logon
+	{
+		string Source;
+     		string Destination;
+    		string SourceUser;
+    		string DestinationUser;
+
+
+		DistributedStockExchange::Header fix_header;
+
+		long EncryptMethod;
+		long HeartBtInt;
+		string RawData;
+		string Username;
+		string Password;
+	};
+};

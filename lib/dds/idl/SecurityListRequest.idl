@@ -1,0 +1,23 @@
+#include "Header.idl"
+
+module DistributedStockExchange_SecurityListRequest
+{
+
+	
+	struct SecurityListRequest
+	{
+		string Source;
+     		string Destination;
+    		string SourceUser;
+    		string DestinationUser;
+
+
+		DistributedStockExchange::Header fix_header;
+
+		string SecurityReqID;
+		long SecurityListRequestType;
+		string Symbol;
+		string SecurityExchange;
+		string Text;
+	};
+};

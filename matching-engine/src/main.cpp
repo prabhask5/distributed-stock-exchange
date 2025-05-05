@@ -42,13 +42,11 @@ int main(int argc, char *argv[])
         // this defines the interval on how often to publish market data to the data service
         int data_pub_interval = pt.get<int>("marketdata.data_pub_interval");
 
-        LOG4CXX_INFO(logger, "Market Name|" << market
-                                            << "|Data Service Name|" << data_service << "|Market Data Publication Interval|" << data_pub_interval);
+        LOG4CXX_INFO(logger, "Market Name|" << market << "|Data Service Name|" << data_service << "|Market Data Publication Interval|" << data_pub_interval);
 
         std::atomic_init(&is_running, true);
 
-        auto participant_ptr =
-            std::make_shared<DefaultDomainParticipant>(0, "MatchingEngine");
+        auto participant_ptr = std::make_shared<DefaultDomainParticipant>(0, "MatchingEngine");
 
         participant_ptr->create_subscriber();
         participant_ptr->create_publisher();

@@ -1,0 +1,26 @@
+#include "Header.idl"
+
+module DistributedStockExchange_OrderCancelRequest
+{
+
+	
+	struct OrderCancelRequest
+	{
+		string Source;
+     		string Destination;
+    		string SourceUser;
+    		string DestinationUser;
+
+
+		DistributedStockExchange::Header fix_header;
+
+		string OrigClOrdID;
+		string ClOrdID;
+		string Symbol;
+		string SecurityExchange;
+		char Side;
+		unsigned long long TransactTime;
+		long OrderQty;
+		string Text;
+	};
+};

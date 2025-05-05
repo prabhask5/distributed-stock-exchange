@@ -1,0 +1,34 @@
+#include "Header.idl"
+
+module DistributedStockExchange_MarketDataIncrementalRefresh
+{
+
+	struct NoMDEntries
+	{
+		char MDUpdateAction;
+		char MDEntryType;
+		string Symbol;
+		string SecurityExchange;
+		float MDEntryPx;
+		long MDEntrySize;
+		char TimeInForce;
+		string ExecInst;
+		string Text;
+	};
+	typedef sequence<NoMDEntries> NoMDEntriesSeq;
+
+	
+	struct MarketDataIncrementalRefresh
+	{
+		string Source;
+     		string Destination;
+    		string SourceUser;
+    		string DestinationUser;
+
+
+		DistributedStockExchange::Header fix_header;
+
+		string MDReqID;
+		NoMDEntriesSeq c_NoMDEntries;
+	};
+};

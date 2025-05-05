@@ -1,0 +1,22 @@
+#include "Header.idl"
+
+module DistributedStockExchange_OrderMassStatusRequest
+{
+
+	
+	struct OrderMassStatusRequest
+	{
+		string Source;
+     		string Destination;
+    		string SourceUser;
+    		string DestinationUser;
+
+
+		DistributedStockExchange::Header fix_header;
+
+		string MassStatusReqID;
+		long MassStatusReqType;
+		string Symbol;
+		string SecurityExchange;
+	};
+};

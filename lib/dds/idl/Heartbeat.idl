@@ -1,0 +1,18 @@
+#include "Header.idl"
+
+module DistributedStockExchange_Heartbeat
+{
+
+	
+	struct Heartbeat
+	{
+		string Source;
+     		string Destination;
+    		string SourceUser;
+    		string DestinationUser;
+
+
+		DistributedStockExchange::Header fix_header;
+
+	};
+};

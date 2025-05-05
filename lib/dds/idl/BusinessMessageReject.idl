@@ -1,0 +1,21 @@
+#include "Header.idl"
+
+module DistributedStockExchange_BusinessMessageReject
+{
+
+	
+	struct BusinessMessageReject
+	{
+		string Source;
+     		string Destination;
+    		string SourceUser;
+    		string DestinationUser;
+
+
+		DistributedStockExchange::Header fix_header;
+
+		string RefMsgType;
+		long BusinessRejectReason;
+		string Text;
+	};
+};
