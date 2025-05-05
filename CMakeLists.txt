@@ -16,10 +16,10 @@ link_directories(${Boost_LIBRARY_DIRS})
 
 link_directories(${QUICKFIX_INSTALL_PREFIX}/lib)
 
-include_directories(lib)
+include_directories(library)
 
-# add_subdirectory(lib/idl)
-# include_directories(lib/idl)
+add_subdirectory(library/dds/idl)
+include_directories(library/dds/idl)
 
 # add_subdirectory(fix-gateway/src)
 # add_subdirectory(data-service/src)

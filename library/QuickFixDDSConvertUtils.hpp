@@ -16,8 +16,7 @@ inline void convert_dds_timestamp_to_fix(unsigned long long timestamp_in,
                                          FIX::FieldMap &fix_field_map_out) {
   if (timestamp_in > 0) {
     FIX::UtcTimeStamp utcTimeStamp((time_t)(timestamp_in / 1000000));
-    utcTimeStamp.setMicrosecond(timestamp_in -
-                                ((timestamp_in / 1000000) * 1000000));
+    utcTimeStamp.setMicrosecond(static_cast<int>(timestamp_in % 1000000));
     FIX::UtcTimeStampField timestampField(FIX_TAG, utcTimeStamp, 6);
     fix_field_map_out.setField(timestampField);
   };

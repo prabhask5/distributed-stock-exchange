@@ -10,3 +10,4 @@ log.txt
 /.vscode/
 /venv/
 lib/dds/gentools/__pycache__
+/lib/
