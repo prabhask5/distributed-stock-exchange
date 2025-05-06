@@ -5,12 +5,12 @@
 #include <ExecutionReportLogger.hpp>
 #include <LoggerHelper.hpp>
 
-// Helper class to publish execution reports via FastDDS, sending to fix
-// Execution reports are populated within more specific classes (i.e Order,
-// OrderException), then actually sent via this class Note: this is necessary
-// since multiple market event handlers are abstracted from the market class,
-// this class keeps me from repeating the publish logic in each event handler
-// class
+// Helper class to publish execution reports via FastDDS, sending to FIX
+// gateway. Execution reports are populated within more specific classes (i.e
+// Order, OrderException), then actually sent via this class. Note: this is
+// necessary since multiple market event handlers are abstracted from the market
+// class, this class keeps me from repeating the publish logic in each event
+// handler class.
 class ExecutionReportPublisher {
 public:
   ExecutionReportPublisher(DataWriterContainerPtr data_writer_container_ptr);

@@ -91,7 +91,7 @@ class DefaultDomainParticipant {
   };
 
 public:
-  // Instantiate a domain participant for a provided domain id
+  // Instantiate a domain participant for a provided domain id.
   DefaultDomainParticipant(eprosima::fastdds::dds::DomainId_t domain_id,
                            const std::string &participant_name)
       : m_participant_name(participant_name) {
@@ -110,7 +110,7 @@ public:
     }
   }
 
-  // Deletes domain participant
+  // Deletes domain participant.
   virtual ~DefaultDomainParticipant() {
     eprosima::fastdds::dds::DomainParticipantFactory::get_instance()
         ->delete_participant(m_participant.get());

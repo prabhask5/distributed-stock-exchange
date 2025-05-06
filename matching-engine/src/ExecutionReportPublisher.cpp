@@ -21,7 +21,7 @@ void ExecutionReportPublisher::publish_report(
 }
 
 // This function generates a string id from incrementing a static class member,
-// then casting it into a string
+// then casting it into a string.
 std::string ExecutionReportPublisher::get_id() {
   char id_string_char_repr[64];
   snprintf(id_string_char_repr, 64, "%d", ++s_id_seed);

@@ -8,7 +8,7 @@
 #include <sstream>
 #include <string>
 
-// This class is used to represent an exception
+// This class is used to represent an exception.
 class OrderException : public std::exception {
 public:
   OrderException(const std::string &order_id, const int reason);

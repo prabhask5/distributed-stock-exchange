@@ -4,7 +4,7 @@
 #include "OrderBookStockStatistics.hpp"
 
 // This class contains several callback functions that run logic on certain
-// state changes for a trade within the order book
+// state changes for a trade within the order book.
 class TradeEventHandler {
 public:
   TradeEventHandler(OrderBookStockStatsMapPtr order_book_stats_map_ptr);

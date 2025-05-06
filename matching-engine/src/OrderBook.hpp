@@ -5,16 +5,16 @@
 
 class OrderBook {
 public:
-  // The symbol is just the stock ticker symbol
+  // The symbol is just the stock ticker symbol.
   OrderBook(const std::string &symbol);
 
-  // Getter const functions
+  // Getter const functions.
 
   const std::string &get_symbol() const;
 
   Price get_market_price() const;
 
-  // Setter functions
+  // Setter functions.
 
   void set_symbol(const std::string &symbol);
 

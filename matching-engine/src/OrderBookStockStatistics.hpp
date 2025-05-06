@@ -3,19 +3,19 @@
 #include <algorithm>
 #include <memory>
 
-// This struct tracks the stock statistics tied to an order book
+// This struct tracks the stock statistics tied to an order book.
 struct OrderBookStockStatistics {
   // The opening price of a stock, which is the price of the first matched trade
-  // of the day/time-window
+  // of the day/time-window.
   Price open;
 
-  // Lowest trade price so far
+  // Lowest trade price so far.
   Price low;
 
-  // Highest trade price so far
+  // Highest trade price so far.
   Price high;
 
-  // The total number of shared traded
+  // The total number of shared traded.
   Quantity volume;
 };
 

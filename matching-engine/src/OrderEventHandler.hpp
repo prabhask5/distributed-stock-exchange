@@ -6,7 +6,7 @@
 #include <quickfix/Message.h>
 
 // This class contains several callback functions that run logic on certain
-// state changes for an order within the order book
+// state changes for an order within the order book.
 class OrderEventHandler {
 public:
   OrderEventHandler(ExecutionReportPublisherPtr execution_report_publisher);
