@@ -84,6 +84,11 @@ public:
         OrderConditions conditions = OrderCondition::NONE);
 
   // Getter const functions
+
+  // Determines if an order is a limit order, or an order that is restricted by
+  // the price. If the order is a buy order, the price is the maximum price to
+  // be paid. If the order is a sell order, the price is the minimum price to be
+  // paid.
   bool is_limit() const;
 
   bool is_buy() const;
@@ -113,18 +118,20 @@ public:
   Cost get_fill_cost() const;
 
   // Callback functions for order execution lifecycle
+
   void on_accepted();
 
-  void on_rejected(const std::string &reason);
+  void on_rejected(const char *reason);
 
   void on_filled(Quantity filled_quantity, Cost fill_cost);
 
   void on_cancelled();
 
-  void on_cancel_rejected(const std::string &reason);
+  void on_cancel_rejected(const char *reason);
 
   // Populate execution report for the order currently being executed to pass to
   // the user via the FIX gateway
+
   void populate_execution_report(
       DistributedStockExchange_ExecutionReport::ExecutionReport
           &execution_report,
@@ -132,6 +139,7 @@ public:
 
 private:
   // Default order properties
+
   std::string m_order_id;
   std::string m_sender_id;
   bool m_is_buy;
@@ -142,12 +150,14 @@ private:
   OrderConditions m_order_conditions;
 
   // Context of order in distributed system properties
+
   std::string m_gateway;
   std::string m_data_service;
   DataWriterContainerPtr m_data_writer_container_ptr;
   std::string m_security_exchange;
 
   // Active execution order properties (state of order through matching engine)
+
   Quantity m_quantity_filled;
   Quantity m_quantity_in_market;
   Cost m_fill_cost;

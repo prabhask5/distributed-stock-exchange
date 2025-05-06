@@ -59,7 +59,7 @@ void Order::on_filled(Quantity filled_quantity, Cost fill_cost) {
 
 void Order::on_cancelled() { m_quantity_in_market = 0; }
 
-void Order::on_cancel_rejected(const std::string &reason) {
+void Order::on_cancel_rejected(const char *reason) {
   DistributedStockExchange_OrderCancelReject::OrderCancelReject
       order_cancel_reject;
 
