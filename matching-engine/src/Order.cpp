@@ -1,15 +1,11 @@
-#include <LoggerHelper.hpp>
-#include <Order.hpp>
-#include <OrderCancelReject.hpp>
-#include <OrderCancelRejectLogger.hpp>
+#include "Order.hpp"
 
 Order::Order(const std::string &order_id, const std::string &sender_id,
              bool is_buy, Quantity quantity, Price price, Price stop_price,
              const std::string &symbol, const std::string &gateway,
              const std::string &data_service,
              DataWriterContainerPtr data_writer_container_ptr,
-             const std::string &security_exchange,
-             OrderConditions conditions = OrderCondition::NONE)
+             const std::string &security_exchange, OrderConditions conditions)
     : m_order_id(order_id), m_sender_id(sender_id), m_is_buy(is_buy),
       m_quantity(quantity), m_price(price), m_stop_price(stop_price),
       m_symbol(symbol), m_gateway(gateway), m_data_service(data_service),

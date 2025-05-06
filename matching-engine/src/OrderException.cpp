@@ -1,4 +1,4 @@
-#include <OrderException.hpp>
+#include "OrderException.hpp"
 
 OrderException::OrderException(const std::string &order_id, const int reason)
     : m_order_id(order_id), m_reason(reason) {
@@ -13,7 +13,9 @@ OrderException::OrderException(
     const int reason)
     : OrderException::OrderException(new_order_single.ClOrdID(), reason) {}
 
-const char *OrderException::what() const { return m_error_message.c_str(); }
+const char *OrderException::what() const noexcept {
+  return m_error_message.c_str();
+}
 
 void OrderException::populate_execution_report(
     DistributedStockExchange_ExecutionReport::ExecutionReport

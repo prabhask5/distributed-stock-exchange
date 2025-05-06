@@ -1,7 +1,10 @@
 #pragma once
 
+#include "MatchingEngineDataWriterContainer.hpp"
 #include <ExecutionReport.hpp>
-#include <MatchingEngineDataWriterContainer.hpp>
+#include <LoggerHelper.hpp>
+#include <OrderCancelReject.hpp>
+#include <OrderCancelRejectLogger.hpp>
 #include <cstdint>
 #include <string>
 
