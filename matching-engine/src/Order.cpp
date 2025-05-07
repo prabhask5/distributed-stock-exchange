@@ -51,6 +51,8 @@ Cost Order::get_fill_cost() const { return m_fill_cost; }
 
 void Order::on_accepted() { m_quantity_in_market = m_quantity; }
 
+void Order::on_rejected(const char *reason) {}
+
 void Order::on_filled(Quantity filled_quantity, Cost fill_cost) {
   m_quantity_in_market -= filled_quantity;
   m_quantity_filled += filled_quantity;

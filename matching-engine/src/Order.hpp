@@ -123,6 +123,8 @@ public:
 
   void on_accepted();
 
+  void on_rejected(const char *reason);
+
   void on_filled(Quantity filled_quantity, Cost fill_cost);
 
   void on_cancelled();
