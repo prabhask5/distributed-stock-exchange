@@ -6,6 +6,7 @@
 #include <OrderCancelReject.hpp>
 #include <OrderCancelRejectLogger.hpp>
 #include <cstdint>
+#include <quickfix/FixValues.h>
 #include <string>
 
 using Price = uint64_t;
@@ -121,8 +122,6 @@ public:
   // Callback functions for order execution lifecycle.
 
   void on_accepted();
-
-  void on_rejected(const char *reason);
 
   void on_filled(Quantity filled_quantity, Cost fill_cost);
 

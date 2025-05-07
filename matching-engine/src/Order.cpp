@@ -82,3 +82,98 @@ void Order::on_cancel_rejected(const char *reason) {
     LOG4CXX_ERROR(logger, "OrderCancelReject write returned :" << ret);
   }
 }
+
+void Order::populate_execution_report(
+    DistributedStockExchange_ExecutionReport::ExecutionReport &execution_report,
+    const char exec_type) {
+  execution_report.Source("MATCHING_ENGINE");
+  execution_report.SourceUser(m_data_service);
+  execution_report.Destination(m_gateway);
+  execution_report.DestinationUser(m_sender_id);
+  execution_report.fix_header().MsgType("8");
+  execution_report.OrderID(m_order_id);
+  execution_report.Side(is_buy() ? '1' : '2');
+  execution_report.Symbol(get_symbol());
+  execution_report.SecurityExchange(m_security_exchange);
+  execution_report.ExecType(exec_type);
+  execution_report.CumQty(get_quantity_filled());
+  execution_report.LeavesQty(get_quantity_in_market());
+  execution_report.Price(get_price());
+  execution_report.StopPx(get_stop_price());
+  execution_report.TransactTime(
+      std::chrono::duration_cast<std::chrono::microseconds>(
+          std::chrono::system_clock::now().time_since_epoch())
+          .count());
+  execution_report.LastPx(0);
+  execution_report.LastQty(0);
+  execution_report.OrderQty(get_quantity());
+  execution_report.OrdStatus(exec_type);
+  execution_report.OrdRejReason(0);
+  execution_report.Text("OK");
+
+  if (get_stop_price() != 0) {
+    execution_report.OrdType(FIX::OrdType_STOP);
+  } else if (get_price() != 0) {
+    execution_report.OrdType(FIX::OrdType_LIMIT);
+  } else {
+    execution_report.OrdType(FIX::OrdType_MARKET);
+  }
+
+  if (is_all_or_none()) {
+    execution_report.ExecInst("G");
+  }
+
+  if (m_order_conditions == OrderCondition::IMM_OR_CANCEL) {
+    execution_report.TimeInForce(FIX::TimeInForce_IMMEDIATE_OR_CANCEL);
+  } else if (m_order_conditions == OrderCondition::FILL_OR_KILL) {
+    execution_report.TimeInForce(FIX::TimeInForce_FILL_OR_KILL);
+  } else {
+    execution_report.TimeInForce(FIX::TimeInForce_DAY);
+  }
+
+  if (get_quantity_filled() > 0) {
+    execution_report.AvgPx(std::nearbyint(
+        get_fill_cost() / get_quantity_filled())); // round to the nearest tick
+  } else {
+    execution_report.AvgPx(0); // avoid scientific numbers
+  }
+}
+
+std::ostream &operator<<(std::ostream &out, const Order &order) {
+  out << "[#" << order.get_order_id();
+  out << ' ' << (order.is_buy() ? "BUY" : "SELL");
+  out << ' ' << order.get_quantity();
+  out << ' ' << order.get_symbol();
+
+  if (order.get_price() == 0) {
+    out << " MKT";
+  } else {
+    out << " $" << order.get_price();
+  }
+
+  if (order.get_stop_price() != 0) {
+    out << " STOP " << order.get_stop_price();
+  }
+
+  out << (order.is_all_or_none() ? " AON" : "")
+      << (order.is_immediate_or_cancel() ? " IOC" : "");
+
+  auto onMarket = order.get_quantity_in_market();
+  if (onMarket != 0) {
+    out << " Open: " << onMarket;
+  }
+
+  auto filled = order.get_quantity_filled();
+  if (filled != 0) {
+    out << " Filled: " << filled;
+  }
+
+  auto cost = order.get_fill_cost();
+  if (cost != 0) {
+    out << " Cost: " << cost;
+  }
+
+  out << ']';
+
+  return out;
+}
