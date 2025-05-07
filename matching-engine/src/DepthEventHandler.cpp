@@ -2,6 +2,24 @@
 
 DepthEventHandler::DepthEventHandler(Market *market) : m_market(market) {}
 
+void set_market_data_stats_entry(
+    DistributedStockExchange_MarketDataIncrementalRefresh::NoMDEntries
+        &md_entry,
+    const std::string &market_name, const std::string &symbol,
+    const char md_action, const char md_entry_type, const float md_entry_px,
+    const float md_entry_size) {
+  md_entry.SecurityExchange(market_name);
+  md_entry.Symbol(symbol);
+  md_entry.MDUpdateAction(md_action);
+  md_entry.MDEntryType(md_entry_type);
+
+  if (md_entry_type == FIX::MDEntryType_TRADE_VOLUME) {
+    md_entry.MDEntrySize(md_entry_size);
+  } else {
+    md_entry.MDEntryPx(md_entry_px);
+  }
+}
+
 void DepthEventHandler::on_depth_change(const DepthOrderBook *depth_order_book,
                                         const DepthLevel *depth_level) {
   std::shared_ptr<MarketDataUpdate> market_data_update =
@@ -43,4 +61,56 @@ void DepthEventHandler::on_depth_change(const DepthOrderBook *depth_order_book,
   MarketDataIncrementalRefreshLogger::log(ss, market_data_update->refresh_data);
   LOG4CXX_INFO(logger, "MarketDataIncrementalRefresh : [" << ss.str() << "]");
   std::cout << "Update : " << ss.str() << std::endl;
+
+  int market_data_index =
+      MARKET_DATA_PRICE_DEPTH * 2; // total length of depth levels array
+
+  OrderBookStockStatsMapPtr order_book_stats_ptr =
+      m_market->get_order_book_stats_ptr();
+  auto current_order_book_stats =
+      order_book_stats_ptr->find(depth_order_book->get_symbol());
+
+  if (current_order_book_stats != order_book_stats_ptr->end()) {
+    std::string market_name = m_market->get_market_name();
+    std::string symbol = depth_order_book->get_symbol();
+
+    if (current_order_book_stats->second->volume > 0) {
+      set_market_data_stats_entry(
+          market_data_update->refresh_data.c_NoMDEntries()[market_data_index++],
+          m_market->get_market_name(), symbol, FIX::MDUpdateAction_NEW,
+          FIX::MDEntryType_TRADE, depth_order_book->get_market_price(), 0);
+
+      set_market_data_stats_entry(
+          market_data_update->refresh_data.c_NoMDEntries()[market_data_index++],
+          m_market->get_market_name(), symbol, FIX::MDUpdateAction_NEW,
+          FIX::MDEntryType_TRADE_VOLUME, 0,
+          current_order_book_stats->second->volume);
+
+      set_market_data_stats_entry(
+          market_data_update->refresh_data.c_NoMDEntries()[market_data_index++],
+          m_market->get_market_name(), symbol, FIX::MDUpdateAction_NEW,
+          FIX::MDEntryType_OPENING_PRICE,
+          current_order_book_stats->second->open, 0);
+
+      set_market_data_stats_entry(
+          market_data_update->refresh_data.c_NoMDEntries()[market_data_index++],
+          m_market->get_market_name(), symbol, FIX::MDUpdateAction_NEW,
+          FIX::MDEntryType_TRADING_SESSION_LOW_PRICE,
+          current_order_book_stats->second->low, 0);
+
+      set_market_data_stats_entry(
+          market_data_update->refresh_data.c_NoMDEntries()[market_data_index++],
+          m_market->get_market_name(), symbol, FIX::MDUpdateAction_NEW,
+          FIX::MDEntryType_TRADING_SESSION_HIGH_PRICE,
+          current_order_book_stats->second->high, 0);
+    } else {
+      set_market_data_stats_entry(
+          market_data_update->refresh_data.c_NoMDEntries()[market_data_index++],
+          m_market->get_market_name(), symbol, FIX::MDUpdateAction_NEW,
+          FIX::MDEntryType_OPENING_PRICE,
+          current_order_book_stats->second->high, 0);
+    }
+  }
+
+  // TODO: translate _price_depth_publisher_queue_ptr->push(md_update);
 }

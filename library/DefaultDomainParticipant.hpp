@@ -221,7 +221,7 @@ public:
 
   template <class TOPIC_TYPE>
   DataReaderPtr make_datareader(const TopicTuplePtr<TOPIC_TYPE> &topic_tuple,
-                                DataReaderListenerPtr &listener) {
+                                const DataReaderListenerPtr &listener) {
     return DataReaderPtr(m_subscriber->create_datareader(
         std::get<0>(*topic_tuple).get(),
         eprosima::fastdds::dds::DATAREADER_QOS_DEFAULT, listener.get()));
@@ -235,7 +235,7 @@ public:
         eprosima::fastdds::dds::DATAREADER_QOS_DEFAULT, listener.get()));
   };
 
-  const DomainParticipantPtr &get_domain_participant() { return m_participant; }
+  DomainParticipantPtr get_domain_participant() { return m_participant; }
 
   const std::string &get_participant_name() { return m_participant_name; };
 

@@ -1,5 +1,6 @@
 #pragma once
 
+#include "OrderBookStockStatistics.hpp"
 #include <memory>
 #include <string>
 
@@ -10,13 +11,17 @@
 // to the matching engine to be sent to the user via reports or to the data
 // service.
 class Market {
+
 public:
   // Getter const functions.
 
   std::string get_market_name() const;
 
+  OrderBookStockStatsMapPtr get_order_book_stats_ptr() const;
+
 private:
   std::string m_market_name;
+  OrderBookStockStatsMapPtr m_order_book_stats_ptr;
 };
 
 using MarketPtr = std::shared_ptr<Market>;
