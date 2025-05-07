@@ -11,6 +11,51 @@ set(CMAKE_CXX_STANDARD 14)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
 
+# Enable recommended warnings for Clang and GCC
+if (CMAKE_CXX_COMPILER_ID STREQUAL "Clang")
+    add_compile_options(
+        -Wall
+        -Wextra
+        -Wpedantic
+        -Wshadow
+        -Wconversion
+        -Wsign-conversion
+        -Wold-style-cast
+        -Wnon-virtual-dtor
+        -Woverloaded-virtual
+        -Wnull-dereference
+        -Wdouble-promotion
+        -Wformat=2
+        -Wimplicit-fallthrough
+        -Wcast-align
+        -Wmissing-declarations
+        -Wzero-as-null-pointer-constant
+        -Wuseless-cast
+        -Wno-unused-parameter
+    )
+elseif (CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
+    add_compile_options(
+        -Wall
+        -Wextra
+        -Wpedantic
+        -Wshadow
+        -Wconversion
+        -Wsign-conversion
+        -Wold-style-cast
+        -Wnon-virtual-dtor
+        -Woverloaded-virtual
+        -Wnull-dereference
+        -Wdouble-promotion
+        -Wformat=2
+        -Wimplicit-fallthrough=3
+        -Wcast-align
+        -Wmissing-declarations
+        -Wzero-as-null-pointer-constant
+        -Wunused
+        -Wno-unused-parameter
+    )
+endif()
+
 link_directories(${CMAKE_INSTALL_PREFIX}/lib)
 link_directories(${QUICKFIX_INSTALL_PREFIX}/lib)
 
