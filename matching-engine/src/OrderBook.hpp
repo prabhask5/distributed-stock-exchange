@@ -24,4 +24,8 @@ public:
   void set_symbol(const std::string &symbol);
 
   void set_market_price(Price market_price);
+
+private:
+  std::string m_symbol;
+  Price m_market_price;
 };
