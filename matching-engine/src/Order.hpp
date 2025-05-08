@@ -1,6 +1,7 @@
 #pragma once
 
 #include "MatchingEngineDataWriterContainer.hpp"
+#include "OrderPrice.hpp"
 #include <ExecutionReport.hpp>
 #include <LoggerHelper.hpp>
 #include <OrderCancelReject.hpp>
@@ -9,9 +10,7 @@
 #include <quickfix/FixValues.h>
 #include <string>
 
-using Price = uint64_t;
 using Quantity = uint64_t;
-using Cost = uint64_t;
 using FillId = uint32_t;
 using ChangeId = uint32_t;
 using OrderConditions = uint32_t;
@@ -44,15 +43,7 @@ enum OrderCondition {
   STOP = IMM_OR_CANCEL << 1
 };
 
-// These are constants only used within Order.cpp.
 namespace {
-// The price of a market order is 0, since it's determined by the price of the
-// matching order.
-const Price MARKET_ORDER_PRICE(0);
-
-// Defines the delta in price of an price-unchanged order, 0.
-const Price PRICE_UNCHANGED(0);
-
 // Max quantity that can order can contain.
 const Quantity QUANTITY_MAX(UINT64_MAX);
 
@@ -119,6 +110,8 @@ public:
 
   Cost get_fill_cost() const;
 
+  bool is_filled() const;
+
   // Callback functions for order execution lifecycle.
 
   void on_accepted();
@@ -160,6 +153,7 @@ private:
 
   // Active execution order properties (state of order through matching engine).
 
+  // m_quantity_filled + m_quantity_in_market = m_quantity
   Quantity m_quantity_filled;
   Quantity m_quantity_in_market;
   Cost m_fill_cost;

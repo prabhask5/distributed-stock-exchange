@@ -4,7 +4,7 @@
 #include <log4cxx/logger.h>
 
 template <class STREAM, class DATS_LOGGER, class DATS_CLASS>
-inline void log_debug(LOG4CXX_NS::LoggerPtr logger, DATS_CLASS &obj,
+inline void log_debug(LOG4CXX_NS::LoggerPtr &logger, DATS_CLASS &obj,
                       const std::string &context) {
   STREAM ss;
   DATS_LOGGER::log(ss, obj);
@@ -12,7 +12,7 @@ inline void log_debug(LOG4CXX_NS::LoggerPtr logger, DATS_CLASS &obj,
 };
 
 template <class STREAM, class DATS_LOGGER, class DATS_CLASS>
-inline void log_info(LOG4CXX_NS::LoggerPtr logger, DATS_CLASS &obj,
+inline void log_info(LOG4CXX_NS::LoggerPtr &logger, DATS_CLASS &obj,
                      const std::string &context) {
   STREAM ss;
   DATS_LOGGER::log(ss, obj);

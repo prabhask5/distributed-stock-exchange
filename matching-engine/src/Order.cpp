@@ -49,6 +49,8 @@ Quantity Order::get_quantity_in_market() const { return m_quantity_in_market; }
 
 Cost Order::get_fill_cost() const { return m_fill_cost; }
 
+bool Order::is_filled() const { return m_quantity_filled == m_quantity; }
+
 void Order::on_accepted() { m_quantity_in_market = m_quantity; }
 
 void Order::on_rejected(const char *reason) {}

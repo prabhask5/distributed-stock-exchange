@@ -20,8 +20,8 @@ void set_market_data_stats_entry(
   }
 }
 
-void DepthEventHandler::on_depth_change(const DepthOrderBook *depth_order_book,
-                                        const DepthLevel *depth_level) {
+void DepthEventHandler::on_depth_change(
+    const DepthOrderBook *depth_order_book) {
   std::shared_ptr<MarketDataUpdate> market_data_update =
       std::make_shared<MarketDataUpdate>();
 

@@ -12,8 +12,7 @@ class DepthEventHandler {
 public:
   DepthEventHandler(Market *market);
 
-  void on_depth_change(const DepthOrderBook *depth_order_book,
-                       const DepthLevel *depth_level);
+  void on_depth_change(const DepthOrderBook *depth_order_book);
 
 private:
   Market *m_market;

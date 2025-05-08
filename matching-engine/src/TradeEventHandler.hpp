@@ -11,3 +11,5 @@ public:
                 OrderBookStockStatsMapPtr &order_book_stats_map_ptr,
                 Quantity quantity, Cost cost);
 };
+
+using TradeEventHandlerPtr = std::shared_ptr<TradeEventHandler>;

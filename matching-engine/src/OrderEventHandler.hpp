@@ -25,3 +25,5 @@ public:
 private:
   ExecutionReportPublisherPtr m_execution_report_publisher;
 };
+
+using OrderEventHandlerPtr = std::shared_ptr<OrderEventHandler>;
