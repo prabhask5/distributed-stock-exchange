@@ -70,3 +70,13 @@ private:
   Price m_price;
   bool m_is_buy;
 };
+
+inline std::ostream &operator<<(std::ostream &out, const OrderPrice &key) {
+  out << (key.is_buy() ? "Buy at " : "Sell at ");
+  if (key.is_market_order()) {
+    out << "Market";
+  } else {
+    out << key.get_price();
+  }
+  return out;
+}
