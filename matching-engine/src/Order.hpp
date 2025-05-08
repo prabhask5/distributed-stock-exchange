@@ -86,6 +86,10 @@ public:
 
   bool is_buy() const;
 
+  const OrderPrice &get_order_price() const;
+
+  const OrderPrice &get_stop_order_price() const;
+
   Price get_price() const;
 
   Price get_stop_price() const;
@@ -139,8 +143,8 @@ private:
   std::string m_sender_id;
   bool m_is_buy;
   Quantity m_quantity;
-  Price m_price;
-  Price m_stop_price;
+  OrderPrice m_order_price;
+  OrderPrice m_stop_order_price;
   std::string m_symbol;
   OrderConditions m_order_conditions;
 

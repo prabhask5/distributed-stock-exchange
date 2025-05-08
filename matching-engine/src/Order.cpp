@@ -7,8 +7,9 @@ Order::Order(const std::string &order_id, const std::string &sender_id,
              DataWriterContainerPtr data_writer_container_ptr,
              const std::string &security_exchange, OrderConditions conditions)
     : m_order_id(order_id), m_sender_id(sender_id), m_is_buy(is_buy),
-      m_quantity(quantity), m_price(price), m_stop_price(stop_price),
-      m_symbol(symbol), m_gateway(gateway), m_data_service(data_service),
+      m_quantity(quantity), m_order_price(OrderPrice(price, is_buy)),
+      m_stop_order_price(OrderPrice(stop_price, is_buy)), m_symbol(symbol),
+      m_gateway(gateway), m_data_service(data_service),
       m_data_writer_container_ptr(data_writer_container_ptr),
       m_security_exchange(security_exchange), m_order_conditions(conditions),
       m_quantity_filled(0), m_quantity_in_market(0), m_fill_cost(0) {}
@@ -19,9 +20,15 @@ bool Order::is_limit() const {
 
 bool Order::is_buy() const { return m_is_buy; }
 
-Price Order::get_price() const { return m_price; }
+const OrderPrice &Order::get_order_price() const { return m_order_price; }
 
-Price Order::get_stop_price() const { return m_stop_price; }
+const OrderPrice &Order::get_stop_order_price() const {
+  return m_stop_order_price;
+}
+
+Price Order::get_price() const { return m_order_price.get_price(); }
+
+Price Order::get_stop_price() const { return m_stop_order_price.get_price(); }
 
 Quantity Order::get_quantity() const { return m_quantity; }
 
