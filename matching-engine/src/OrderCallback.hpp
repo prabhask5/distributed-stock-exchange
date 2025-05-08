@@ -21,6 +21,16 @@ enum OrderFillFlags {
   BOTH_FILLED
 };
 
+// This is a helper class to manage all the "callback" functions that arise
+// during the state management of orders in the order book. A "callback" is
+// logic that is executed in reaction to a state change in the order book. The
+// reason this callback class is needed is to organize all the callback actions
+// into a list that we run at once within one function call during the execution
+// of the order book logic. The reason this is needed is because callbacks can
+// lead to other callbacks being run, so running each callback synchronously can
+// lead to state that is difficult to manage and keep track of. This is
+// particularly useful here because of the sheer amount of state changes that
+// occur per second in this high frequency system.
 class OrderCallback {
 public:
   OrderCallback();
