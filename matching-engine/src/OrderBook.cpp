@@ -1,63 +1,62 @@
 #include "OrderBook.hpp"
 
-OrderBook::OrderBook(const std::string &symbol) {
-  // TODO: Initialize order book
+OrderBook::OrderBook(const std::string &symbol)
+    : m_symbol(symbol), m_callbacks_running(false),
+      m_order_event_handler_ptr(nullptr), m_trade_event_handler_ptr(nullptr),
+      m_market_price(MARKET_ORDER_PRICE) {
+  m_callbacks.reserve(CALLBACK_VEC_STARTING_SIZE);
+  m_working_callbacks.reserve(CALLBACK_VEC_STARTING_SIZE);
 }
 
-const std::string &OrderBook::get_symbol() const {
-  // TODO: Return stock symbol
-  static const std::string empty = "";
-  return empty;
-}
+const std::string &OrderBook::get_symbol() const { return m_symbol; }
 
-Price OrderBook::get_market_price() const {
-  // TODO: Return current market price
-  return 0;
-}
+Price OrderBook::get_market_price() const { return m_market_price; }
 
-const OrderMap &OrderBook::get_buy_orders() const {
-  // TODO: Return buy orders
-  static const OrderMap dummy;
-  return dummy;
-}
+const OrderMap &OrderBook::get_buy_orders() const { return m_buy_orders; }
 
-const OrderMap &OrderBook::get_sell_orders() const {
-  // TODO: Return sell orders
-  static const OrderMap dummy;
-  return dummy;
-}
+const OrderMap &OrderBook::get_sell_orders() const { return m_sell_orders; }
 
 const OrderMap &OrderBook::get_buy_stop_orders() const {
-  // TODO: Return stop buy orders
-  static const OrderMap dummy;
-  return dummy;
+  return m_buy_stop_orders;
 }
 
 const OrderMap &OrderBook::get_sell_stop_orders() const {
-  // TODO: Return stop sell orders
-  static const OrderMap dummy;
-  return dummy;
+  return m_sell_stop_orders;
 }
 
-void OrderBook::set_symbol(const std::string &symbol) {
-  // TODO: Set symbol
-}
+void OrderBook::set_symbol(const std::string &symbol) { m_symbol = symbol; }
 
 void OrderBook::set_market_price(Price market_price) {
-  // TODO: Set market price
+  m_market_price = market_price;
 }
 
 void OrderBook::set_order_event_handler_ptr(OrderEventHandlerPtr handler_ptr) {
-  // TODO: Set order event handler
+  m_order_event_handler_ptr = handler_ptr;
 }
 
 void OrderBook::set_trade_event_handler_ptr(TradeEventHandlerPtr handler_ptr) {
-  // TODO: Set trade event handler
+  m_trade_event_handler_ptr = handler_ptr;
 }
 
 bool OrderBook::add(const OrderPtr &order) {
-  // TODO: Add an order
-  return false;
+  bool matched = false;
+
+  // If the order is invalid, we reject.
+  if (order->get_quantity() == 0) {
+    m_callbacks.push_back(
+        OrderCallback::reject(order, "quantity must be positive"));
+  } else {
+    // If the order is presented as a stop order and we're allowed to add it to
+    // the market, we do so.
+    if (order->get_stop_price() != 0 && add_stop_order(order)) {
+      m_callbacks.push_back(OrderCallback::accept_stop(order));
+    } else {
+      // TODO: finish
+    }
+  }
+
+  callback_now();
+  return matched;
 }
 
 void OrderBook::cancel(const OrderPtr &order) {

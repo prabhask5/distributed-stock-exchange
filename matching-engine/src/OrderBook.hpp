@@ -8,6 +8,8 @@
 #include <map>
 #include <string>
 
+const size_t CALLBACK_VEC_STARTING_SIZE = 16;
+
 // The reason we use a multimap instead of a priority queue to manage orders
 // within the order book is because the multimap allows us the ability to both
 // iterate through all the orders (in sorted order) and quickly find all the
@@ -153,8 +155,8 @@ private:
   // Order state management.
   OrderMap m_buy_orders;
   OrderMap m_sell_orders;
-  OrderMap m_stop_buy_orders;
-  OrderMap m_stop_sell_orders;
+  OrderMap m_buy_stop_orders;
+  OrderMap m_sell_stop_orders;
   OrderVec m_pending_orders;
 
   // OrderCallback state management.
