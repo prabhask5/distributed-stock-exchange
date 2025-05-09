@@ -27,7 +27,7 @@ public:
         Quantity quantity, Price price, Price stop_price,
         const std::string &symbol, const std::string &gateway,
         const std::string &data_service,
-        DataWriterContainerPtr data_writer_container_ptr,
+        const DataWriterContainerPtr &data_writer_container_ptr,
         const std::string &security_exchange,
         OrderConditions conditions = OrderCondition::NONE);
 

@@ -38,11 +38,13 @@ void OrderBook::set_market_price(Price market_price) {
   m_market_price = market_price;
 }
 
-void OrderBook::set_order_event_handler_ptr(OrderEventHandlerPtr handler_ptr) {
+void OrderBook::set_order_event_handler_ptr(
+    const OrderEventHandlerPtr &handler_ptr) {
   m_order_event_handler_ptr = handler_ptr;
 }
 
-void OrderBook::set_trade_event_handler_ptr(TradeEventHandlerPtr handler_ptr) {
+void OrderBook::set_trade_event_handler_ptr(
+    const TradeEventHandlerPtr &handler_ptr) {
   m_trade_event_handler_ptr = handler_ptr;
 }
 
@@ -79,22 +81,21 @@ void OrderBook::execute_callback(const OrderCallback &callback) {
   // TODO: Handle one callback
 }
 
-bool OrderBook::match_order(OrderPtr &inbound_order, Price inbound_price,
+bool OrderBook::match_order(const OrderPtr &inbound_order,
                             OrderMap &current_orders,
                             DeferredMatchList &deferred_aons) {
   // TODO: Match order with current orders
   return false;
 }
 
-bool OrderBook::match_regular_order(OrderPtr &inbound_order,
-                                    Price inbound_price,
+bool OrderBook::match_regular_order(const OrderPtr &inbound_order,
                                     OrderMap &current_orders,
                                     DeferredMatchList &deferred_aons) {
   // TODO: Match regular order
   return false;
 }
 
-bool OrderBook::match_aon_order(OrderPtr &inbound_order, Price inbound_price,
+bool OrderBook::match_aon_order(const OrderPtr &inbound_order,
                                 OrderMap &current_orders,
                                 DeferredMatchList &deferred_aons) {
   // TODO: Match AON order
@@ -102,7 +103,7 @@ bool OrderBook::match_aon_order(OrderPtr &inbound_order, Price inbound_price,
 }
 
 Quantity OrderBook::try_create_deferred_trades(
-    OrderPtr &inbound_order, DeferredMatchList &deferred_matches,
+    const OrderPtr &inbound_order, DeferredMatchList &deferred_matches,
     Quantity max_quantity, Quantity min_quantity, OrderMap &current_orders) {
   // TODO: Create trades from deferred matches
   return 0;
@@ -115,7 +116,8 @@ bool OrderBook::check_deferred_aon_orders(DeferredMatchList &aon_orders,
   return false;
 }
 
-Quantity OrderBook::create_trade(OrderPtr &inbound_order, OrderPtr &other_order,
+Quantity OrderBook::create_trade(const OrderPtr &inbound_order,
+                                 const OrderPtr &other_order,
                                  Quantity max_quantity) {
   // TODO: Create a trade
   return 0;

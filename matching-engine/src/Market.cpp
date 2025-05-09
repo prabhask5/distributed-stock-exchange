@@ -4,7 +4,8 @@
 #include <memory>
 #include <string>
 
-Market::Market(MarketDataPublisherQueuePtr market_data_publisher_queue_ptr)
+Market::Market(
+    const MarketDataPublisherQueuePtr &market_data_publisher_queue_ptr)
     : m_market_data_publisher_queue_ptr(market_data_publisher_queue_ptr) {}
 
 std::string Market::get_market_name() const { return m_market_name; }

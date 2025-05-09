@@ -12,7 +12,7 @@
 class Market {
 
 public:
-  Market(MarketDataPublisherQueuePtr market_data_publisher_queue_ptr);
+  Market(const MarketDataPublisherQueuePtr &market_data_publisher_queue_ptr);
 
   // Getter const functions.
 

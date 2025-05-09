@@ -35,11 +35,11 @@ public:
 
   void set_market_price(Price market_price);
 
-  void
-  set_order_event_handler_ptr(OrderEventHandlerPtr order_event_handler_ptr);
+  void set_order_event_handler_ptr(
+      const OrderEventHandlerPtr &order_event_handler_ptr);
 
-  void
-  set_trade_event_handler_ptr(TradeEventHandlerPtr trade_event_handler_ptr);
+  void set_trade_event_handler_ptr(
+      const TradeEventHandlerPtr &trade_event_handler_ptr);
 
   // Action functions.
 
@@ -59,28 +59,29 @@ protected:
   // type.
   void execute_callback(const OrderCallback &callback);
 
-  // Returns true if the inbound order is filled within the execution of this
-  // function.
-  bool match_order(OrderPtr &inbound_order, Price inbound_price,
-                   OrderMap &current_orders, DeferredMatchList &deferred_aons);
+  bool add_order();
 
   // Returns true if the inbound order is filled within the execution of this
   // function.
-  bool match_regular_order(OrderPtr &inbound_order, Price inbound_price,
+  bool match_order(const OrderPtr &inbound_order, OrderMap &current_orders,
+                   DeferredMatchList &deferred_aons);
+
+  // Returns true if the inbound order is filled within the execution of this
+  // function.
+  bool match_regular_order(const OrderPtr &inbound_order,
                            OrderMap &current_orders,
                            DeferredMatchList &deferred_aons);
 
   // Returns true if the inbound order is filled within the execution of this
   // function.
-  bool match_aon_order(OrderPtr &inbound_order, Price inbound_price,
-                       OrderMap &current_orders,
+  bool match_aon_order(const OrderPtr &inbound_order, OrderMap &current_orders,
                        DeferredMatchList &deferred_aons);
 
   // This helper function tries to create matches with the inbound order with
   // any of the deferred orders. We have a ceiling and floor on this to both not
   // overfill the inbound order, and avoid small fragmented fills. This function
   // returns the quantity actually filled.
-  Quantity try_create_deferred_trades(OrderPtr &inbound_order,
+  Quantity try_create_deferred_trades(const OrderPtr &inbound_order,
                                       DeferredMatchList &deferred_matches,
                                       Quantity max_quantity,
                                       Quantity min_quantity,
@@ -95,7 +96,8 @@ protected:
 
   // This helper function creates a trade between two orders, limited by the max
   // quantity. This function returns the quantity actually filled.
-  Quantity create_trade(OrderPtr &inbound_order, OrderPtr &other_order,
+  Quantity create_trade(const OrderPtr &inbound_order,
+                        const OrderPtr &other_order,
                         Quantity max_quantity = QUANTITY_MAX);
 
   // This function finds an order in the order map and returns the result in the

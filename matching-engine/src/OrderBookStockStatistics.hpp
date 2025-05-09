@@ -22,7 +22,7 @@ struct OrderBookStockStatistics {
 };
 
 inline void
-update_symbol_stats(OrderBookStockStatsMapPtr &order_book_stats_map_ptr,
+update_symbol_stats(const OrderBookStockStatsMapPtr &order_book_stats_map_ptr,
                     const OrderBook *order_book, Quantity quantity,
                     Price price) {
   auto symbol_stats = order_book_stats_map_ptr->find(order_book->get_symbol());

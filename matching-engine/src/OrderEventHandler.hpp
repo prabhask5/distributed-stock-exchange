@@ -7,7 +7,8 @@
 // state changes for an order within the order book.
 class OrderEventHandler {
 public:
-  OrderEventHandler(ExecutionReportPublisherPtr execution_report_publisher);
+  OrderEventHandler(
+      const ExecutionReportPublisherPtr &execution_report_publisher);
 
   void on_order_accept(const OrderPtr &order);
 

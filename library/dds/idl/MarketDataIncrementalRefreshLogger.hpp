@@ -1,5 +1,7 @@
 #pragma once
+
 #include "HeaderLogger.hpp"
+#include "MarketDataIncrementalRefresh.hpp"
 ;
 
 class MarketDataIncrementalRefreshLogger {

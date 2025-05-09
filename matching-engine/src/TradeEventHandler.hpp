@@ -10,6 +10,6 @@ class OrderBook; // From OrderBook.hpp.
 class TradeEventHandler {
 public:
   void on_trade(const OrderBook *order_book,
-                OrderBookStockStatsMapPtr &order_book_stats_map_ptr,
+                const OrderBookStockStatsMapPtr &order_book_stats_map_ptr,
                 Quantity quantity, Cost cost);
 };

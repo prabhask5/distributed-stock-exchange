@@ -1,5 +1,8 @@
 #pragma once
 
+#include "Header.hpp"
+#include <iostream>
+
 class HeaderLogger {
 public:
   static void log(std::ostream &out, DistributedStockExchange::Header &ddsMsg)

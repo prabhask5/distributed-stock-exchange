@@ -11,7 +11,8 @@
 // handler class.
 class ExecutionReportPublisher {
 public:
-  ExecutionReportPublisher(DataWriterContainerPtr data_writer_container_ptr);
+  ExecutionReportPublisher(
+      const DataWriterContainerPtr &data_writer_container_ptr);
 
   void publish_report(DistributedStockExchange_ExecutionReport::ExecutionReport
                           &executionReport);

@@ -8,7 +8,7 @@
 uint32_t ExecutionReportPublisher::s_id_seed = 1000000;
 
 ExecutionReportPublisher::ExecutionReportPublisher(
-    DataWriterContainerPtr data_writer_container_ptr)
+    const DataWriterContainerPtr &data_writer_container_ptr)
     : m_data_writer_container_ptr(data_writer_container_ptr) {}
 
 void ExecutionReportPublisher::publish_report(

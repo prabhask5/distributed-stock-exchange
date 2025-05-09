@@ -15,7 +15,7 @@ Order::Order(const std::string &order_id, const std::string &sender_id,
              bool is_buy, Quantity quantity, Price price, Price stop_price,
              const std::string &symbol, const std::string &gateway,
              const std::string &data_service,
-             DataWriterContainerPtr data_writer_container_ptr,
+             const DataWriterContainerPtr &data_writer_container_ptr,
              const std::string &security_exchange, OrderConditions conditions)
     : m_order_id(order_id), m_sender_id(sender_id), m_is_buy(is_buy),
       m_quantity(quantity), m_order_price(OrderPrice(price, is_buy)),
