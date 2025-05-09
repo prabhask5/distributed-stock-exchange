@@ -1,9 +1,14 @@
 #include "DepthEventHandler.hpp"
-
+#include "DepthLevel.hpp"
 #include "DepthOrderBook.hpp"
+#include "DepthOrderBookConstants.hpp"
 #include "Market.hpp"
+#include "MarketDataIncrementalRefreshLogger.hpp"
 #include "MarketDataUpdate.hpp"
-#include <MarketDataIncrementalRefreshLogger.hpp>
+#include "OrderBookStockStatistics.hpp"
+#include "OrderBookStockStatisticsTypes.hpp"
+#include <DefaultDomainParticipantConstants.hpp>
+#include <MarketDataIncrementalRefresh.hpp>
 #include <quickfix/Message.h>
 
 DepthEventHandler::DepthEventHandler(Market *market) : m_market(market) {}

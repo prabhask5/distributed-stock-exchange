@@ -1,5 +1,8 @@
 #pragma once
 
+class Market;         // From Market.hpp;
+class DepthOrderBook; // From DepthOrderBook.hpp;
+
 // This class contains several callback functions that run logic on certain
 // state changes related to a depth order book.
 class DepthEventHandler {

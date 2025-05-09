@@ -1,9 +1,8 @@
 #pragma once
 
-const int MARKET_DATA_PRICE_DEPTH = 5;
-
-using DepthLevels = std::array<DepthLevel, MARKET_DATA_PRICE_DEPTH * 2>;
-using DepthLevelsSection = std::array<DepthLevel, MARKET_DATA_PRICE_DEPTH>;
+#include "DepthLevel.hpp"
+#include "DepthOrderBookTypes.hpp"
+#include "OrderBook.hpp"
 
 // This class represents a depth order book.
 // A depth order book (also called a limit order book) is a type of order book

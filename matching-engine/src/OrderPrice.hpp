@@ -1,16 +1,7 @@
 #pragma once
 
-using Price = uint64_t;
-using Cost = uint64_t;
-
-namespace {
-// The price of a market order is 0, since it's determined by the price of the
-// matching order.
-const Price MARKET_ORDER_PRICE(0);
-
-// Defines the delta in price of an price-unchanged order, 0.
-const Price PRICE_UNCHANGED(0);
-} // namespace
+#include "OrderTypes.hpp"
+#include <ostream>
 
 // This class represents a price of an order specifically. This is more complex
 // than a normal price since comparing prices (finding the best match) has
@@ -69,12 +60,4 @@ private:
   bool m_is_buy;
 };
 
-inline std::ostream &operator<<(std::ostream &out, const OrderPrice &key) {
-  out << (key.is_buy() ? "Buy at " : "Sell at ");
-  if (key.is_market_order()) {
-    out << "Market";
-  } else {
-    out << key.get_price();
-  }
-  return out;
-}
+std::ostream &operator<<(std::ostream &out, const OrderPrice &key);

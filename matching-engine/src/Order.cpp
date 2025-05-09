@@ -1,6 +1,8 @@
 #include "Order.hpp"
 #include "MatchingEngineDataWriterContainer.hpp"
+#include "OrderConstants.hpp"
 #include "OrderPrice.hpp"
+#include <DefaultDomainParticipantConstants.hpp>
 #include <ExecutionReport.hpp>
 #include <LoggerHelper.hpp>
 #include <OrderCancelReject.hpp>

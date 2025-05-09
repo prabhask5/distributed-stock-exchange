@@ -1,5 +1,8 @@
 #include "OrderPrice.hpp"
+#include "OrderConstants.hpp"
+#include "OrderTypes.hpp"
 #include <cstdint>
+#include <ostream>
 
 OrderPrice::OrderPrice(Price price, bool is_buy)
     : m_price(price), m_is_buy(is_buy) {}
@@ -74,4 +77,14 @@ bool OrderPrice::operator>(const OrderPrice &other) const {
   } else {
     return my_price < other_price; // Selling: lowest prices first.
   }
+}
+
+std::ostream &operator<<(std::ostream &out, const OrderPrice &key) {
+  out << (key.is_buy() ? "Buy at " : "Sell at ");
+  if (key.is_market_order()) {
+    out << "Market";
+  } else {
+    out << key.get_price();
+  }
+  return out;
 }

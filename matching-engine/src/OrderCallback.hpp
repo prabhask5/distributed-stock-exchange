@@ -1,23 +1,7 @@
 #pragma once
 
-enum OrderCallBackTypes {
-  UNKNOWN,
-  ORDER_ACCEPT,
-  ORDER_ACCEPT_STOP,
-  ORDER_TRIGGER_STOP,
-  ORDER_REJECT,
-  ORDER_FILL,
-  ORDER_CANCEL,
-  ORDER_CANCEL_STOP,
-  ORDER_CANCEL_REJECT
-};
-
-enum OrderFillFlags {
-  NEITHER_FILLED,
-  INBOUND_FILLED,
-  MATCHED_FILLED,
-  BOTH_FILLED
-};
+#include "OrderCallbackTypes.hpp"
+#include "OrderTypes.hpp"
 
 // This is a helper class to manage all the "callback" functions that arise
 // during the state management of orders in the order book. A "callback" is

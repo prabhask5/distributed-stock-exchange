@@ -1,5 +1,8 @@
 #pragma once
 
+#include "ExecutionReportPublisherTypes.hpp"
+#include "OrderTypes.hpp"
+
 // This class contains several callback functions that run logic on certain
 // state changes for an order within the order book.
 class OrderEventHandler {
@@ -20,5 +23,3 @@ public:
 private:
   ExecutionReportPublisherPtr m_execution_report_publisher;
 };
-
-using OrderEventHandlerPtr = std::shared_ptr<OrderEventHandler>;

@@ -1,5 +1,6 @@
 #include "OrderBook.hpp"
 #include "Order.hpp"
+#include "OrderBookConstants.hpp"
 #include "OrderCallback.hpp"
 #include "OrderEventHandler.hpp"
 #include "OrderPrice.hpp"

@@ -1,9 +1,9 @@
 #pragma once
 
-#include "Order.hpp"
 #include "OrderBook.hpp"
+#include "OrderBookStockStatisticsTypes.hpp"
+#include "OrderTypes.hpp"
 #include <algorithm>
-#include <memory>
 
 // This struct tracks the stock statistics tied to an order book.
 struct OrderBookStockStatistics {
@@ -20,13 +20,6 @@ struct OrderBookStockStatistics {
   // The total number of shared traded.
   Quantity volume;
 };
-
-using OrderBookStockStatisticsPtr = std::shared_ptr<OrderBookStockStatistics>;
-
-// This is used to map each order book's stock symbol name to its own stats map.
-using OrderBookStockStatsMap =
-    std::map<std::string, OrderBookStockStatisticsPtr>;
-using OrderBookStockStatsMapPtr = std::shared_ptr<OrderBookStockStatsMap>;
 
 inline void
 update_symbol_stats(OrderBookStockStatsMapPtr &order_book_stats_map_ptr,

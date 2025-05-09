@@ -1,6 +1,6 @@
 #pragma once
 
-#include <DefaultDomainParticipant.hpp>
+#include "DefaultDomainParticipantTypes.hpp"
 
 struct DataWriterContainer {
   // Represents the execution report for an order sent by a user through the FIX
@@ -39,5 +39,3 @@ struct DataWriterContainer {
   // This DW goes from matching engine -> FIX gateway.
   DataWriterPtr marketDataRequestDW;
 };
-
-using DataWriterContainerPtr = std::shared_ptr<DataWriterContainer>;

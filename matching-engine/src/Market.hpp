@@ -1,5 +1,8 @@
 #pragma once
 
+#include "MarketDataUpdateTypes.hpp"
+#include "OrderBookStockStatisticsTypes.hpp"
+
 // This class represents the top level abstraction of the matching engine.
 // An instance of the market class will contain one or more order books/depth
 // order books, and provides all the functionality to take orders in and match
@@ -24,5 +27,3 @@ private:
   OrderBookStockStatsMapPtr m_order_book_stats_ptr;
   MarketDataPublisherQueuePtr m_market_data_publisher_queue_ptr;
 };
-
-using MarketPtr = std::shared_ptr<Market>;

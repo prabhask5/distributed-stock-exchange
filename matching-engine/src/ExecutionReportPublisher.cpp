@@ -1,5 +1,6 @@
 #include "ExecutionReportPublisher.hpp"
 #include "MatchingEngineDataWriterContainer.hpp"
+#include <DefaultDomainParticipantConstants.hpp>
 #include <ExecutionReport.hpp>
 #include <ExecutionReportLogger.hpp>
 #include <LoggerHelper.hpp>
