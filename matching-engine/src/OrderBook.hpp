@@ -1,13 +1,5 @@
 #pragma once
 
-#include "Order.hpp"
-#include "OrderCallback.hpp"
-#include "OrderEventHandler.hpp"
-#include "OrderPrice.hpp"
-#include "TradeEventHandler.hpp"
-#include <map>
-#include <string>
-
 const size_t CALLBACK_VEC_STARTING_SIZE = 16;
 
 // The reason we use a multimap instead of a priority queue to manage orders

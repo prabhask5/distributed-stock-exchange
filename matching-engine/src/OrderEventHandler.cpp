@@ -1,4 +1,8 @@
 #include "OrderEventHandler.hpp"
+#include "ExecutionReportPublisher.hpp"
+#include "Order.hpp"
+#include <ExecutionReport.hpp>
+#include <quickfix/Message.h>
 
 OrderEventHandler::OrderEventHandler(
     ExecutionReportPublisherPtr execution_report_publisher)

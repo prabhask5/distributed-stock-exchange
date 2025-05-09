@@ -1,13 +1,5 @@
 #pragma once
 
-#include <ExecutionReport.hpp>
-#include <NewOrderSingle.hpp>
-#include <OrderCancelReject.hpp>
-#include <exception>
-#include <quickfix/FixValues.h>
-#include <sstream>
-#include <string>
-
 // This class is used to represent an exception.
 class OrderException : public std::exception {
 public:

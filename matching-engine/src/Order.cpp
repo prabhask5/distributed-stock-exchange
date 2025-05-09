@@ -1,4 +1,13 @@
 #include "Order.hpp"
+#include "MatchingEngineDataWriterContainer.hpp"
+#include "OrderPrice.hpp"
+#include <ExecutionReport.hpp>
+#include <LoggerHelper.hpp>
+#include <OrderCancelReject.hpp>
+#include <OrderCancelRejectLogger.hpp>
+#include <cstdint>
+#include <quickfix/FixValues.h>
+#include <string>
 
 Order::Order(const std::string &order_id, const std::string &sender_id,
              bool is_buy, Quantity quantity, Price price, Price stop_price,

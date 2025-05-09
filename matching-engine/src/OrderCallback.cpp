@@ -1,4 +1,5 @@
 #include "OrderCallback.hpp"
+#include "Order.hpp"
 
 OrderCallback::OrderCallback()
     : m_type(OrderCallBackTypes::UNKNOWN), m_inbound_order(nullptr),

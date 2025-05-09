@@ -1,7 +1,5 @@
 #pragma once
 
-#include "Order.hpp"
-
 // These are constants used with the depth order book logic.
 namespace {
 // Represents an invalid price for a depth in the order book.

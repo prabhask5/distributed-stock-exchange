@@ -1,15 +1,5 @@
 #pragma once
 
-#include "MatchingEngineDataWriterContainer.hpp"
-#include "OrderPrice.hpp"
-#include <ExecutionReport.hpp>
-#include <LoggerHelper.hpp>
-#include <OrderCancelReject.hpp>
-#include <OrderCancelRejectLogger.hpp>
-#include <cstdint>
-#include <quickfix/FixValues.h>
-#include <string>
-
 using Quantity = uint64_t;
 using FillId = uint32_t;
 using ChangeId = uint32_t;

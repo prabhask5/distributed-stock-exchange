@@ -1,7 +1,5 @@
 #pragma once
 
-#include "Order.hpp"
-
 enum OrderCallBackTypes {
   UNKNOWN,
   ORDER_ACCEPT,

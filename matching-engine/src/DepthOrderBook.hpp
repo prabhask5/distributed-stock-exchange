@@ -1,8 +1,5 @@
 #pragma once
 
-#include "DepthLevel.hpp"
-#include "OrderBook.hpp"
-
 const int MARKET_DATA_PRICE_DEPTH = 5;
 
 using DepthLevels = std::array<DepthLevel, MARKET_DATA_PRICE_DEPTH * 2>;

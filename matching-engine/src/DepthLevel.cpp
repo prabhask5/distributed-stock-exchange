@@ -1,4 +1,5 @@
 #include "DepthLevel.hpp"
+#include "Order.hpp"
 
 Price DepthLevel::get_price() const { return m_price; }
 

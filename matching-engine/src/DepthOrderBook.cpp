@@ -1,4 +1,6 @@
 #include "DepthOrderBook.hpp"
+#include "DepthLevel.hpp"
+#include "OrderBook.hpp"
 
 const DepthLevels &DepthOrderBook::get_levels() const { return m_levels; }
 

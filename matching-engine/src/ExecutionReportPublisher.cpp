@@ -1,4 +1,8 @@
 #include "ExecutionReportPublisher.hpp"
+#include "MatchingEngineDataWriterContainer.hpp"
+#include <ExecutionReport.hpp>
+#include <ExecutionReportLogger.hpp>
+#include <LoggerHelper.hpp>
 
 uint32_t ExecutionReportPublisher::s_id_seed = 1000000;
 

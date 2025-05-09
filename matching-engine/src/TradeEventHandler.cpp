@@ -1,4 +1,6 @@
 #include "TradeEventHandler.hpp"
+#include "OrderBook.hpp"
+#include "OrderBookStockStatistics.hpp"
 
 void TradeEventHandler::on_trade(
     const OrderBook *order_book,

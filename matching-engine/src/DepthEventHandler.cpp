@@ -1,5 +1,11 @@
 #include "DepthEventHandler.hpp"
 
+#include "DepthOrderBook.hpp"
+#include "Market.hpp"
+#include "MarketDataUpdate.hpp"
+#include <MarketDataIncrementalRefreshLogger.hpp>
+#include <quickfix/Message.h>
+
 DepthEventHandler::DepthEventHandler(Market *market) : m_market(market) {}
 
 void set_market_data_stats_entry(

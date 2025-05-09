@@ -1,10 +1,5 @@
 #pragma once
 
-#include "MarketDataUpdate.hpp"
-#include "OrderBookStockStatistics.hpp"
-#include <memory>
-#include <string>
-
 // This class represents the top level abstraction of the matching engine.
 // An instance of the market class will contain one or more order books/depth
 // order books, and provides all the functionality to take orders in and match

@@ -1,4 +1,5 @@
 #include "OrderPrice.hpp"
+#include <cstdint>
 
 OrderPrice::OrderPrice(Price price, bool is_buy)
     : m_price(price), m_is_buy(is_buy) {}

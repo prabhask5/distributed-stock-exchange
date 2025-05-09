@@ -1,10 +1,5 @@
 #pragma once
 
-#include "MatchingEngineDataWriterContainer.hpp"
-#include <ExecutionReport.hpp>
-#include <ExecutionReportLogger.hpp>
-#include <LoggerHelper.hpp>
-
 // Helper class to publish execution reports via FastDDS, sending to FIX
 // gateway. Execution reports are populated within more specific classes (i.e
 // Order, OrderException), then actually sent via this class. Note: this is

@@ -1,4 +1,8 @@
 #include "Market.hpp"
+#include "MarketDataUpdate.hpp"
+#include "OrderBookStockStatistics.hpp"
+#include <memory>
+#include <string>
 
 Market::Market(MarketDataPublisherQueuePtr market_data_publisher_queue_ptr)
     : m_market_data_publisher_queue_ptr(market_data_publisher_queue_ptr) {}

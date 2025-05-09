@@ -1,4 +1,11 @@
 #include "OrderBook.hpp"
+#include "Order.hpp"
+#include "OrderCallback.hpp"
+#include "OrderEventHandler.hpp"
+#include "OrderPrice.hpp"
+#include "TradeEventHandler.hpp"
+#include <map>
+#include <string>
 
 OrderBook::OrderBook(const std::string &symbol)
     : m_symbol(symbol), m_callbacks_running(false),
