@@ -18,9 +18,9 @@ class OrderCallback; // From OrderCallback.hpp.
 // (orders that cannot be matched currently, but later), since we need to find
 // the order from the map using the information from the list, this is not
 // possible with the priority queue.
-using OrderMap = std::multimap<OrderPrice, OrderPtr>;
+using OrderMap = std::multimap<OrderPrice, ImmutableOrderPtr>;
 
-using OrderVec = std::vector<OrderPtr>;
+using OrderVec = std::vector<ImmutableOrderPtr>;
 using OrderCallbackVec = std::vector<OrderCallback>;
 
 // This list keeps track of the orders that we skipped during this match run for

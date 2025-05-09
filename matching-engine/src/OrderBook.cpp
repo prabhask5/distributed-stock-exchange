@@ -81,6 +81,8 @@ void OrderBook::execute_callback(const OrderCallback &callback) {
   // TODO: Handle one callback
 }
 
+bool OrderBook::add_order(const OrderPtr &order) { return false; }
+
 bool OrderBook::match_order(const OrderPtr &inbound_order,
                             OrderMap &current_orders,
                             DeferredMatchList &deferred_aons) {
