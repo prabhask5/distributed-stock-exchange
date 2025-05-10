@@ -134,3 +134,50 @@ void OrderBook::check_stop_orders(bool is_buy, Price price,
 void OrderBook::submit_pending_orders() {
   // TODO: Move pending stop orders to active market
 }
+
+void OrderBook::on_accept(const OrderPtr &order) {
+  if (m_order_event_handler_ptr) {
+    m_order_event_handler_ptr->on_order_accept(order);
+  }
+}
+
+void OrderBook::on_accept_stop(const OrderPtr &order) {}
+
+void OrderBook::on_trigger_stop(const OrderPtr &order) {}
+
+void OrderBook::on_reject(const OrderPtr &order, const char *reason) {
+  if (m_order_event_handler_ptr) {
+    m_order_event_handler_ptr->on_order_reject(order, reason);
+  }
+}
+
+void OrderBook::on_fill(const OrderPtr &order, const OrderPtr &matched_order,
+                        Quantity quantity_filled, Price fill_price) {
+  if (m_order_event_handler_ptr) {
+    m_order_event_handler_ptr->on_order_fill(order, matched_order,
+                                             quantity_filled, fill_price);
+  }
+}
+
+void OrderBook::on_cancel(const OrderPtr &order) {
+  if (m_order_event_handler_ptr) {
+    m_order_event_handler_ptr->on_order_cancelled(order);
+  }
+}
+
+void OrderBook::on_cancel_stop(const OrderPtr &order) {}
+
+void OrderBook::on_cancel_reject(const OrderPtr &order, const char *reason) {
+  if (m_order_event_handler_ptr) {
+    m_order_event_handler_ptr->on_order_cancel_reject(order, reason);
+  }
+}
+
+void OrderBook::on_trade(const OrderBook *book, Quantity quantity,
+                         Price price) {
+  if (m_trade_event_handler_ptr) {
+    m_trade_event_handler_ptr->on_trade(book, quantity, price);
+  }
+}
+
+void OrderBook::on_order_book_change() {}
