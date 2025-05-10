@@ -74,3 +74,7 @@ void OrderEventHandler::on_order_cancel_reject(const OrderPtr &order,
                                                const char *reason) {
   order->on_cancel_rejected(reason);
 }
+
+void OrderEventHandler::on_stop_order_triggered(const OrderPtr &order) {
+  order->on_trigger_stop();
+}

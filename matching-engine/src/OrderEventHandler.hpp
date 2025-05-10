@@ -21,6 +21,8 @@ public:
 
   void on_order_cancel_reject(const OrderPtr &order, const char *reason);
 
+  void on_stop_order_triggered(const OrderPtr &order);
+
 private:
   ExecutionReportPublisherPtr m_execution_report_publisher;
 };
