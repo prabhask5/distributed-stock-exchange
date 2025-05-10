@@ -71,6 +71,8 @@ public:
 
   bool is_filled() const;
 
+  bool is_stop() const;
+
   // Callback functions for order execution lifecycle.
 
   void on_accepted();
@@ -82,6 +84,8 @@ public:
   void on_cancelled();
 
   void on_cancel_rejected(const char *reason);
+
+  void on_trigger_stop();
 
   // Populate execution report for the order currently being executed to pass to
   // the user via the FIX gateway.

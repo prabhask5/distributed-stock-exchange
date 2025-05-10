@@ -69,6 +69,10 @@ Cost Order::get_fill_cost() const { return m_fill_cost; }
 
 bool Order::is_filled() const { return m_quantity_filled == m_quantity; }
 
+bool Order::is_stop() const {
+  return (m_order_conditions & OrderCondition::STOP) != 0;
+}
+
 void Order::on_accepted() { m_quantity_in_market = m_quantity; }
 
 void Order::on_rejected(const char *reason) {}
@@ -104,6 +108,8 @@ void Order::on_cancel_rejected(const char *reason) {
     LOG4CXX_ERROR(logger, "OrderCancelReject write returned :" << ret);
   }
 }
+
+void Order::on_trigger_stop() { m_order_conditions = OrderCondition::NONE; }
 
 void Order::populate_execution_report(
     DistributedStockExchange_ExecutionReport::ExecutionReport &execution_report,
