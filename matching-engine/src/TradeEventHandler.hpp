@@ -9,7 +9,10 @@ class OrderBook; // From OrderBook.hpp.
 // state changes for a trade within the order book.
 class TradeEventHandler {
 public:
-  void on_trade(const OrderBook *order_book,
-                const OrderBookStockStatsMapPtr &order_book_stats_map_ptr,
-                Quantity quantity, Cost cost);
+  TradeEventHandler(const OrderBookStockStatsMapPtr &order_book_stats_map_ptr);
+
+  void on_trade(const OrderBook *order_book, Quantity quantity, Cost cost);
+
+private:
+  OrderBookStockStatsMapPtr m_order_book_stats_map_ptr;
 };
