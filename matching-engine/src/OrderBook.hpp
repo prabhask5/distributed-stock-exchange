@@ -10,6 +10,7 @@
 // Every matching engine will have multiple order books.
 // Each order book stores the current market price and the orders that are
 // currently being executed.
+// This class is always executed on one thread.
 class OrderBook {
 public:
   // The symbol is just the stock ticker symbol.

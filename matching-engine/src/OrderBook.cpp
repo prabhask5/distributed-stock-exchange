@@ -196,8 +196,10 @@ bool OrderBook::match_regular_order(const OrderPtr &inbound_order,
         // NOTE: Here are are assuming that the traded quantity MUST be ==
         // current order quantity AND that create_trade handles updating order
         // states.
-        matched = true;
-        other_side_order_map.erase(entry);
+        if (traded_quantity > 0) {
+          matched = true;
+          other_side_order_map.erase(entry);
+        }
       } else {
         // Case 1b: We cannot completely fill the current AON order, so we add
         // it to the deferred AON list and move on.
@@ -211,9 +213,11 @@ bool OrderBook::match_regular_order(const OrderPtr &inbound_order,
       // states.
       Quantity traded_quantity = create_trade(inbound_order, current_order);
 
-      matched = true;
-      if (current_order->is_filled())
-        other_side_order_map.erase(entry);
+      if (traded_quantity > 0) {
+        matched = true;
+        if (current_order->is_filled())
+          other_side_order_map.erase(entry);
+      }
     }
   }
 
@@ -230,17 +234,13 @@ bool OrderBook::match_aon_order(const OrderPtr &inbound_order,
   //   if current is AON:.
   //      if inbound satisfies AON AND making trades between inbound, current,
   //      and some deferred matches statisfies inbound: try to trade.
-  //
   //      else if inbound satisfies AON: add AON to deferred, add to total
   //      deferred quantity.
-  //
   //      else: add AON to deferred.
   //   if current is reg:.
   //      if making trades between inbound, current, and some deferred matches
   //      statisfies inbound: try to trade.
-  //
   //      else: add current to deferred, add to total deferred quantity.
-  //
   // loop.
 
   bool matched = false;
@@ -287,8 +287,10 @@ bool OrderBook::match_aon_order(const OrderPtr &inbound_order,
           // updating order states.
           Quantity traded_quantity = create_trade(inbound_order, current_order);
 
-          matched = true;
-          other_side_order_map.erase(entry);
+          if (traded_quantity > 0) {
+            matched = true;
+            other_side_order_map.erase(entry);
+          }
         }
       } else if (current_quantity_in_market <= inbound_quantity_in_market) {
         // Case 1b: We can only completely fill the current AON order with the
@@ -330,9 +332,11 @@ bool OrderBook::match_aon_order(const OrderPtr &inbound_order,
           // updating order states.
           Quantity traded_quantity = create_trade(inbound_order, current_order);
 
-          matched = true;
-          if (current_order->is_filled())
-            other_side_order_map.erase(entry);
+          if (traded_quantity > 0) {
+            matched = true;
+            if (current_order->is_filled())
+              other_side_order_map.erase(entry);
+          }
         }
       } else {
         // Case 2b: We don't have enough to satisfy the inbound AON order yet,
@@ -386,7 +390,7 @@ Quantity OrderBook::try_create_deferred_trades(
     order_found_quantity[ofq_index++] = quantity_used;
   }
 
-  Quantity quantity_traded = 0;
+  Quantity traded_quantity = 0;
   ofq_index = 0;
 
   // Check whether the total_found_quantity exists within the max and min
@@ -396,21 +400,21 @@ Quantity OrderBook::try_create_deferred_trades(
     // We now know for sure this works, so let's execute those trades.
     // Pass two.
     for (auto entry : deferred_matches) {
-      if (quantity_traded >= total_found_quantity)
+      if (traded_quantity >= total_found_quantity)
         break;
 
       const OrderPtr &current_order = entry->second;
 
       // NOTE: Here are are assuming that create_trade handles updating order
       // states.
-      quantity_traded += create_trade(inbound_order, current_order,
+      traded_quantity += create_trade(inbound_order, current_order,
                                       order_found_quantity[ofq_index++]);
       if (current_order->is_filled())
         current_orders.erase(entry);
     }
   }
 
-  return quantity_traded;
+  return traded_quantity;
 }
 
 bool OrderBook::check_deferred_aon_orders(DeferredMatchList &aon_orders,
@@ -452,19 +456,21 @@ Quantity OrderBook::create_trade(const OrderPtr &inbound_order,
 
   // In the case that BOTH orders are market orders, we just take the price of
   // the stock currently.
-  // TODO NOTE: We're assuming that the price of the stock is never 0 (since
-  // it's never 0 in real life, and it makes the logic simpler).
   if (cross_price == MARKET_ORDER_PRICE)
     cross_price = m_market_price;
 
-  // TODO NOTE: We're assuming that this is never 0 (bc why would we call this
-  // function if so?).
+  // If it's still zero, it's over just abort.
+  if (cross_price == MARKET_ORDER_PRICE)
+    return 0;
+
   Quantity quantity_filled =
       std::min(max_quantity, std::min(inbound_order->get_quantity_in_market(),
                                       other_order->get_quantity_in_market()));
 
-  set_market_price(cross_price);
-  on_fill(inbound_order, other_order, quantity_filled, cross_price);
+  if (quantity_filled > 0) {
+    set_market_price(cross_price);
+    on_fill(inbound_order, other_order, quantity_filled, cross_price);
+  }
 
   return quantity_filled;
 }
