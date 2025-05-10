@@ -1,4 +1,5 @@
 #pragma once
+#define NOMINMAX
 
 #include "OrderBook.hpp"
 #include "OrderBookStockStatisticsTypes.hpp"

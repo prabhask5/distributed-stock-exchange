@@ -13,7 +13,7 @@
 class OrderBook {
 public:
   // The symbol is just the stock ticker symbol.
-  OrderBook(const std::string &symbol = "unknown");
+  OrderBook(const std::string &symbol = "unknown", Price initial_market_price);
 
   // Getter const functions.
 
@@ -58,19 +58,21 @@ protected:
 
   // Returns true if the inbound order is filled within the execution of this
   // function.
-  bool match_order(const OrderPtr &inbound_order, OrderMap &current_orders,
-                   DeferredMatchList &deferred_aons);
+  bool match_order(const OrderPtr &inbound_order,
+                   OrderMap &other_side_order_map,
+                   DeferredMatchList &deferred_aon_orders);
 
   // Returns true if the inbound order is filled within the execution of this
   // function.
   bool match_regular_order(const OrderPtr &inbound_order,
-                           OrderMap &current_orders,
-                           DeferredMatchList &deferred_aons);
+                           OrderMap &other_side_order_map,
+                           DeferredMatchList &deferred_aon_orders);
 
   // Returns true if the inbound order is filled within the execution of this
   // function.
-  bool match_aon_order(const OrderPtr &inbound_order, OrderMap &current_orders,
-                       DeferredMatchList &deferred_aons);
+  bool match_aon_order(const OrderPtr &inbound_order,
+                       OrderMap &other_side_order_map,
+                       DeferredMatchList &deferred_aon_orders);
 
   // This helper function tries to create matches with the inbound order with
   // any of the deferred orders. We have a ceiling and floor on this to both not
@@ -86,7 +88,7 @@ protected:
   // orders. This function returns true if there are any orders that were
   // matched.
   bool check_deferred_aon_orders(DeferredMatchList &aon_orders,
-                                 OrderMap &same_side_order_map,
+                                 OrderMap &deferred_order_map,
                                  OrderMap &other_side_order_map);
 
   // This helper function creates a trade between two orders, limited by the max
@@ -97,7 +99,7 @@ protected:
 
   // This function finds an order in the order map and returns the result in the
   // result pointer. This function returns true if the order is found.
-  bool find_on_market(const OrderPtr &order,
+  bool find_in_market(const OrderPtr &order,
                       typename OrderMap::iterator &result);
 
   // This function finds an order in the stop order map and returns the result
@@ -113,9 +115,10 @@ protected:
   void check_stop_orders(bool is_buy, Price price, OrderMap &stop_order_map);
 
   /// Accept pending (formerly stop) orders and submit them to the market.
-  void submit_pending_orders();
+  void add_pending_orders();
 
-  // Virtual functions for DepthOrderBook.hpp to implement.
+  // Virtual functions for DepthOrderBook.hpp to implement additional
+  // functionality onto.
 
   virtual void on_accept(const OrderPtr &order);
 
