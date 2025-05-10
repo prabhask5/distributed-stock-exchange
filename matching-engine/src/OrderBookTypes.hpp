@@ -4,8 +4,7 @@
 #include <list>
 #include <map>
 
-class OrderPrice;    // From OrderPrice.hpp.
-class OrderCallback; // From OrderCallback.hpp.
+class OrderPrice; // From OrderPrice.hpp.
 
 // The reason we use a multimap instead of a priority queue to manage orders
 // within the order book is because the multimap allows us the ability to both
@@ -18,10 +17,9 @@ class OrderCallback; // From OrderCallback.hpp.
 // (orders that cannot be matched currently, but later), since we need to find
 // the order from the map using the information from the list, this is not
 // possible with the priority queue.
-using OrderMap = std::multimap<OrderPrice, ImmutableOrderPtr>;
+using OrderMap = std::multimap<OrderPrice, OrderPtr>;
 
-using OrderVec = std::vector<ImmutableOrderPtr>;
-using OrderCallbackVec = std::vector<OrderCallback>;
+using OrderVec = std::vector<OrderPtr>;
 
 // This list keeps track of the orders that we skipped during this match run for
 // any reason.

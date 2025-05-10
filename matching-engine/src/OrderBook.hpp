@@ -50,15 +50,6 @@ public:
   void cancel(const OrderPtr &order);
 
 protected:
-  // This is an internal method to process the pending callbacks all at once,
-  // and repeat that logic until the callbacks list is empty. We use
-  // m_callbacks_running to guarantee this function is not called recursively.
-  void callback_now();
-
-  // This is an internal method to execute the logic of one callback of any
-  // type.
-  void execute_callback(const OrderCallback &callback);
-
   // This helper method actually adds the order to the order book by first
   // trying to match it with other orders, then adding it to the order map if
   // its not an immediate or cancel order. Returns true if the inbound order is
@@ -164,9 +155,4 @@ private:
   OrderMap m_buy_stop_orders;
   OrderMap m_sell_stop_orders;
   OrderVec m_pending_orders;
-
-  // OrderCallback state management.
-  OrderCallbackVec m_callbacks;
-  OrderCallbackVec m_working_callbacks;
-  bool m_callbacks_running;
 };

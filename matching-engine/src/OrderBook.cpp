@@ -1,7 +1,6 @@
 #include "OrderBook.hpp"
 #include "Order.hpp"
 #include "OrderBookConstants.hpp"
-#include "OrderCallback.hpp"
 #include "OrderEventHandler.hpp"
 #include "OrderPrice.hpp"
 #include "TradeEventHandler.hpp"
@@ -9,12 +8,8 @@
 #include <string>
 
 OrderBook::OrderBook(const std::string &symbol)
-    : m_symbol(symbol), m_callbacks_running(false),
-      m_order_event_handler_ptr(nullptr), m_trade_event_handler_ptr(nullptr),
-      m_market_price(MARKET_ORDER_PRICE) {
-  m_callbacks.reserve(CALLBACK_VEC_STARTING_SIZE);
-  m_working_callbacks.reserve(CALLBACK_VEC_STARTING_SIZE);
-}
+    : m_symbol(symbol), m_order_event_handler_ptr(nullptr),
+      m_trade_event_handler_ptr(nullptr), m_market_price(MARKET_ORDER_PRICE) {}
 
 const std::string &OrderBook::get_symbol() const { return m_symbol; }
 
@@ -53,32 +48,21 @@ bool OrderBook::add(const OrderPtr &order) {
 
   // If the order is invalid, we reject.
   if (order->get_quantity() == 0) {
-    m_callbacks.push_back(
-        OrderCallback::reject(order, "quantity must be positive"));
   } else {
     // If the order is presented as a stop order and we're allowed to add it to
     // the market, we do so.
     if (order->get_stop_price() != 0 && add_stop_order(order)) {
-      m_callbacks.push_back(OrderCallback::accept_stop(order));
+
     } else {
       // TODO: finish
     }
   }
 
-  callback_now();
   return matched;
 }
 
 void OrderBook::cancel(const OrderPtr &order) {
   // TODO: Cancel an order
-}
-
-void OrderBook::callback_now() {
-  // TODO: Execute pending callbacks
-}
-
-void OrderBook::execute_callback(const OrderCallback &callback) {
-  // TODO: Handle one callback
 }
 
 bool OrderBook::add_order(const OrderPtr &order) { return false; }
