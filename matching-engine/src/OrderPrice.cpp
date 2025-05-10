@@ -15,9 +15,8 @@ bool OrderPrice::is_market_order() const {
   return m_price == MARKET_ORDER_PRICE;
 }
 
-bool OrderPrice::matches(const OrderPrice &other) const {
+bool OrderPrice::matches(Price other_price) const {
   Price my_price = m_price;
-  Price other_price = other.get_price();
 
   if (my_price == other_price) {
     return true;
@@ -29,9 +28,12 @@ bool OrderPrice::matches(const OrderPrice &other) const {
   return my_price < other_price || other_price == MARKET_ORDER_PRICE;
 }
 
-bool OrderPrice::operator<(const OrderPrice &other) const {
+bool OrderPrice::matches(const OrderPrice &other) const {
+  return this->matches(other.get_price());
+}
+
+bool OrderPrice::operator<(Price other_price) const {
   Price my_price = m_price;
-  Price other_price = other.get_price();
 
   if (my_price == MARKET_ORDER_PRICE && other_price != MARKET_ORDER_PRICE) {
     return true;
@@ -47,23 +49,32 @@ bool OrderPrice::operator<(const OrderPrice &other) const {
   }
 }
 
-bool OrderPrice::operator==(const OrderPrice &other) const {
+bool OrderPrice::operator<(const OrderPrice &other) const {
+  return *this < other.get_price();
+}
+
+bool OrderPrice::operator==(Price other_price) const {
   Price my_price = m_price;
-  Price other_price = other.get_price();
 
   return my_price == other_price;
 }
 
-bool OrderPrice::operator!=(const OrderPrice &other) const {
+bool OrderPrice::operator==(const OrderPrice &other) const {
+  return *this == other.get_price();
+}
+
+bool OrderPrice::operator!=(Price other_price) const {
   Price my_price = m_price;
-  Price other_price = other.get_price();
 
   return my_price != other_price;
 }
 
-bool OrderPrice::operator>(const OrderPrice &other) const {
+bool OrderPrice::operator!=(const OrderPrice &other) const {
+  return *this == other.get_price();
+}
+
+bool OrderPrice::operator>(Price other_price) const {
   Price my_price = m_price;
-  Price other_price = other.get_price();
 
   if (my_price != MARKET_ORDER_PRICE && other_price == MARKET_ORDER_PRICE) {
     return true;
@@ -78,6 +89,30 @@ bool OrderPrice::operator>(const OrderPrice &other) const {
     return my_price < other_price; // Selling: lowest prices first.
   }
 }
+
+bool OrderPrice::operator>(const OrderPrice &other) const {
+  return *this > other.get_price();
+}
+
+bool OrderPrice::operator<=(Price other_price) const {
+  return *this < other_price || *this == other_price;
+}
+
+bool OrderPrice::operator>=(Price other_price) const {
+  return *this > other_price || *this == other_price;
+}
+
+bool operator<(Price price, const OrderPrice &key) { return key > price; }
+
+bool operator>(Price price, const OrderPrice &key) { return key < price; }
+
+bool operator==(Price price, const OrderPrice &key) { return key == price; }
+
+bool operator!=(Price price, const OrderPrice &key) { return key != price; }
+
+bool operator<=(Price price, const OrderPrice &key) { return key >= price; }
+
+bool operator>=(Price price, const OrderPrice &key) { return key <= price; }
 
 std::ostream &operator<<(std::ostream &out, const OrderPrice &key) {
   out << (key.is_buy() ? "Buy at " : "Sell at ");
