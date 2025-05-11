@@ -52,7 +52,7 @@ void DepthEventHandler::on_depth_change(
   size_t md_entry_index = 0;
 
   for (auto &level : depth_order_book->get_levels()) {
-    md_entry.MDEntrySize(level.get_aggregate_quantity());
+    md_entry.MDEntrySize(level.get_total_quantity());
 
     if (md_entry.MDEntrySize() == 0) {
       md_entry.MDEntryPx(0);
