@@ -9,7 +9,7 @@
 #include <map>
 #include <string>
 
-OrderBook::OrderBook(const std::string &symbol, Price initial_market_price)
+OrderBook::OrderBook(Price initial_market_price, const std::string &symbol)
     : m_symbol(symbol), m_order_event_handler_ptr(nullptr),
       m_trade_event_handler_ptr(nullptr), m_market_price(initial_market_price) {
 }

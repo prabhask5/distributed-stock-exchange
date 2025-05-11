@@ -14,7 +14,7 @@
 class OrderBook {
 public:
   // The symbol is just the stock ticker symbol.
-  OrderBook(const std::string &symbol = "unknown", Price initial_market_price);
+  OrderBook(Price initial_market_price, const std::string &symbol = "unknown");
 
   // Getter const functions.
 
