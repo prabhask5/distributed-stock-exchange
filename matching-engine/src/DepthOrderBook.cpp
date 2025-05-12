@@ -6,7 +6,7 @@
 #include "OrderBook.hpp"
 
 DepthOrderBook::DepthOrderBook(Price initial_market_price,
-                               const std::string &symbol = "unknown")
+                               const std::string &symbol)
     : OrderBook(initial_market_price, symbol), m_last_change(0),
       m_last_published_change(0), m_ignore_buy_fill_quantity(0),
       m_ignore_sell_fill_quantity(0) {}

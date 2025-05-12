@@ -1,5 +1,6 @@
 #pragma once
 
+#include "OrderConstants.hpp"
 #include "OrderTypes.hpp"
 
 // These are constants used with the depth order book logic.

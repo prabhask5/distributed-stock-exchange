@@ -56,7 +56,7 @@ void DepthLevel::decrease_quantity(Quantity delta) {
 }
 
 void DepthLevel::set(Price price, Quantity quantity, uint32_t order_count,
-                     ChangeId last_change = 0) {
+                     ChangeId last_change) {
   m_price = price;
   m_total_quantity = quantity;
   m_order_count = order_count;
