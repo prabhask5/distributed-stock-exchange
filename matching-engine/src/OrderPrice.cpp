@@ -22,10 +22,10 @@ bool OrderPrice::matches(Price other_price) const {
     return true;
   }
   if (m_is_buy) {
-    return other_price < my_price || my_price == MARKET_ORDER_PRICE;
+    return (other_price < my_price) || (my_price == MARKET_ORDER_PRICE);
   }
 
-  return my_price < other_price || other_price == MARKET_ORDER_PRICE;
+  return (my_price < other_price) || (other_price == MARKET_ORDER_PRICE);
 }
 
 bool OrderPrice::matches(const OrderPrice &other) const {
@@ -35,10 +35,10 @@ bool OrderPrice::matches(const OrderPrice &other) const {
 bool OrderPrice::operator<(Price other_price) const {
   Price my_price = m_price;
 
-  if (my_price == MARKET_ORDER_PRICE && other_price != MARKET_ORDER_PRICE) {
+  if ((my_price == MARKET_ORDER_PRICE) && (other_price != MARKET_ORDER_PRICE)) {
     return true;
   }
-  if (my_price != MARKET_ORDER_PRICE && other_price == MARKET_ORDER_PRICE) {
+  if ((my_price != MARKET_ORDER_PRICE) && (other_price == MARKET_ORDER_PRICE)) {
     return false;
   }
 
@@ -76,10 +76,10 @@ bool OrderPrice::operator!=(const OrderPrice &other) const {
 bool OrderPrice::operator>(Price other_price) const {
   Price my_price = m_price;
 
-  if (my_price != MARKET_ORDER_PRICE && other_price == MARKET_ORDER_PRICE) {
+  if ((my_price != MARKET_ORDER_PRICE) && (other_price == MARKET_ORDER_PRICE)) {
     return true;
   }
-  if (my_price == MARKET_ORDER_PRICE && other_price != MARKET_ORDER_PRICE) {
+  if ((my_price == MARKET_ORDER_PRICE) && (other_price != MARKET_ORDER_PRICE)) {
     return false;
   }
 
@@ -95,11 +95,11 @@ bool OrderPrice::operator>(const OrderPrice &other) const {
 }
 
 bool OrderPrice::operator<=(Price other_price) const {
-  return *this < other_price || *this == other_price;
+  return (*this < other_price) || (*this == other_price);
 }
 
 bool OrderPrice::operator>=(Price other_price) const {
-  return *this > other_price || *this == other_price;
+  return (*this > other_price) || (*this == other_price);
 }
 
 bool operator<(Price price, const OrderPrice &key) { return key > price; }

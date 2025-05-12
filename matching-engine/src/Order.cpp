@@ -71,7 +71,7 @@ bool Order::is_filled() const { return m_quantity_filled == m_quantity; }
 
 bool Order::is_stop() const {
   return ((m_order_conditions & OrderCondition::STOP) != 0) &&
-         m_stop_order_price.get_price() > 0;
+         (m_stop_order_price.get_price() > 0);
 }
 
 void Order::on_accepted() { m_quantity_in_market = m_quantity; }

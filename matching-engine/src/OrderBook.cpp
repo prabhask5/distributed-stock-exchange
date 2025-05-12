@@ -40,12 +40,12 @@ void OrderBook::set_market_price(Price market_price) {
   // ONE side of stop orders can be activated at one time. Since both have the
   // same condition in one case, there is a change this is not true if both are
   // "if".
-  if (m_market_price > old_market_price ||
-      old_market_price == MARKET_ORDER_PRICE) {
+  if ((m_market_price > old_market_price) ||
+      (old_market_price == MARKET_ORDER_PRICE)) {
     // The price has gone up: check if any stop buy orders activated.
     check_stop_orders(true, m_market_price, m_buy_stop_orders);
-  } else if (m_market_price < old_market_price ||
-             old_market_price == MARKET_ORDER_PRICE) {
+  } else if ((m_market_price < old_market_price) ||
+             (old_market_price == MARKET_ORDER_PRICE)) {
     // The price has gone down: check if any stop sell orders activated.
     check_stop_orders(false, m_market_price, m_sell_stop_orders);
   }
@@ -72,14 +72,14 @@ bool OrderBook::add(const OrderPtr &order) {
 
   // If the order is presented as a stop order and we're allowed to add it to
   // the market, we do so.
-  if (order->get_stop_price() != 0 && add_stop_order(order)) {
+  if ((order->get_stop_price() != 0) && add_stop_order(order)) {
     on_accept_stop(order);
   } else {
     on_accept(order);
     matched = add_order(order);
 
     // Cancel any immediate or cancel order if it is not completely filled.
-    if (order->is_immediate_or_cancel() && !order->is_filled()) {
+    if (order->is_immediate_or_cancel() && (!order->is_filled())) {
       on_cancel(order);
     }
   }
@@ -136,7 +136,7 @@ bool OrderBook::add_order(const OrderPtr &order) {
   // If the order is not completely filled after initial matching and is NOT an
   // immediate or cancel order, we can insert into the relevant order map and
   // rerun matching for deferred all or nothing orders.
-  if (!order->is_filled() && !order->is_immediate_or_cancel()) {
+  if ((!order->is_filled()) && (!order->is_immediate_or_cancel())) {
     same_side_order_map.emplace(order->get_order_price(), order);
 
     // See if adding this order satisfies deferred AON orders from the OTHER
@@ -174,7 +174,8 @@ bool OrderBook::match_regular_order(const OrderPtr &inbound_order,
   bool matched = false;
   auto iter = other_side_order_map.begin();
 
-  while (iter != other_side_order_map.end() && !inbound_order->is_filled()) {
+  while ((iter != other_side_order_map.end()) &&
+         (!inbound_order->is_filled())) {
     auto entry = iter++;
 
     const OrderPrice &current_order_price = entry->first;
@@ -249,7 +250,8 @@ bool OrderBook::match_aon_order(const OrderPtr &inbound_order,
   DeferredMatchList deferred_matched_orders;
   Quantity inbound_quantity_in_market = inbound_order->get_quantity_in_market();
 
-  while (iter != other_side_order_map.end() && !inbound_order->is_filled()) {
+  while ((iter != other_side_order_map.end()) &&
+         (!inbound_order->is_filled())) {
     auto entry = iter++;
 
     const OrderPrice &current_order_price = entry->first;
@@ -267,9 +269,9 @@ bool OrderBook::match_aon_order(const OrderPtr &inbound_order,
       // Case 1a: We can completely fill the current AON order with the inbound
       // AON order AND making trades between inbound, current, and some deferred
       // matches statisfies inbound AON order -> try to trade!
-      if (current_quantity_in_market <= inbound_quantity_in_market &&
-          inbound_quantity_in_market <=
-              current_quantity_in_market + quantity_deferred) {
+      if ((current_quantity_in_market <= inbound_quantity_in_market) &&
+          (inbound_quantity_in_market <=
+           (current_quantity_in_market + quantity_deferred))) {
         // Try to make deferred trades (if any) before making the treade with
         // the current AON order. We need the exact quantity needed to fill the
         // inbound AON order to actually make the trade with the current AON
@@ -395,8 +397,8 @@ Quantity OrderBook::try_create_deferred_trades(
 
   // Check whether the total_found_quantity exists within the max and min
   // quantity range; we can only execute the trades if so.
-  if (total_found_quantity >= min_quantity &&
-      total_found_quantity <= max_quantity) {
+  if ((total_found_quantity >= min_quantity) &&
+      (total_found_quantity <= max_quantity)) {
     // We now know for sure this works, so let's execute those trades.
     // Pass two.
     for (auto entry : deferred_matches) {
