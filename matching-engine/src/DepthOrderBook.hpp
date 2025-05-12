@@ -81,26 +81,28 @@ protected:
   // Virtual functions for DepthOrderBook.hpp to implement additional
   // functionality onto.
 
-  virtual void on_accept(const OrderPtr &order);
+  virtual void on_accept(const OrderPtr &order) override;
 
-  virtual void on_accept_stop(const OrderPtr &order);
+  virtual void on_accept_stop(const OrderPtr &order) override;
 
-  virtual void on_trigger_stop(const OrderPtr &order);
+  virtual void on_trigger_stop(const OrderPtr &order) override;
 
-  virtual void on_reject(const OrderPtr &order, const char *reason);
+  virtual void on_reject(const OrderPtr &order, const char *reason) override;
 
   virtual void on_fill(const OrderPtr &order, const OrderPtr &matched_order,
-                       Quantity quantity_filled, Price fill_price);
+                       Quantity quantity_filled, Price fill_price) override;
 
-  virtual void on_cancel(const OrderPtr &order);
+  virtual void on_cancel(const OrderPtr &order) override;
 
-  virtual void on_cancel_stop(const OrderPtr &order);
+  virtual void on_cancel_stop(const OrderPtr &order) override;
 
-  virtual void on_cancel_reject(const OrderPtr &order, const char *reason);
+  virtual void on_cancel_reject(const OrderPtr &order,
+                                const char *reason) override;
 
-  virtual void on_trade(const OrderBook *book, Quantity quantity, Price price);
+  virtual void on_trade(const OrderBook *book, Quantity quantity,
+                        Price price) override;
 
-  virtual void on_order_book_change();
+  virtual void on_order_book_change() override;
 
 private:
   // Action functions.
