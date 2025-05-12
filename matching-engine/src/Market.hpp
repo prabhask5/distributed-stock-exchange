@@ -43,15 +43,9 @@ public:
 
   const DataWriterContainerPtr &get_data_writer_container_ptr() const;
 
-  const OrderEventHandlerPtr &get_order_event_handler_ptr() const;
-
-  const TradeEventHandlerPtr &get_trade_event_handler_ptr() const;
-
-  const DepthEventHandlerPtr &get_depth_event_handler_ptr() const;
-
   const ExecutionReportPublisherPtr &get_execution_report_publisher_ptr() const;
 
-  OrderBookPtr &find_book(const std::string &symbol) const;
+  OrderBookPtr find_book(const std::string &symbol) const;
 
   bool is_ready_to_trade() const;
 
@@ -63,22 +57,16 @@ public:
 
   DataWriterContainerPtr &get_data_writer_container_ptr();
 
-  OrderEventHandlerPtr &get_order_event_handler_ptr();
-
-  TradeEventHandlerPtr &get_trade_event_handler_ptr();
-
-  DepthEventHandlerPtr &get_depth_event_handler_ptr();
-
   ExecutionReportPublisherPtr &get_execution_report_publisher_ptr();
 
   // Action functions.
 
-  void submit(const OrderBookPtr &order_book, const OrderPtr &order);
+  void submit_order(const OrderBookPtr &order_book, const OrderPtr &order);
 
-  void cancel(const OrderBookPtr &order_book, const std::string &sender_id,
-              const std::string &order_id);
+  void cancel_order(const OrderBookPtr &order_book,
+                    const std::string &sender_id, const std::string &order_id);
 
-  void mass_cancel(const std::string &sender_id);
+  void mass_cancel_orders(const std::string &sender_id);
 
   void cancel_all_orders();
 

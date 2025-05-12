@@ -10,3 +10,6 @@ using DepthLevelsSection = std::array<DepthLevel, MARKET_DATA_PRICE_DEPTH>;
 
 using BuyLevelMap = std::map<Price, DepthLevel, std::greater<Price>>;
 using SellLevelMap = std::map<Price, DepthLevel, std::less<Price>>;
+
+class DepthOrderBook; // From DepthOrderBook.hpp.
+using DepthOrderBookPtr = std::shared_ptr<DepthOrderBook>;

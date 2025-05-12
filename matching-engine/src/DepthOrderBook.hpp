@@ -74,6 +74,9 @@ public:
   // Gets the last sell level, returned value is mutable.
   DepthLevel &get_last_sell_depth_level();
 
+  // Setter functions.
+  void set_depth_event_handler_ptr(const DepthEventHandlerPtr &handler_ptr);
+
 protected:
   // Virtual functions for DepthOrderBook.hpp to implement additional
   // functionality onto.

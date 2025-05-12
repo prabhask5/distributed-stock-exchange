@@ -165,6 +165,11 @@ DepthLevel &DepthOrderBook::get_last_sell_depth_level() {
   return m_levels[2 * MARKET_DATA_PRICE_DEPTH - 1];
 }
 
+void DepthOrderBook::set_depth_event_handler_ptr(
+    const DepthEventHandlerPtr &handler_ptr) {
+  m_depth_event_handler_ptr = handler_ptr;
+}
+
 void DepthOrderBook::depth_add_order(Price price, Quantity quantity,
                                      bool is_buy) {
   // We store a copy here to make sure this level's last change is only
