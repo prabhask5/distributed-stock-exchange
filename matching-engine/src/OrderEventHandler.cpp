@@ -5,8 +5,8 @@
 #include <quickfix/Message.h>
 
 OrderEventHandler::OrderEventHandler(
-    ExecutionReportPublisherPtr execution_report_publisher)
-    : m_execution_report_publisher(std::move(execution_report_publisher)) {}
+    const ExecutionReportPublisherPtr &execution_report_publisher)
+    : m_execution_report_publisher(execution_report_publisher) {}
 
 void OrderEventHandler::on_order_accept(const OrderPtr &order) {
   order->on_accepted();
