@@ -15,8 +15,8 @@
 class DepthOrderBook : public OrderBook {
 public:
   // The symbol is just the stock ticker symbol.
-  DepthOrderBook(Price initial_market_price,
-                 const std::string &symbol = "unknown");
+  DepthOrderBook(const std::string &symbol = "unknown",
+                 Price initial_market_price = 0);
 
   // Getter const functions.
 
