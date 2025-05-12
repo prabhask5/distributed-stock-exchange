@@ -24,3 +24,6 @@ using OrderVec = std::vector<OrderPtr>;
 // This list keeps track of the orders that we skipped during this match run for
 // any reason.
 using DeferredMatchList = std::list<typename OrderMap::iterator>;
+
+class OrderBook; // From OrderBook.hpp.
+using OrderBookPtr = std::shared_ptr<OrderBook>;

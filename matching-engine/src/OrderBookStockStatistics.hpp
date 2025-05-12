@@ -24,9 +24,9 @@ struct OrderBookStockStatistics {
 
 inline void
 update_symbol_stats(const OrderBookStockStatsMapPtr &order_book_stats_map_ptr,
-                    const OrderBook *order_book, Quantity quantity,
+                    const OrderBook &order_book, Quantity quantity,
                     Price price) {
-  auto symbol_stats = order_book_stats_map_ptr->find(order_book->get_symbol());
+  auto symbol_stats = order_book_stats_map_ptr->find(order_book.get_symbol());
 
   if (symbol_stats == order_book_stats_map_ptr->end()) {
     OrderBookStockStatisticsPtr stats_ptr =
@@ -35,7 +35,7 @@ update_symbol_stats(const OrderBookStockStatsMapPtr &order_book_stats_map_ptr,
     stats_ptr->volume = quantity;
     stats_ptr->open = stats_ptr->low = stats_ptr->high = price;
 
-    order_book_stats_map_ptr->emplace(order_book->get_symbol(), stats_ptr);
+    order_book_stats_map_ptr->emplace(order_book.get_symbol(), stats_ptr);
   } else {
     symbol_stats->second->volume += quantity;
 
