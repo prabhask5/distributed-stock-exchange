@@ -15,6 +15,7 @@ using DomainParticipant = eprosima::fastdds::dds::DomainParticipant;
 using Publisher = eprosima::fastdds::dds::Publisher;
 using Subscriber = eprosima::fastdds::dds::Subscriber;
 using DataReaderListener = eprosima::fastdds::dds::DataReaderListener;
+using DataWriterListener = eprosima::fastdds::dds::DataWriterListener;
 using DataReader = eprosima::fastdds::dds::DataReader;
 using DataWriter = eprosima::fastdds::dds::DataWriter;
 using ContentFilteredTopic = eprosima::fastdds::dds::ContentFilteredTopic;
