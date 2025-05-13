@@ -5,6 +5,7 @@
 #include "MarketDataUpdateTypes.hpp"
 #include "MarketTypes.hpp"
 #include "MatchingEngineDataWriterContainerTypes.hpp"
+#include "OrderBookStockStatisticsTypes.hpp"
 #include "OrderEventHandlerTypes.hpp"
 #include "TradeEventHandlerTypes.hpp"
 
@@ -35,6 +36,10 @@ public:
   // Getter const functions.
 
   std::string get_market_name() const;
+
+  std::string get_data_service_name() const;
+
+  const OrderBookMap &get_order_book_map() const;
 
   const OrderBookStockStatsMapPtr &get_order_book_stats_ptr() const;
 

@@ -28,6 +28,14 @@ Market::Market(
 
 std::string Market::get_market_name() const { return m_market_name; }
 
+std::string Market::get_data_service_name() const {
+  return m_data_service_name;
+}
+
+const OrderBookMap &Market::get_order_book_map() const {
+  return m_order_book_map;
+}
+
 const OrderBookStockStatsMapPtr &Market::get_order_book_stats_ptr() const {
   return m_order_book_stats_ptr;
 }
