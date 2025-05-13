@@ -6,7 +6,7 @@
 #include <fastdds/dds/publisher/DataWriterListener.hpp>
 
 class DefaultDomainParticipant {
-  class PubListener : public eprosima::fastdds::dds::DataWriterListener {
+  class PubListener : public DataWriterListener {
   public:
     PubListener() : m_matched(0), m_topic_description("Undefined") {};
     PubListener(const Topic *topic) : m_matched(0) {
@@ -21,7 +21,7 @@ class DefaultDomainParticipant {
     ~PubListener() override {}
 
     void on_publication_matched(
-        eprosima::fastdds::dds::DataWriter *,
+        DataWriter *,
         const eprosima::fastdds::dds::PublicationMatchedStatus &info) override {
       if (info.current_count_change == 1) {
         m_matched = info.total_count;
@@ -50,6 +50,7 @@ public:
                            const std::string &participant_name)
       : m_participant_name(participant_name) {
     eprosima::fastdds::dds::DomainParticipantQos participantQos;
+
     participantQos.name(m_participant_name);
     participantQos.setup_transports(
         eprosima::fastdds::rtps::BuiltinTransports::LARGE_DATA);
@@ -86,7 +87,7 @@ public:
   TopicTuplePtr<TOPIC_TYPE> make_topic(const std::string &topic_name) {
     std::unique_ptr<TOPIC_TYPE> topic_type_ptr = std::make_unique<TOPIC_TYPE>();
     std::unique_ptr<TypeSupport> type_support_ptr =
-        std::make_unique<TypeSupport>(std::make_unique<TOPIC_SUPPORT_TYPE>());
+        std::make_unique<TypeSupport>(new TOPIC_SUPPORT_TYPE);
 
     type_support_ptr->register_type(m_participant.get());
 
@@ -107,6 +108,7 @@ public:
       const std::vector<std::string> &expression_parameters,
       bool quote_all_expressions = true) {
     std::vector<std::string> final_expression_parameters;
+
     if (quote_all_expressions) {
       final_expression_parameters.reserve(expression_parameters.size());
       for (const auto &v : expression_parameters) {
@@ -118,12 +120,12 @@ public:
 
     auto filter_ptr = make_content_filtered_topic<TOPIC_TYPE>(
         filter_name, topic_tuple, filter, final_expression_parameters);
-
     if (filter_ptr == nullptr) {
       throw std::runtime_error("make_content_filtered_topic failed : " +
                                filter_name);
     }
-    DataReaderListenerPtr drl_ptr(data_reader_listener);
+
+    DataReaderListenerPtr drl_ptr = DataReaderListenerPtr(data_reader_listener);
     auto data_reader = make_datareader(filter_ptr, drl_ptr);
 
     return std::make_unique<DataReaderTuple<TOPIC_TYPE>>(
@@ -146,7 +148,7 @@ public:
     auto topic = std::get<0>(*topic_tuple).get();
     return DataWriterPtr(m_publisher->create_datawriter(
         topic, eprosima::fastdds::dds::DATAWRITER_QOS_DEFAULT,
-        std::make_unique<PubListener>(topic)));
+        new PubListener(topic)));
   }
 
   template <class TOPIC_TYPE>
@@ -159,10 +161,11 @@ public:
   }
 
   template <class TOPIC_TYPE>
-  ContentFilteredTopicPtr
-  make_content_filtered_topic(const std::string &filter_name,
-                              const TopicTuplePtr<TOPIC_TYPE> &topic_tuple,
-                              const std::string &filter_expression) {
+  ContentFilteredTopicPtr make_content_filtered_topic(
+      const std::string &filter_name,
+      const TopicTuplePtr<TOPIC_TYPE> &topic_tuple,
+      const std::string &filter_expression,
+      const std::vector<std::string> &expression_parameters) {
     auto *topic = std::get<0>(*topic_tuple).get();
     if (topic == nullptr) {
       throw std::runtime_error(
@@ -170,7 +173,7 @@ public:
     }
 
     return ContentFilteredTopicPtr(m_participant->create_contentfilteredtopic(
-        filter_name, topic, filter_expression, std::vector<std::string>()));
+        filter_name, topic, filter_expression, expression_parameters));
   }
 
   template <class TOPIC_TYPE>
