@@ -61,7 +61,7 @@ link_directories(${QUICKFIX_INSTALL_PREFIX}/lib)
 
 file(GLOB DISTRIBUTED_SE_MATCHING_ENGINE_SRC *)
 add_executable(MatchingEngine ${DISTRIBUTED_SE_MATCHING_ENGINE_SRC})
-link_directories(quickfix log4cxx boost_program_options fastdds fastcdr)
-target_link_libraries(MatchingEngine quickfix log4cxx boost_program_options fastdds fastcdr)
+link_directories(DistributedStockExchangeLib quickfix log4cxx boost_program_options fastdds fastcdr)
+target_link_libraries(MatchingEngine DistributedStockExchangeLib quickfix log4cxx boost_program_options fastdds fastcdr)
 
 install(TARGETS MatchingEngine PUBLIC_HEADER DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/dse)
