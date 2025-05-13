@@ -7,9 +7,9 @@
 // This class takes in initial market metadata, specifically a list of what
 // securities are in the market (which are the different stock tickers that are
 // in the market).
-class SecurityListRequestDataReaderListener : public DataReaderListener {
+class SecurityListDataReaderListener : public DataReaderListener {
 public:
-  SecurityListRequestDataReaderListener(const MarketPtr &market_ptr);
+  SecurityListDataReaderListener(const MarketPtr &market_ptr);
 
   void on_data_available(DataReader *reader) override;
 

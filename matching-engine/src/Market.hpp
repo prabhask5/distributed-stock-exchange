@@ -31,7 +31,8 @@ public:
          OrderEventHandlerPtr order_event_handler_ptr,
          TradeEventHandlerPtr trade_event_handler_ptr,
          DepthEventHandlerPtr depth_event_handler_ptr,
-         ExecutionReportPublisherPtr execution_report_publisher_ptr);
+         ExecutionReportPublisherPtr execution_report_publisher_ptr,
+         OrderBookStockStatsMapPtr order_book_stats_ptr);
 
   // Getter const functions.
 

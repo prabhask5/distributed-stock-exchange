@@ -17,14 +17,16 @@ Market::Market(
     OrderEventHandlerPtr order_event_handler_ptr,
     TradeEventHandlerPtr trade_event_handler_ptr,
     DepthEventHandlerPtr depth_event_handler_ptr,
-    ExecutionReportPublisherPtr execution_report_publisher_ptr)
+    ExecutionReportPublisherPtr execution_report_publisher_ptr,
+    OrderBookStockStatsMapPtr order_book_stats_ptr)
     : m_market_name(market_name), m_data_service_name(data_service_name),
       m_market_data_publisher_queue_ptr(market_data_publisher_queue_ptr),
       m_data_writer_container_ptr(data_writer_container_ptr),
       m_order_event_handler_ptr(order_event_handler_ptr),
       m_trade_event_handler_ptr(trade_event_handler_ptr),
       m_depth_event_handler_ptr(depth_event_handler_ptr),
-      m_execution_report_publisher_ptr(execution_report_publisher_ptr) {}
+      m_execution_report_publisher_ptr(execution_report_publisher_ptr),
+      m_order_book_stats_ptr(order_book_stats_ptr) {}
 
 std::string Market::get_market_name() const { return m_market_name; }
 

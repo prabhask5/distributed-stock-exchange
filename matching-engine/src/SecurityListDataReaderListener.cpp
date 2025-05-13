@@ -9,12 +9,11 @@
 #include <SecurityListLogger.hpp>
 #include <quickfix/FixValues.h>
 
-SecurityListRequestDataReaderListener::SecurityListRequestDataReaderListener(
+SecurityListDataReaderListener::SecurityListDataReaderListener(
     const MarketPtr &market_ptr)
     : m_market_ptr(market_ptr) {}
 
-void SecurityListRequestDataReaderListener::on_data_available(
-    DataReader *reader) {
+void SecurityListDataReaderListener::on_data_available(DataReader *reader) {
   DistributedStockExchange_SecurityList::SecurityList security_list;
   eprosima::fastdds::dds::SampleInfo info;
 
