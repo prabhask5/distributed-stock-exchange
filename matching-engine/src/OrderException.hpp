@@ -3,6 +3,7 @@
 #include <ExecutionReport.hpp>
 #include <NewOrderSingle.hpp>
 #include <OrderCancelReject.hpp>
+#include <OrderCancelRequest.hpp>
 #include <exception>
 #include <string>
 
@@ -14,6 +15,11 @@ public:
   OrderException(const DistributedStockExchange_NewOrderSingle::NewOrderSingle
                      &new_order_single,
                  const int reason);
+
+  OrderException(
+      const DistributedStockExchange_OrderCancelRequest::OrderCancelRequest
+          &order_cancel_request,
+      const int reason);
 
   const char *what() const noexcept override;
 

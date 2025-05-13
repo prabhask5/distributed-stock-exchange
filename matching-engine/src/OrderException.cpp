@@ -20,6 +20,12 @@ OrderException::OrderException(
     const int reason)
     : OrderException::OrderException(new_order_single.ClOrdID(), reason) {}
 
+OrderException::OrderException(
+    const DistributedStockExchange_OrderCancelRequest::OrderCancelRequest
+        &order_cancel_request,
+    const int reason)
+    : OrderException::OrderException(order_cancel_request.ClOrdID(), reason) {}
+
 const char *OrderException::what() const noexcept {
   return m_error_message.c_str();
 }
