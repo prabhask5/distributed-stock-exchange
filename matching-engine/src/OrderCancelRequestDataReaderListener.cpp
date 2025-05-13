@@ -8,6 +8,7 @@
 #include <OrderCancelRejectLogger.hpp>
 #include <OrderCancelRequest.hpp>
 #include <OrderCancelRequestLogger.hpp>
+#include <fastdds/dds/core/detail/DDSReturnCode.hpp>
 #include <quickfix/FixValues.h>
 
 OrderCancelRequestDataReaderListener::OrderCancelRequestDataReaderListener(
@@ -56,10 +57,11 @@ void OrderCancelRequestDataReaderListener::on_data_available(
             DistributedStockExchange_OrderCancelReject::OrderCancelReject>(
             logger, order_cancel_reject, "OrderCancelReject");
 
-        bool ret = m_market_ptr->get_data_writer_container_ptr()
-                       ->orderCancelRejectDW->write(&order_cancel_reject);
-        if (ret)
-          LOG4CXX_ERROR(logger, "Order Cancel Reject write returned: " << ret);
+        eprosima::fastdds::dds::ReturnCode_t code =
+            m_market_ptr->get_data_writer_container_ptr()
+                ->orderCancelRejectDW->write(&order_cancel_reject);
+        if (code != eprosima::fastdds::dds::RETCODE_OK)
+          LOG4CXX_ERROR(logger, "Order Cancel Reject write returned: " << code);
       }
     }
   }

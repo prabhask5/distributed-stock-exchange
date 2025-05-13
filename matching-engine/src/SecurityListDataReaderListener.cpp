@@ -63,10 +63,11 @@ void SecurityListRequestDataReaderListener::on_data_available(
       log_info<std::stringstream, MarketDataRequestLogger,
                DistributedStockExchange_MarketDataRequest::MarketDataRequest>(
           logger, market_data_request, "MarketDataRequest");
-      bool ret = m_market_ptr->get_data_writer_container_ptr()
-                     ->marketDataRequestDW->write(&market_data_request);
-      if (ret)
-        LOG4CXX_ERROR(logger, "MarketDataRequest write returned : " << ret);
+      eprosima::fastdds::dds::ReturnCode_t code =
+          m_market_ptr->get_data_writer_container_ptr()
+              ->marketDataRequestDW->write(&market_data_request);
+      if (code != eprosima::fastdds::dds::RETCODE_OK)
+        LOG4CXX_ERROR(logger, "MarketDataRequest write returned : " << code);
     }
   }
 }

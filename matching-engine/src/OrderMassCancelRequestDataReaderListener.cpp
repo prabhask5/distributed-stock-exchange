@@ -49,12 +49,12 @@ void OrderMassCancelRequestDataReaderListener::on_data_available(
                     OrderMassCancelReport>(logger, order_mass_cancel_report,
                                            "OrderMassCancelReport");
 
-      bool ret =
+      eprosima::fastdds::dds::ReturnCode_t code =
           m_market_ptr->get_data_writer_container_ptr()
               ->orderMassCancelReportDW->write(&order_mass_cancel_report);
-      if (ret)
+      if (code != eprosima::fastdds::dds::RETCODE_OK)
         LOG4CXX_ERROR(logger,
-                      "Order Mass Cancel Report write returned: " << ret);
+                      "Order Mass Cancel Report write returned: " << code);
 
       m_market_ptr->mass_cancel_orders(sender_id);
     }

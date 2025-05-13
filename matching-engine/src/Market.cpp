@@ -85,12 +85,12 @@ void Market::submit_order(const OrderBookPtr &order_book,
   auto orders_for_sender_id_iter =
       m_customer_order_map.find(order->get_sender_id());
 
-  OrderMapPtr customer_orders;
+  MarketOrderMapPtr customer_orders;
 
   // If we don't find the order map for the sender_id, just make one.
   if (orders_for_sender_id_iter == m_customer_order_map.end()) {
     auto [it, inserted] = m_customer_order_map.emplace(
-        order->get_sender_id(), std::make_shared<OrderMap>());
+        order->get_sender_id(), std::make_shared<MarketOrderMap>());
     customer_orders = it->second;
   } else {
     customer_orders = orders_for_sender_id_iter->second;

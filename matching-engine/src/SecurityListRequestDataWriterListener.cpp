@@ -32,9 +32,10 @@ void SecurityListRequestDataWriterListener::on_publication_matched(
           DistributedStockExchange_SecurityListRequest::SecurityListRequest>(
           logger, security_list_request, "SecurityListRequest");
 
-      auto ret = dwr->write(&security_list_request);
-      if (ret)
-        LOG4CXX_ERROR(logger, "SecurityListRequest write returned : " << ret);
+      eprosima::fastdds::dds::ReturnCode_t code =
+          dwr->write(&security_list_request);
+      if (code != eprosima::fastdds::dds::RETCODE_OK)
+        LOG4CXX_ERROR(logger, "SecurityListRequest write returned : " << code);
     }
   } else if (info.current_count_change == -1) {
     m_matched = info.total_count;
