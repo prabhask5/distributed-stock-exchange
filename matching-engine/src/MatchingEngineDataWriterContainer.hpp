@@ -17,7 +17,7 @@ struct DataWriterContainer {
   // Represents information related to canceling multiple orders sent by a user
   // through the FIX gatway. This is basically the response to the order mass
   // cancel FIX request. This DW goes from matching engine -> FIX gateway.
-  DataWriterPtr orderMassCancelRejectDW;
+  DataWriterPtr orderMassCancelReportDW;
 
   // Represents information related to the incremental market data refresh sent
   // from the matching engine to the data service. An incremental market data
