@@ -193,7 +193,7 @@ int main(int argc, char *argv[]) {
             "FILTER_MATCHING_ENGINE_SECURITY_LIST", market_filter,
             {market_ptr->get_market_name()});
 
-    // Market Dara Snapshot Full Refresh.
+    // Market Data Snapshot Full Refresh.
     auto market_data_snapshot_full_refresh_topic_tuple =
         participant_ptr->make_topic<
             DistributedStockExchange_MarketDataSnapshotFullRefresh::
