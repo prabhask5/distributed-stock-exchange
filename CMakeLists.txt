@@ -73,6 +73,13 @@ add_subdirectory(matching-engine/src)
 set(CMAKE_XCODE_ATTRIBUTE_OTHER_CODE_SIGN_FLAGS "-o linker-signed")
 
 install(DIRECTORY mock-stock-exchange DESTINATION ${CMAKE_INSTALL_PREFIX})
+install(CODE "
+    file(GLOB_RECURSE SCRIPT_FILES
+        \"\${CMAKE_INSTALL_PREFIX}/mock-stock-exchange/*.sh\")
+    foreach(script \${SCRIPT_FILES})
+        execute_process(COMMAND chmod +x \${script})
+    endforeach()
+")
 install(FILES 	fix-gateway/scripts/fixgateway.sh data-service/scripts/dataservice.sh matching-engine/scripts/matchingengine.sh DESTINATION scripts)
 install(FILES 	config/log4cxx.xml DESTINATION config)
 install(FILES 	fix-gateway/spec/Fix44.xml DESTINATION spec)
