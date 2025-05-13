@@ -6,7 +6,7 @@
 #include <MarketDataSnapshotFullRefreshLogger.hpp>
 
 MarketDataSnapshotFullRefreshDataReaderListener::
-    MarketDataSnapshotFullRefreshDataReaderListener(MarketPtr market_ptr)
+    MarketDataSnapshotFullRefreshDataReaderListener(const MarketPtr &market_ptr)
     : m_market_ptr(market_ptr) {}
 
 void MarketDataSnapshotFullRefreshDataReaderListener::on_data_available(

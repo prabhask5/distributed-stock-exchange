@@ -6,7 +6,7 @@
 
 class OrderCancelRequestDataReaderListener : public DataReaderListener {
 public:
-  OrderCancelRequestDataReaderListener(MarketPtr market_ptr);
+  OrderCancelRequestDataReaderListener(const MarketPtr &market_ptr);
 
   virtual void on_data_available(DataReader *reader) override;
 

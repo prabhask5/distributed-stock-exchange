@@ -7,7 +7,7 @@
 class MarketDataSnapshotFullRefreshDataReaderListener
     : public DataReaderListener {
 public:
-  MarketDataSnapshotFullRefreshDataReaderListener(MarketPtr market_ptr);
+  MarketDataSnapshotFullRefreshDataReaderListener(const MarketPtr &market_ptr);
 
   virtual void on_data_available(DataReader *reader) override;
 

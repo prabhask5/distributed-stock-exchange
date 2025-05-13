@@ -6,7 +6,7 @@
 
 class NewOrderSingleDataReaderListener : public DataReaderListener {
 public:
-  NewOrderSingleDataReaderListener(MarketPtr market_ptr);
+  NewOrderSingleDataReaderListener(const MarketPtr &market_ptr);
 
   void on_data_available(DataReader *reader) override;
 

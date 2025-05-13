@@ -11,7 +11,7 @@
 #include <quickfix/FixValues.h>
 
 OrderCancelRequestDataReaderListener::OrderCancelRequestDataReaderListener(
-    MarketPtr market_ptr)
+    const MarketPtr &market_ptr)
     : m_market_ptr(market_ptr) {}
 
 void OrderCancelRequestDataReaderListener::on_data_available(

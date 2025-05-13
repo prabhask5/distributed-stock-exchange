@@ -12,7 +12,7 @@
 #include <quickfix/FixValues.h>
 
 NewOrderSingleDataReaderListener::NewOrderSingleDataReaderListener(
-    MarketPtr market_ptr)
+    const MarketPtr &market_ptr)
     : m_market_ptr(market_ptr) {}
 
 void NewOrderSingleDataReaderListener::on_data_available(DataReader *reader) {
