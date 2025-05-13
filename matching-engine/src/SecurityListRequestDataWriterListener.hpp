@@ -4,6 +4,8 @@
 #include <DefaultDomainParticipantTypes.hpp>
 #include <fastdds/dds/publisher/DataWriterListener.hpp>
 
+// This class sends a request to the data service to ask for a list of
+// securities that the market can use for initialization and configuration.
 class SecurityListRequestDataWriterListener : public DataWriterListener {
 public:
   SecurityListRequestDataWriterListener(const MarketPtr &market_ptr);

@@ -56,7 +56,7 @@ void MarketDataPublisherService::service() {
     }
 
     // Now from all the entries in the map, we're going to split them into
-    // chucks to send over FastDDS to the data service.
+    // chunks to send over FastDDS to the data service.
     DistributedStockExchange_MarketDataIncrementalRefresh::
         MarketDataIncrementalRefresh market_data_refresh_chunk;
 

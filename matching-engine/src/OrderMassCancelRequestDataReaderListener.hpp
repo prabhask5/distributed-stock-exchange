@@ -4,6 +4,8 @@
 #include <DefaultDomainParticipantTypes.hpp>
 #include <fastdds/dds/subscriber/DataReaderListener.hpp>
 
+// This class takes in mass order cancel DDS requests and sends them to the
+// market.
 class OrderMassCancelRequestDataReaderListener : public DataReaderListener {
 public:
   OrderMassCancelRequestDataReaderListener(const MarketPtr &market_ptr);
