@@ -67,10 +67,8 @@ int main(int argc, char *argv[]) {
     else if (vm.count("config"))
       config_file = vm["config"].as<std::string>();
 
-    if (config_file.empty()) {
-      std::cerr << "Error: Config file name is not specified." << std::endl;
-      return -1;
-    }
+    if (config_file.empty())
+      std::runtime_error("Error: Config file name is not specified.");
 
     boost::property_tree::ptree pt;
     boost::property_tree::ini_parser::read_ini(config_file, pt);
@@ -82,10 +80,11 @@ int main(int argc, char *argv[]) {
 
     int data_pub_interval = pt.get<int>("marketdata.data_pub_interval");
 
-    LOG4CXX_INFO(logger, "Market Name|" << market_name << "|Data Service Name|"
-                                        << data_service_name
-                                        << "|Market Data Publication Interval|"
-                                        << data_pub_interval);
+    LOG4CXX_INFO(logger, "Market Name| "
+                             << market_name << " |Data Service Name| "
+                             << data_service_name
+                             << " |Market Data Publication Interval| "
+                             << data_pub_interval);
 
     // Set up market data publisher queue, data writer container, execution
     // report publisher, and order book stock statistics dependency pointers.

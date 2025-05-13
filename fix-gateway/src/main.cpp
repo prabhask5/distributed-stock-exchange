@@ -1,3 +1,4 @@
+#include <DefaultDomainParticipant.hpp>
 #include <DefaultDomainParticipantConstants.hpp>
 #include <boost/program_options.hpp>
 #include <boost/property_tree/ini_parser.hpp>
@@ -30,10 +31,8 @@ int main(int argc, char *argv[]) {
     else if (vm.count("config"))
       config_file = vm["config"].as<std::string>();
 
-    if (config_file.empty()) {
-      std::cerr << "Error: Config file name is not specified." << std::endl;
-      return -1;
-    }
+    if (config_file.empty())
+      std::runtime_error("Error: Config file name is not specified.");
 
     boost::property_tree::ptree pt;
     boost::property_tree::ini_parser::read_ini(config_file, pt);
@@ -62,6 +61,18 @@ int main(int argc, char *argv[]) {
     // Parse data service name from data dictionary.
     std::string data_service_name =
         default_dictionary->getString("DataService");
+
+    LOG4CXX_INFO(logger, "SenderCompID| " << sender_comp_id
+                                          << " |Data Service Name| "
+                                          << data_service_name);
+
+    // Make DDS participant representing matching engine, and set up
+    // publisher/subscriber.
+    auto participant_ptr =
+        std::make_shared<DefaultDomainParticipant>(0, sender_comp_id);
+
+    participant_ptr->create_publisher();
+    participant_ptr->create_subscriber();
   } catch (std::exception &e) {
     LOG4CXX_ERROR(logger, "Exception during the initialization of FIX Gateway: "
                               << e.what());
