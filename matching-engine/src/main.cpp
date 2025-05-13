@@ -25,6 +25,7 @@
 #include "TradeEventHandlerTypes.hpp"
 #include <Constants.hpp>
 #include <DefaultDomainParticipant.hpp>
+#include <DefaultDomainParticipantConstants.hpp>
 #include <ExecutionReportPubSubTypes.hpp>
 #include <MarketDataIncrementalRefreshPubSubTypes.hpp>
 #include <MarketDataRequestPubSubTypes.hpp>
@@ -40,12 +41,12 @@
 #include <boost/program_options.hpp>
 #include <boost/property_tree/ini_parser.hpp>
 #include <boost/property_tree/ptree.hpp>
-#include <log4cxx/basicconfigurator.h>
-#include <log4cxx/logger.h>
 
 std::atomic<bool> is_running;
 
 int main(int argc, char *argv[]) {
+  LOG4CXX_INFO(logger, "Matching engine starting up");
+
   try {
     // Set up program options to select config file to use for matching engine
     // preferences.
@@ -299,7 +300,7 @@ int main(int argc, char *argv[]) {
   } catch (std::exception &e) {
     LOG4CXX_ERROR(
         logger,
-        "Exception during the initialization of Matching Engine :" << e.what());
+        "Exception during the initialization of Matching Engine: " << e.what());
 
     std::cout << e.what() << std::endl;
     return 1;
