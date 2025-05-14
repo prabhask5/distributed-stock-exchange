@@ -1,7 +1,10 @@
 #pragma once
 
 #include "MatchingEngineDataWriterContainerTypes.hpp"
-#include <ExecutionReport.hpp>
+
+namespace DistributedStockExchange_ExecutionReport {
+class ExecutionReport; // From ExecutionReport.hpp.
+}
 
 // Helper class to publish execution reports via FastDDS, sending to FIX
 // gateway. Execution reports are populated within more specific classes (i.e

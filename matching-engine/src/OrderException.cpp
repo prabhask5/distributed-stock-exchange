@@ -2,10 +2,9 @@
 #include <ExecutionReport.hpp>
 #include <NewOrderSingle.hpp>
 #include <OrderCancelReject.hpp>
-#include <exception>
+#include <OrderCancelRequest.hpp>
 #include <quickfix/FixValues.h>
 #include <sstream>
-#include <string>
 
 OrderException::OrderException(const std::string &order_id, const int reason)
     : m_order_id(order_id), m_reason(reason) {

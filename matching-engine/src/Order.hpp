@@ -3,8 +3,11 @@
 #include "MatchingEngineDataWriterContainerTypes.hpp"
 #include "OrderPrice.hpp"
 #include "OrderTypes.hpp"
-#include <ExecutionReport.hpp>
 #include <string>
+
+namespace DistributedStockExchange_ExecutionReport {
+class ExecutionReport; // From ExecutionReport.hpp.
+}
 
 class Order {
 public:

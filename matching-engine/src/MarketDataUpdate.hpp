@@ -1,6 +1,8 @@
 #pragma once
 
-#include <MarketDataIncrementalRefresh.hpp>
+namespace DistributedStockExchange_MarketDataIncrementalRefresh {
+class MarketDataIncrementalRefresh; // From MarketDataIncrementalRefresh.hpp.
+}
 
 // Represents a market data incremental update to send to the data service and
 // expose to the user via the FIX gateway.

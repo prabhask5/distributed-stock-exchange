@@ -1,11 +1,22 @@
 #pragma once
 
-#include <ExecutionReport.hpp>
-#include <NewOrderSingle.hpp>
-#include <OrderCancelReject.hpp>
-#include <OrderCancelRequest.hpp>
 #include <exception>
-#include <string>
+
+namespace DistributedStockExchange_NewOrderSingle {
+class NewOrderSingle; // From NewOrderSingle.hpp.
+}
+
+namespace DistributedStockExchange_OrderCancelRequest {
+class OrderCancelRequest; // From OrderCancelRequest.hpp.
+}
+
+namespace DistributedStockExchange_ExecutionReport {
+class ExecutionReport; // From ExecutionReport.hpp.
+}
+
+namespace DistributedStockExchange_OrderCancelReject {
+class OrderCancelReject; // From OrderCancelReject.hpp.
+}
 
 // This class is used to represent an exception.
 class OrderException : public std::exception {
