@@ -2,6 +2,7 @@
 
 #include <quickfix/Log.h>
 
+// This class manages instances of FixLogFiles.
 class FixLogFileFactory : public FIX::LogFactory {
 public:
   FixLogFileFactory(const FIX::SessionSettings &settings,
@@ -11,10 +12,14 @@ public:
 
   FixLogFileFactory(const std::string &path, const std::string &backup_path);
 
+  // Create a new global FIX log pointer.
   FIX::Log *create();
 
+  // Create a new FIX log pointer for a specific FIX session.
   FIX::Log *create(const FIX::SessionID &session_id);
 
+  // Destroy the passed in pointer, may be either the global pointer or a
+  // specific session log pointer.
   void destroy(FIX::Log *log_ptr);
 
 private:
