@@ -7,6 +7,9 @@
 
 class FixApplication; // From FixApplication.hpp.
 
+// Service thread dedicated to translating dds messages to FIX messages.
+// This is a generic service thread because it is tied to individual FastDDS
+// data reader listeners.
 template <typename T> class FixMsgTranslatorService {
 public:
   FixMsgTranslatorService(FixApplication &app, ProcessorFunc<T> processor_func,
