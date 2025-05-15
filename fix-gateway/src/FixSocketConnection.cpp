@@ -1,7 +1,7 @@
 #include "FixSocketConnection.hpp"
 #include "FixApplication.hpp"
+#include "FixSocketAcceptor.hpp"
 #include <quickfix/Session.h>
-#include <quickfix/SocketAcceptor.h>
 #include <quickfix/SocketMonitor.h>
 #include <quickfix/SocketServer.h>
 
@@ -55,7 +55,7 @@ void FixSocketConnection::set_pending_connection_token(
   m_pending_connection_token = pending_connection_token;
 }
 
-bool FixSocketConnection::read(FIX::SocketAcceptor &acceptor,
+bool FixSocketConnection::read(FixSocketAcceptor &acceptor,
                                FIX::SocketServer &server) {
   try {
     // If we have an active session already, just read from the socket and

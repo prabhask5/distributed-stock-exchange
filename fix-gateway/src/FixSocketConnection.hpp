@@ -5,6 +5,8 @@
 #include <quickfix/Parser.h>
 #include <quickfix/Responder.h>
 
+class FixSocketAcceptor; // From FixSocketAcceptor.hpp.
+
 namespace FIX {
 class SocketServer;
 class SocketConnector;
@@ -50,7 +52,7 @@ public:
   // reconnections, and session assignment along the way. Returns the socket
   // connection is healthy after the execution of this function, if = false,
   // then the connection went wrong and should be dropped.
-  bool read(FIX::SocketAcceptor &acceptor, FIX::SocketServer &server);
+  bool read(FixSocketAcceptor &acceptor, FIX::SocketServer &server);
 
   // Add a message to the message queue, signal the socket monitor, and process
   // the messages in the queue. Returns whether successful (this is dumb but
