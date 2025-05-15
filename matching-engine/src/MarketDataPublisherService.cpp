@@ -26,7 +26,7 @@ MarketDataPublisherService::~MarketDataPublisherService() {
 }
 
 void MarketDataPublisherService::service() {
-  while (m_is_running) {
+  while (m_is_running.load()) {
     // If the queue is empty, we just sleep and wait for the next interval.
     if (m_market_data_publisher_queue_ptr->empty()) {
       std::this_thread::sleep_for(
