@@ -21,7 +21,7 @@ MarketDataPublisherService::MarketDataPublisherService(
 }
 
 MarketDataPublisherService::~MarketDataPublisherService() {
-  std::atomic_init(&m_is_running, false);
+  m_is_running.store(false);
   m_publisher_thread.join();
 }
 
