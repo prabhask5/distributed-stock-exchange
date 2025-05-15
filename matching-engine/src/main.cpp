@@ -78,7 +78,8 @@ int main(int argc, char *argv[]) {
         pt.get<std::string>("matchingengine.dataservice");
     std::string market_name = pt.get<std::string>("matchingengine.market");
 
-    int data_pub_interval = pt.get<int>("marketdata.data_pub_interval");
+    unsigned int data_pub_interval =
+        pt.get<int>("marketdata.data_pub_interval");
 
     LOG4CXX_INFO(logger, "Market Name| "
                              << market_name << " |Data Service Name| "

@@ -12,7 +12,7 @@
 MarketDataPublisherService::MarketDataPublisherService(
     DataWriter *market_data_incremental_refresh_dw,
     MarketDataPublisherQueuePtr market_data_publisher_queue_ptr,
-    int price_depth_pub_interval)
+    unsigned int price_depth_pub_interval)
     : m_market_data_incremental_refresh_dw(market_data_incremental_refresh_dw),
       m_market_data_publisher_queue_ptr(market_data_publisher_queue_ptr),
       m_price_depth_pub_interval(price_depth_pub_interval) {

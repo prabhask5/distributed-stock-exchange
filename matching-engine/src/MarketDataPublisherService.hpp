@@ -11,7 +11,7 @@ public:
   MarketDataPublisherService(
       DataWriter *market_data_incremental_refresh_dw,
       MarketDataPublisherQueuePtr market_data_publisher_queue_ptr,
-      int price_depth_pub_interval);
+      unsigned int price_depth_pub_interval);
 
   ~MarketDataPublisherService();
 
@@ -25,5 +25,5 @@ private:
   // Service thread metadata.
   std::atomic<bool> m_is_running;
   std::thread m_publisher_thread;
-  int m_price_depth_pub_interval;
+  unsigned int m_price_depth_pub_interval;
 };
