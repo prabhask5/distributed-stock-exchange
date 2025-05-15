@@ -45,18 +45,16 @@ public:
 
   // Action functions.
 
-  // Accepts a connection from another socket connector, and enables it to read
-  // and accept messages. Returns whether successful.
-  bool accept(FIX::SocketConnector &connector);
-
   // Reads raw data from the socket, assembles complete FIX messages, matches
   // them to sessions, and routes them accordingly: handling logon,
-  // reconnections, and session assignment along the way. Returns whether
-  // successful.
+  // reconnections, and session assignment along the way. Returns the socket
+  // connection is healthy after the execution of this function, if = false,
+  // then the connection went wrong and should be dropped.
   bool read(FIX::SocketAcceptor &acceptor, FIX::SocketServer &server);
 
   // Add a message to the message queue, signal the socket monitor, and process
-  // the messages in the queue. Returns whether successful.
+  // the messages in the queue. Returns whether successful (this is dumb but
+  // required by the interface).
   bool send(const std::string &message);
 
   // In the case that the message queue is non-empty, we wait for this socket to
@@ -121,7 +119,7 @@ private:
 
   // Tracks the amount of the first message in the message queue already sent.
   // Useful in the case we can only send a portion of the message at a time.
-  unsigned m_sent_message_portion_length;
+  size_t m_sent_message_portion_length;
 
   // Socket message input state management.
 
