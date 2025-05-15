@@ -1,0 +1,4 @@
+#pragma once
+
+int GRACEFUL_STOP_WAIT_TIME = 5;
+int SOCKET_SERVER_TIMEOUT = 1;
