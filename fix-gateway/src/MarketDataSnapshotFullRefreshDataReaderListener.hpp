@@ -15,7 +15,6 @@ public:
   virtual void on_data_available(DataReader *reader) override;
 
 private:
-  std::string m_fix_gateway_name;
   FixMsgTranslatorService<
       DistributedStockExchange_MarketDataSnapshotFullRefresh::
           MarketDataSnapshotFullRefresh>
