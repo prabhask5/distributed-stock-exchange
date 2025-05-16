@@ -12,7 +12,7 @@ class FixApplication; // From FixApplication.hpp.
 // data reader listeners.
 template <typename T> class FixMsgTranslatorService {
 public:
-  FixMsgTranslatorService(FixApplication &app, ProcessorFunc<T> processor_func,
+  FixMsgTranslatorService(FixApplication &app, TranslatorFunc<T> processor_func,
                           const std::string &name,
                           unsigned long wait_timeout_us = 1000);
 
@@ -28,7 +28,7 @@ private:
   std::atomic<bool> m_is_running;
   std::thread m_publisher_thread;
   unsigned long m_wait_interval_us;
-  ProcessorFunc<T> m_processor_func;
+  TranslatorFunc<T> m_processor_func;
 
   // Service state management.
   ThreadSafeQueue<T> m_dds_msg_queue;

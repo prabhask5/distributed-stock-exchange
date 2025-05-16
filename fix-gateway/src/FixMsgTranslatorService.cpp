@@ -3,7 +3,7 @@
 
 template <typename T>
 FixMsgTranslatorService<T>::FixMsgTranslatorService(
-    FixApplication &app, ProcessorFunc<T> processor_func,
+    FixApplication &app, TranslatorFunc<T> processor_func,
     const std::string &name, unsigned long wait_timeout_us = 1000)
     : m_processor_func(processor_func), m_name(name),
       m_wait_interval_us(wait_timeout_us) {

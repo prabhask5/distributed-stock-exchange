@@ -5,4 +5,4 @@
 class FixApplication; // From FixApplication.hpp.
 
 template <typename T>
-using ProcessorFunc = std::function<void(FixApplication &, T &)>;
+using TranslatorFunc = std::function<void(FixApplication &, T &)>;
