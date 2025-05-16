@@ -39,7 +39,7 @@ int main(int argc, char *argv[]) {
 
     // Parse settings/preferences from config file.
     auto settings = std::make_shared<FIX::SessionSettings>(config_file);
-    std::string sender_comp_id = settings->get().getString("SenderCompID");
+    std::string fix_gateway_name = settings->get().getString("SenderCompID");
 
     // Initialize this machines default session from config file.
     FIX::SessionID default_session_id("FIX.4.4", "DEFAULT", "DEFAULT");
@@ -62,14 +62,14 @@ int main(int argc, char *argv[]) {
     std::string data_service_name =
         default_dictionary->getString("DataService");
 
-    LOG4CXX_INFO(logger, "SenderCompID| " << sender_comp_id
+    LOG4CXX_INFO(logger, "SenderCompID| " << fix_gateway_name
                                           << " |Data Service Name| "
                                           << data_service_name);
 
     // Make DDS participant representing matching engine, and set up
     // publisher/subscriber.
     auto participant_ptr =
-        std::make_shared<DefaultDomainParticipant>(0, sender_comp_id);
+        std::make_shared<DefaultDomainParticipant>(0, fix_gateway_name);
 
     participant_ptr->create_publisher();
     participant_ptr->create_subscriber();

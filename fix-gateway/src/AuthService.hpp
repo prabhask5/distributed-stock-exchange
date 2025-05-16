@@ -59,7 +59,7 @@ private:
                                    const std::string &session_qualifier);
 
   // Parse the connection token from a DDS FIX message raw data.
-  std::string get_connection_token(const FIX::Message &message);
+  std::string extract_connection_token(const FIX::Message &message);
 
   // Helper function to tie an active session to a pending socket connection via
   // the connection token.

@@ -46,7 +46,7 @@ void AuthService::insert_pending_connection(const std::string &connection_token,
 
 void AuthService::process_dds_logon(FIX::Message &message) {
   // Parse important pieces of info from the FIX DDS message.
-  std::string connection_token = get_connection_token(
+  std::string connection_token = extract_connection_token(
       message); // String that identifies the pending socket connection.
   std::string begin_string =
       message.getHeader().getField(FIX::FIELD::BeginString);
@@ -204,7 +204,7 @@ FIX::Session *AuthService::create_session_from_auth_message(
     const FIX::SessionID new_session_id, FIX::Message &message,
     const std::string &session_qualifier) { /* TODO */ }
 
-std::string AuthService::get_connection_token(const FIX::Message &message) {
+std::string AuthService::extract_connection_token(const FIX::Message &message) {
   FIX::RawData raw_data;
   message.getField(raw_data);
 

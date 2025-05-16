@@ -18,3 +18,6 @@ class Dictionary;
 using FixSessionSettingsPtr = std::shared_ptr<FIX::SessionSettings>;
 using FixSessionFactoryPtr = std::shared_ptr<FIX::SessionFactory>;
 using FixDictionaryPtr = std::shared_ptr<FIX::Dictionary>;
+
+class AuthService; // From AuthService.hpp.
+using AuthServicePtr = std::shared_ptr<AuthService>;
