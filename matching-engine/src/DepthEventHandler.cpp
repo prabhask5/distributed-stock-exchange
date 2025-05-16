@@ -78,7 +78,6 @@ void DepthEventHandler::on_depth_change(
   std::stringstream ss;
   MarketDataIncrementalRefreshLogger::log(ss, market_data_update->refresh_data);
   LOG4CXX_INFO(logger, "MarketDataIncrementalRefresh : [" << ss.str() << "]");
-  std::cout << "Update : " << ss.str() << std::endl;
 
   int market_data_index =
       MARKET_DATA_PRICE_DEPTH * 2; // total length of depth levels array

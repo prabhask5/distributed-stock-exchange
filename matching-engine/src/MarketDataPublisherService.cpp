@@ -52,7 +52,6 @@ void MarketDataPublisherService::service() {
           ss, market_data_updates[market_data_update->symbol]);
       LOG4CXX_INFO(logger,
                    "MarketDataIncrementalRefresh : [" << ss.str() << "]");
-      std::cout << "Update : " << ss.str() << std::endl;
     }
 
     // Now from all the entries in the map, we're going to split them into
@@ -83,9 +82,6 @@ void MarketDataPublisherService::service() {
                   DistributedStockExchange_MarketDataIncrementalRefresh::
                       MarketDataIncrementalRefresh>(
             logger, market_data_refresh_chunk, "MarketDataIncrementalRefresh");
-        std::cout << "Publishing chunk of "
-                  << market_data_refresh_chunk.c_NoMDEntries().size()
-                  << " updates" << std::endl;
 
         std::stringstream ss;
         MarketDataIncrementalRefreshLogger::log(ss, market_data_refresh_chunk);
