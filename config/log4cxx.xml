@@ -1,15 +1,34 @@
+<!-- Info logs go to ${EXCHANGE_LOGDIR}/${LOG_FILE_NAME}.info.log -->
+<!-- Debug logs go to ${EXCHANGE_LOGDIR}/${LOG_FILE_NAME}.debug.log -->
+<!-- Error logs go to ${EXCHANGE_LOGDIR}/${LOG_FILE_NAME}.error.log -->
+<!-- Fatal logs go to ${EXCHANGE_LOGDIR}/${LOG_FILE_NAME}.fatal.log -->
+
 <?xml version="1.0" encoding="UTF-8" ?>
 <log4j:configuration xmlns:log4j="http://jakarta.apache.org/log4j/">
  
-  <appender name="ConsoleAppender" class="org.apache.log4j.ConsoleAppender">
-    <param name="Target" value="System.out"/>
+  <appender name="InfoFileAppender" class="org.apache.log4j.FileAppender">
+    <param name="file" value="${EXCHANGE_LOGDIR}/${LOG_FILE_NAME}.info.log" />
     <layout class="org.apache.log4j.PatternLayout">
-      <param name="ConversionPattern" value="[%d{yyyy-MM-dd HH:mm:ss}] %c %-5p - %m%n"/>
+      <param name="ConversionPattern" value="[%d{yyyy-MM-dd HH:mm:ss.SSSSSS}] %c %-5p %T %t - %m%n" />
     </layout>
   </appender>
- 
-  <appender name="FileAppender" class="org.apache.log4j.FileAppender">
-    <param name="file" value="${EXCHANGE_LOGDIR}/${LOG_FILE_NAME}" />
+
+  <appender name="DebugFileAppender" class="org.apache.log4j.FileAppender">
+    <param name="file" value="${EXCHANGE_LOGDIR}/${LOG_FILE_NAME}.debug.log" />
+    <layout class="org.apache.log4j.PatternLayout">
+      <param name="ConversionPattern" value="[%d{yyyy-MM-dd HH:mm:ss.SSSSSS}] %c %-5p %T %t - %m%n" />
+    </layout>
+  </appender>
+
+  <appender name="ErrorFileAppender" class="org.apache.log4j.FileAppender">
+    <param name="file" value="${EXCHANGE_LOGDIR}/${LOG_FILE_NAME}.error.log" />
+    <layout class="org.apache.log4j.PatternLayout">
+      <param name="ConversionPattern" value="[%d{yyyy-MM-dd HH:mm:ss.SSSSSS}] %c %-5p %T %t - %m%n" />
+    </layout>
+  </appender>
+
+  <appender name="FatalFileAppender" class="org.apache.log4j.FileAppender">
+    <param name="file" value="${EXCHANGE_LOGDIR}/${LOG_FILE_NAME}.fatal.log" />
     <layout class="org.apache.log4j.PatternLayout">
       <param name="ConversionPattern" value="[%d{yyyy-MM-dd HH:mm:ss.SSSSSS}] %c %-5p %T %t - %m%n" />
     </layout>
@@ -17,8 +36,13 @@
  
   <root>
      <priority value="info" />
-     <!-- <appender-ref ref="ConsoleAppender"/> -->
-     <appender-ref ref="FileAppender"/>
+        <appender-ref ref="InfoFileAppender"/>
+      <priority value="debug" />
+        <appender-ref ref="DebugFileAppender"/>
+      <priority value="error" />
+        <appender-ref ref="ErrorFileAppender"/>
+      <priority value="fatal" />
+        <appender-ref ref="FatalFileAppender"/>
   </root>
  
   <logger name="distributed_se" >
