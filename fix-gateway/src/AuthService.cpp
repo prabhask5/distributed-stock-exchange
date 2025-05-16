@@ -127,7 +127,7 @@ void AuthService::process_dds_logon(FIX::Message &message) {
   login_session(active_session, connection_token);
 }
 
-void AuthService::process_dds_logout(std::string &connection_token,
+void AuthService::process_dds_logout(const std::string &connection_token,
                                      FIX::Message &logout_message) {
   // This is a lock guard, holds the lock for as long as this variable is in
   // scope.

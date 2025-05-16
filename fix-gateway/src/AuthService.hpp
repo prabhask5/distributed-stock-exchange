@@ -45,7 +45,7 @@ public:
   // sessions, they deal with pending logon requests that have been deferred to
   // the data service to authenticate them. The logout message sent is the
   // message in the parameter.
-  void process_dds_logout(std::string &connection_token,
+  void process_dds_logout(const std::string &connection_token,
                           FIX::Message &logout_message);
 
   // Disconnect a socket connection, either pending or active.
