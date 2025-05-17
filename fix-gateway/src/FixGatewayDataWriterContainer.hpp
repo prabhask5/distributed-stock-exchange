@@ -1,6 +1,6 @@
 #pragma once
 
-#include "DefaultDomainParticipantTypes.hpp"
+#include <DefaultDomainParticipantTypes.hpp>
 
 struct DataWriterContainer {
   // Data writer to send a log on request to the data service to handle

@@ -1,6 +1,6 @@
 #pragma once
 
-#include "DefaultDomainParticipantTypes.hpp"
+#include <DefaultDomainParticipantTypes.hpp>
 
 struct DataWriterContainer {
   // Represents the execution report for an order sent by a user through the FIX
