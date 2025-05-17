@@ -35,9 +35,9 @@ void MarketDataPublisherService::service() {
       continue;
     };
 
-    std::map<std::string,
-             DistributedStockExchange_MarketDataIncrementalRefresh::
-                 MarketDataIncrementalRefresh>
+    std::unordered_map<std::string,
+                       DistributedStockExchange_MarketDataIncrementalRefresh::
+                           MarketDataIncrementalRefresh>
         market_data_updates;
 
     MarketDataUpdatePtr market_data_update;
