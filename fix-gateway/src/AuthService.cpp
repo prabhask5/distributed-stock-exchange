@@ -6,12 +6,14 @@
 #include <quickfix/SessionFactory.h>
 #include <quickfix/fix44/Logout.h>
 
-AuthService::AuthService(FixSessionSettingsPtr settings_ptr,
+AuthService::AuthService(FixSettingsPtr settings_ptr,
                          FixSessionFactoryPtr session_factory_ptr,
                          FixDictionaryPtr default_dictionary_ptr,
                          std::string comp_id)
-    : m_settings_ptr(settings_ptr), m_session_factory_ptr(session_factory_ptr),
-      m_default_dictionary_ptr(default_dictionary_ptr), m_comp_id(comp_id) {}
+    : m_settings_ptr(std::move(settings_ptr)),
+      m_session_factory_ptr(std::move(session_factory_ptr)),
+      m_default_dictionary_ptr(std::move(default_dictionary_ptr)),
+      m_comp_id(comp_id) {}
 
 bool AuthService::ActiveSessionIDFromMessage(const FIX::Message &message,
                                              FIX::SessionID &session_id) {

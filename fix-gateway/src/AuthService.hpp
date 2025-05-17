@@ -12,7 +12,7 @@ class Session;
 // users/sessions, process logon/logout requests from outside sources.
 class AuthService {
 public:
-  AuthService(FixSessionSettingsPtr settings_ptr,
+  AuthService(FixSettingsPtr settings_ptr,
               FixSessionFactoryPtr session_factory_ptr,
               FixDictionaryPtr default_dictionary_ptr, std::string sender_id);
 
@@ -72,7 +72,7 @@ private:
 
   // Dependencies.
 
-  FixSessionSettingsPtr m_settings_ptr;
+  FixSettingsPtr m_settings_ptr;
   FixSessionFactoryPtr m_session_factory_ptr;
   FixDictionaryPtr m_default_dictionary_ptr;
 

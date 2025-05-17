@@ -44,4 +44,4 @@ template <class TopicType>
 using DataReaderTuplePtr = std::unique_ptr<DataReaderTuple<TopicType>>;
 
 class DefaultDomainParticipant; // From DefaultDomainParticipant.hpp.
-using DefaultDomainParticipantPtr = std::shared_ptr<DefaultDomainParticipant>;
+using DefaultDomainParticipantPtr = std::unique_ptr<DefaultDomainParticipant>;

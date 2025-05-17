@@ -15,9 +15,9 @@ class SessionFactory;
 class Dictionary;
 }; // namespace FIX
 
-using FixSessionSettingsPtr = std::shared_ptr<FIX::SessionSettings>;
-using FixSessionFactoryPtr = std::shared_ptr<FIX::SessionFactory>;
-using FixDictionaryPtr = std::shared_ptr<FIX::Dictionary>;
+using FixSettingsPtr = std::unique_ptr<FIX::SessionSettings>;
+using FixSessionFactoryPtr = std::unique_ptr<FIX::SessionFactory>;
+using FixDictionaryPtr = std::unique_ptr<FIX::Dictionary>;
 
 class AuthService; // From AuthService.hpp.
-using AuthServicePtr = std::shared_ptr<AuthService>;
+using AuthServicePtr = std::unique_ptr<AuthService>;

@@ -134,8 +134,8 @@ int main(int argc, char *argv[]) {
 
     // Make DDS participant representing matching engine, and set up
     // publisher/subscriber.
-    auto participant_ptr =
-        std::make_shared<DefaultDomainParticipant>(0, "MatchingEngine");
+    DefaultDomainParticipantPtr participant_ptr =
+        std::make_unique<DefaultDomainParticipant>(0, "MatchingEngine");
 
     participant_ptr->create_publisher();
     participant_ptr->create_subscriber();
@@ -272,7 +272,7 @@ int main(int argc, char *argv[]) {
 
     // Create and start the market data publisher service thread.
     MarketDataPublisherServicePtr market_data_publisher_service_ptr =
-        std::make_shared<MarketDataPublisherService>(
+        std::make_unique<MarketDataPublisherService>(
             data_writer_container_ptr->marketDataIncrementalRefreshDW.get(),
             std::move(market_data_publisher_queue_ptr), data_pub_interval);
 

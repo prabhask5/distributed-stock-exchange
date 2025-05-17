@@ -3,4 +3,4 @@
 #include <memory>
 
 struct DataWriterContainer; // From FixGatewayDataWriterContainer.hpp.
-using DataWriterContainerPtr = std::shared_ptr<DataWriterContainer>;
+using DataWriterContainerPtr = std::unique_ptr<DataWriterContainer>;

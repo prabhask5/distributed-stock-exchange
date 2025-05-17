@@ -36,7 +36,7 @@ FixApplication::FixApplication(std::string data_service,
                                std::string fix_gateway_name,
                                DataWriterContainerPtr data_writer_container_ptr)
     : m_data_service(data_service), m_fix_gateway_name(fix_gateway_name),
-      m_data_writer_container_ptr(data_writer_container_ptr),
+      m_data_writer_container_ptr(std::move(data_writer_container_ptr)),
       m_connection_id(0) {}
 
 void FixApplication::onCreate(const FIX::SessionID &session_id) {
@@ -155,8 +155,8 @@ const std::string &FixApplication::get_fix_gateway_name() const {
   return m_fix_gateway_name;
 }
 
-void FixApplication::set_auth_service_ptr(AuthServicePtr &auth_service_ptr) {
-  m_auth_service_ptr = auth_service_ptr;
+void FixApplication::set_auth_service_ptr(AuthServicePtr auth_service_ptr) {
+  m_auth_service_ptr = std::move(auth_service_ptr);
 }
 
 bool FixApplication::insert_pending_logon_socket_connection(

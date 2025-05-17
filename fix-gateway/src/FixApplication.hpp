@@ -73,7 +73,7 @@ public:
 
   // Setter functions.
 
-  void set_auth_service_ptr(AuthServicePtr &auth_service_ptr);
+  void set_auth_service_ptr(AuthServicePtr auth_service_ptr);
 
   // Action functions to manage socket connections.
 
