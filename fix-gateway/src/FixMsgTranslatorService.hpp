@@ -20,7 +20,7 @@ public:
     LOG4CXX_INFO(logger, "Starting processor : [" << m_name << "]");
 
     std::atomic_init(&m_is_running, true);
-    m_publisher_thread = std::thread([&]() {
+    m_service_thread = std::thread([&]() {
       while (m_is_running.load()) {
         T dds_message;
         while (!m_dds_msg_queue.empty()) {
@@ -45,7 +45,7 @@ public:
     LOG4CXX_INFO(logger, "Stopping processor : [" << m_name << "]");
 
     m_is_running.store(false);
-    m_publisher_thread.join();
+    m_service_thread.join();
 
     LOG4CXX_INFO(logger, "Stopped processor");
   }
@@ -56,7 +56,7 @@ private:
   // Service thread metadata.
   std::string m_name;
   std::atomic<bool> m_is_running;
-  std::thread m_publisher_thread;
+  std::thread m_service_thread;
   unsigned long m_wait_interval_us;
   TranslatorFunc<T> m_processor_func;
 
