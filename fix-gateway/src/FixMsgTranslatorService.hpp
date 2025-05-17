@@ -2,7 +2,6 @@
 
 #include "FixMsgTranslatorServiceTypes.hpp"
 #include <DefaultDomainParticipantConstants.hpp>
-#include <ThreadSafeQueue.hpp>
 #include <atomic>
 #include <thread>
 
@@ -24,7 +23,9 @@ public:
     m_publisher_thread = std::thread([&]() {
       while (m_is_running.load()) {
         T dds_message;
-        while (m_dds_msg_queue.try_pop(dds_message)) {
+        while (!m_dds_msg_queue.empty()) {
+          m_dds_msg_queue.pop(dds_message);
+
           LOG4CXX_INFO(logger, "Processing: [" << m_name << "]");
 
           m_processor_func(app, dds_message);
@@ -60,5 +61,5 @@ private:
   TranslatorFunc<T> m_processor_func;
 
   // Service state management.
-  ThreadSafeQueue<T> m_dds_msg_queue;
+  SPSCQueue<T> m_dds_msg_queue;
 };
