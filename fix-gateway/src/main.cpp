@@ -1,5 +1,5 @@
-#include "AuthService.hpp"
-#include "AuthServiceTypes.hpp"
+#include "AuthHelper.hpp"
+#include "AuthHelperTypes.hpp"
 #include "ExecutionReportDataReaderListener.hpp"
 #include "FixApplication.hpp"
 #include "FixGatewayDataWriterContainer.hpp"
@@ -298,7 +298,7 @@ int main(int argc, char *argv[]) {
         std::make_unique<FIX::SessionFactory>(app, store_factory, &log_factory);
 
     // Set up the auth service dependency, and add it to app.
-    AuthServicePtr auth_service_ptr = std::make_unique<AuthService>(
+    AuthHelperPtr auth_service_ptr = std::make_unique<AuthHelper>(
         std::move(settings_ptr), std::move(session_factory_ptr),
         std::move(default_dictionary_ptr), fix_gateway_name);
     app.set_auth_service_ptr(std::move(auth_service_ptr));

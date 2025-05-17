@@ -1,6 +1,6 @@
 #pragma once
 
-#include "AuthServiceTypes.hpp"
+#include "AuthHelperTypes.hpp"
 #include "FixGatewayDataWriterContainerTypes.hpp"
 #include "FixSocketAcceptor.hpp"
 #include <DefaultDomainParticipantTypes.hpp>
@@ -78,7 +78,7 @@ public:
 
   // Setter functions.
 
-  void set_auth_service_ptr(AuthServicePtr auth_service_ptr);
+  void set_auth_service_ptr(AuthHelperPtr auth_service_ptr);
 
   // Action functions to manage socket connections.
 
@@ -129,7 +129,7 @@ private:
   // Dependencies.
 
   FixSocketAcceptor *m_acceptor_ptr;
-  AuthServicePtr m_auth_service_ptr;
+  AuthHelperPtr m_auth_service_ptr;
   DataWriterContainerPtr m_data_writer_container_ptr;
 
   // Metadata.

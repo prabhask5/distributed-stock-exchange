@@ -1,6 +1,6 @@
 #pragma once
 
-#include "AuthServiceTypes.hpp"
+#include "AuthHelperTypes.hpp"
 #include <quickfix/Mutex.h>
 
 namespace FIX {
@@ -10,9 +10,9 @@ class Session;
 
 // FixApplication helper class to handle pending logon requests, manage active
 // users/sessions, process logon/logout requests from outside sources.
-class AuthService {
+class AuthHelper {
 public:
-  AuthService(FixSettingsPtr settings_ptr,
+  AuthHelper(FixSettingsPtr settings_ptr,
               FixSessionFactoryPtr session_factory_ptr,
               FixDictionaryPtr default_dictionary_ptr, std::string sender_id);
 

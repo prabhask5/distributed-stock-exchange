@@ -20,5 +20,5 @@ using FixSettingsPtr = std::unique_ptr<FIX::SessionSettings>;
 using FixSessionFactoryPtr = std::unique_ptr<FIX::SessionFactory>;
 using FixDictionaryPtr = std::unique_ptr<FIX::Dictionary>;
 
-class AuthService; // From AuthService.hpp.
-using AuthServicePtr = std::unique_ptr<AuthService>;
+class AuthHelper; // From AuthHelper.hpp.
+using AuthHelperPtr = std::unique_ptr<AuthHelper>;

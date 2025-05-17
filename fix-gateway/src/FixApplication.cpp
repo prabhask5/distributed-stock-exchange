@@ -1,5 +1,5 @@
 #include "FixApplication.hpp"
-#include "AuthService.hpp"
+#include "AuthHelper.hpp"
 #include "FixGatewayDataWriterContainer.hpp"
 #include "FixSocketConnection.hpp"
 #include <DefaultDomainParticipantConstants.hpp>
@@ -163,7 +163,7 @@ const std::string &FixApplication::get_fix_gateway_name() const {
   return m_fix_gateway_name;
 }
 
-void FixApplication::set_auth_service_ptr(AuthServicePtr auth_service_ptr) {
+void FixApplication::set_auth_service_ptr(AuthHelperPtr auth_service_ptr) {
   m_auth_service_ptr = std::move(auth_service_ptr);
 }
 
@@ -230,7 +230,7 @@ void FixApplication::publish_to_client(FIX::Message &message) {
   try {
     // Try to find the active_session_id parsed from the message.
     FIX::SessionID active_session_id;
-    if (!AuthService::ActiveSessionIDFromMessage(message, active_session_id))
+    if (!AuthHelper::ActiveSessionIDFromMessage(message, active_session_id))
       return;
 
     FIX::Session::sendToTarget(message, active_session_id);

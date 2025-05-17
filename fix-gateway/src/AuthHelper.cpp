@@ -1,4 +1,4 @@
-#include "AuthService.hpp"
+#include "AuthHelper.hpp"
 #include "FixSocketConnection.hpp"
 #include <DefaultDomainParticipantConstants.hpp>
 #include <quickfix/Message.h>
@@ -6,9 +6,9 @@
 #include <quickfix/SessionFactory.h>
 #include <quickfix/fix44/Logout.h>
 
-UserMap AuthService::m_active_user_map;
+UserMap AuthHelper::m_active_user_map;
 
-AuthService::AuthService(FixSettingsPtr settings_ptr,
+AuthHelper::AuthHelper(FixSettingsPtr settings_ptr,
                          FixSessionFactoryPtr session_factory_ptr,
                          FixDictionaryPtr default_dictionary_ptr,
                          std::string comp_id)
@@ -17,7 +17,7 @@ AuthService::AuthService(FixSettingsPtr settings_ptr,
       m_default_dictionary_ptr(std::move(default_dictionary_ptr)),
       m_comp_id(comp_id) {}
 
-bool AuthService::ActiveSessionIDFromMessage(const FIX::Message &message,
+bool AuthHelper::ActiveSessionIDFromMessage(const FIX::Message &message,
                                              FIX::SessionID &session_id) {
   // First parse the sender id from the message.
   FIX::SenderCompID sender_id;
@@ -34,7 +34,7 @@ bool AuthService::ActiveSessionIDFromMessage(const FIX::Message &message,
   return true;
 }
 
-void AuthService::insert_pending_connection(const std::string &connection_token,
+void AuthHelper::insert_pending_connection(const std::string &connection_token,
                                             FixSocketConnection *sc_ptr) {
   // This is a lock guard, holds the lock for as long as this variable is in
   // scope.
@@ -48,7 +48,7 @@ void AuthService::insert_pending_connection(const std::string &connection_token,
   sc_ptr->set_pending_connection_token(connection_token);
 }
 
-void AuthService::process_dds_logon(FIX::Message &message) {
+void AuthHelper::process_dds_logon(FIX::Message &message) {
   // Parse important pieces of info from the FIX DDS message.
   std::string connection_token = extract_connection_token(
       message); // String that identifies the pending socket connection.
@@ -131,7 +131,7 @@ void AuthService::process_dds_logon(FIX::Message &message) {
   login_session(active_session, connection_token);
 }
 
-void AuthService::process_dds_logout(const std::string &connection_token,
+void AuthHelper::process_dds_logout(const std::string &connection_token,
                                      FIX::Message &logout_message) {
   // This is a lock guard, holds the lock for as long as this variable is in
   // scope.
@@ -177,7 +177,7 @@ void AuthService::process_dds_logout(const std::string &connection_token,
   pending_connection->disconnect();
 }
 
-void AuthService::process_disconnect(const FIX::SessionID &session_id,
+void AuthHelper::process_disconnect(const FIX::SessionID &session_id,
                                      FixSocketConnection *sc_ptr) {
   // This is a lock guard, holds the lock for as long as this variable is in
   // scope.
@@ -204,18 +204,18 @@ void AuthService::process_disconnect(const FIX::SessionID &session_id,
   m_session_factory_ptr->destroy(session);
 }
 
-FIX::Session *AuthService::create_session_from_auth_message(
+FIX::Session *AuthHelper::create_session_from_auth_message(
     const FIX::SessionID new_session_id, FIX::Message &message,
     const std::string &session_qualifier) { /* TODO */ }
 
-std::string AuthService::extract_connection_token(const FIX::Message &message) {
+std::string AuthHelper::extract_connection_token(const FIX::Message &message) {
   FIX::RawData raw_data;
   message.getField(raw_data);
 
   return raw_data.getValue();
 }
 
-void AuthService::login_session(FIX::Session *session,
+void AuthHelper::login_session(FIX::Session *session,
                                 std::string &connection_token) {
   // This is a lock guard, holds the lock for as long as this variable is in
   // scope.
