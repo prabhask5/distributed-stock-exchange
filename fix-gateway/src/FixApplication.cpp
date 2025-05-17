@@ -3,7 +3,6 @@
 #include "FixGatewayDataWriterContainer.hpp"
 #include "FixSocketConnection.hpp"
 #include <DefaultDomainParticipantConstants.hpp>
-#include <DefaultDomainParticipantTypes.hpp>
 #include <Logon.hpp>
 #include <LogonAdapter.hpp>
 #include <LogonLogger.hpp>
@@ -68,14 +67,23 @@ void FixApplication::onLogout(const FIX::SessionID &session_id) {
 void FixApplication::toAdmin(FIX::Message &message,
                              const FIX::SessionID &session_id) {}
 
-void FixApplication::toApp(FIX::Message &message,
-                           const FIX::SessionID &session_id) {}
+void FixApplication::toApp(
+    FIX::Message &message,
+    const FIX::SessionID &session_id) throw(FIX::DoNotSend) {}
 
-void FixApplication::fromAdmin(const FIX::Message &message,
-                               const FIX::SessionID &session_id) {}
+void FixApplication::fromAdmin(
+    const FIX::Message &message,
+    const FIX::SessionID &session_id) throw(FIX::FieldNotFound,
+                                            FIX::IncorrectDataFormat,
+                                            FIX::IncorrectTagValue,
+                                            FIX::RejectLogon) {}
 
-void FixApplication::fromApp(const FIX::Message &message,
-                             const FIX::SessionID &session_id) {
+void FixApplication::fromApp(
+    const FIX::Message &message,
+    const FIX::SessionID &session_id) throw(FIX::FieldNotFound,
+                                            FIX::IncorrectDataFormat,
+                                            FIX::IncorrectTagValue,
+                                            FIX::UnsupportedMessageType) {
   // This function accepts a generic message from the application. We use the
   // message cracker to route this message to the right FIX message handler
   // function.
@@ -294,7 +302,8 @@ void FixApplication::publish_to_dds(const FIX::Message &message,
   LOGGER::log(ss, dds_message);
 
   LOG4CXX_INFO(logger, "Publishing to DDS :" << ss.str());
-  eprosima::fastdds::dds::ReturnCode_t code = dataWriter->write(&dds_message);
+  eprosima::fastdds::dds::ReturnCode_t code =
+      data_writer_ptr->write(&dds_message);
   if (code != eprosima::fastdds::dds::RETCODE_OK)
     LOG4CXX_ERROR(logger, "Unable to publishing to DDS:" << ss.str());
 }

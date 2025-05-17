@@ -28,8 +28,8 @@ FixSocketAcceptor::~FixSocketAcceptor() {
   }
 }
 
-void FixSocketAcceptor::onConfigure(const FIX::SessionSettings &settings)
-    EXCEPT(FIX::ConfigError) {
+void FixSocketAcceptor::onConfigure(const FIX::SessionSettings &settings) throw(
+    FIX::ConfigError) {
   SessionSet sessions = settings.getSessions();
   for (auto iter = sessions.begin(); iter != sessions.end(); ++iter) {
     const FIX::Dictionary &session_settings = settings.get(*iter);
@@ -46,8 +46,8 @@ void FixSocketAcceptor::onConfigure(const FIX::SessionSettings &settings)
   }
 }
 
-void FixSocketAcceptor::onInitialize(const FIX::SessionSettings &settings)
-    EXCEPT(FIX::RuntimeError) {
+void FixSocketAcceptor::onInitialize(
+    const FIX::SessionSettings &settings) throw(FIX::RuntimeError) {
   short port = 0;
   try {
     m_server_ptr = new FIX::SocketServer(SOCKET_SERVER_TIMEOUT);

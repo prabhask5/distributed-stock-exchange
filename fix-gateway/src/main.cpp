@@ -1,3 +1,4 @@
+#include "AuthService.hpp"
 #include "AuthServiceTypes.hpp"
 #include "ExecutionReportDataReaderListener.hpp"
 #include "FixApplication.hpp"
@@ -36,6 +37,7 @@
 #include <boost/property_tree/ptree.hpp>
 #include <iostream>
 #include <quickfix/FileStore.h>
+#include <quickfix/SessionFactory.h>
 #include <quickfix/SessionSettings.h>
 
 std::atomic<bool> is_running;

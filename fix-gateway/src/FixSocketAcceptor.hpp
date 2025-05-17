@@ -34,13 +34,13 @@ private:
   // Hook to configure this socket acceptor using the settings param, called
   // before starting. This function validiates these settings, throwing a
   // ConfigError if something is invalid.
-  void onConfigure(const FIX::SessionSettings &settings)
-      EXCEPT(FIX::ConfigError);
+  void
+  onConfigure(const FIX::SessionSettings &settings) throw(FIX::ConfigError);
 
   // Performs one-time setup actions (e.g., creating sockets, binding ports),
   // called after onConfigure.
-  void onInitialize(const FIX::SessionSettings &settings)
-      EXCEPT(FIX::RuntimeError);
+  void
+  onInitialize(const FIX::SessionSettings &settings) throw(FIX::RuntimeError);
 
   // Starts the socket acceptor.
   void onStart();

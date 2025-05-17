@@ -6,6 +6,8 @@
 #include <quickfix/SessionFactory.h>
 #include <quickfix/fix44/Logout.h>
 
+UserMap AuthService::m_active_user_map;
+
 AuthService::AuthService(FixSettingsPtr settings_ptr,
                          FixSessionFactoryPtr session_factory_ptr,
                          FixDictionaryPtr default_dictionary_ptr,

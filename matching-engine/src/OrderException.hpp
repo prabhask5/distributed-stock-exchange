@@ -1,6 +1,7 @@
 #pragma once
 
 #include <exception>
+#include <string>
 
 namespace DistributedStockExchange_NewOrderSingle {
 class NewOrderSingle; // From NewOrderSingle.hpp.

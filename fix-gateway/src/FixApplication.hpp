@@ -3,6 +3,7 @@
 #include "AuthServiceTypes.hpp"
 #include "FixGatewayDataWriterContainerTypes.hpp"
 #include "FixSocketAcceptor.hpp"
+#include <DefaultDomainParticipantTypes.hpp>
 #include <quickfix/Application.h>
 #include <quickfix/MessageCracker.h>
 
@@ -29,20 +30,24 @@ public:
   virtual void toAdmin(FIX::Message &message, const FIX::SessionID &session_id);
 
   /// Notification of app message being sent to target.
-  virtual void toApp(FIX::Message &message, const FIX::SessionID &session_id)
-      EXCEPT(FIX::DoNotSend);
+  virtual void toApp(FIX::Message &message,
+                     const FIX::SessionID &session_id) throw(FIX::DoNotSend);
 
   /// Notification of admin message being received from target.
-  virtual void fromAdmin(const FIX::Message &message,
-                         const FIX::SessionID &session_id)
-      EXCEPT(FIX::FieldNotFound, FIX::IncorrectDataFormat,
-             FIX::IncorrectTagValue, FIX::RejectLogon);
+  virtual void
+  fromAdmin(const FIX::Message &message,
+            const FIX::SessionID &session_id) throw(FIX::FieldNotFound,
+                                                    FIX::IncorrectDataFormat,
+                                                    FIX::IncorrectTagValue,
+                                                    FIX::RejectLogon);
 
   /// Notification of app message being received from target.
-  virtual void fromApp(const FIX::Message &message,
-                       const FIX::SessionID &session_id)
-      EXCEPT(FIX::FieldNotFound, FIX::IncorrectDataFormat,
-             FIX::IncorrectTagValue, FIX::UnsupportedMessageType);
+  virtual void
+  fromApp(const FIX::Message &message,
+          const FIX::SessionID &session_id) throw(FIX::FieldNotFound,
+                                                  FIX::IncorrectDataFormat,
+                                                  FIX::IncorrectTagValue,
+                                                  FIX::UnsupportedMessageType);
 
   // Interface methods from FIX::MessageCracker (to accept all the types of
   // messages that the FIX gateway handles).

@@ -1,6 +1,7 @@
 #pragma once
 
 #include "FixMsgTranslatorServiceTypes.hpp"
+#include <DefaultDomainParticipantConstants.hpp>
 #include <ThreadSafeQueue.hpp>
 #include <atomic>
 #include <thread>
@@ -14,13 +15,41 @@ template <typename T> class FixMsgTranslatorService {
 public:
   FixMsgTranslatorService(FixApplication &app, TranslatorFunc<T> processor_func,
                           const std::string &name,
-                          unsigned long wait_timeout_us = 1000);
+                          unsigned long wait_timeout_us = 1000)
+      : m_processor_func(processor_func), m_name(name),
+        m_wait_interval_us(wait_timeout_us) {
+    LOG4CXX_INFO(logger, "Starting processor : [" << m_name << "]");
 
-  ~FixMsgTranslatorService();
+    std::atomic_init(&m_is_running, true);
+    m_publisher_thread = std::thread([&]() {
+      while (m_is_running.load()) {
+        T dds_message;
+        while (m_dds_msg_queue.try_pop(dds_message)) {
+          LOG4CXX_INFO(logger, "Processing: [" << m_name << "]");
 
-  void enqueue_dds_message(const T &msg);
+          m_processor_func(app, dds_message);
 
-  void service();
+          LOG4CXX_INFO(logger, "Processed: [" << m_name << "]");
+        }
+
+        std::this_thread::sleep_for(
+            std::chrono::microseconds(m_wait_interval_us));
+      }
+
+      LOG4CXX_INFO(logger, "Exiting processes: [" << m_name << "]");
+    });
+  }
+
+  ~FixMsgTranslatorService() {
+    LOG4CXX_INFO(logger, "Stopping processor : [" << m_name << "]");
+
+    m_is_running.store(false);
+    m_publisher_thread.join();
+
+    LOG4CXX_INFO(logger, "Stopped processor");
+  }
+
+  void enqueue_dds_message(const T &msg) { m_dds_msg_queue.push(msg); }
 
 private:
   // Service thread metadata.
