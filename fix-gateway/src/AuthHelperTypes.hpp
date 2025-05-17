@@ -10,11 +10,11 @@ class Dictionary;
 class SessionID;
 }; // namespace FIX
 
-using UserMap = std::map<std::string, FIX::SessionID>;
+using UserMap = std::unordered_map<std::string, FIX::SessionID>;
 
 class FixSocketConnection; // From FixSocketConnection.hpp.
 using PendingLogonSocketConnectionMap =
-    std::map<std::string, FixSocketConnection *>;
+    std::unordered_map<std::string, FixSocketConnection *>;
 
 using FixSettingsPtr = std::unique_ptr<FIX::SessionSettings>;
 using FixSessionFactoryPtr = std::unique_ptr<FIX::SessionFactory>;
