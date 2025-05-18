@@ -200,10 +200,6 @@ int main(int argc, char *argv[]) {
     std::string destination_market_filter =
         "Destination = %0 and SecurityExchange = %1";
 
-    // Filter for mass cancel - when client disconnects all orders get
-    // cancelled.
-    std::string matching_engine_filter = "Destination = %0";
-
     // Market filter: Securities List, Open Prices(Market Data Snap Shot).
     std::string market_filter = "DestinationUser = %0";
 
@@ -235,6 +231,7 @@ int main(int argc, char *argv[]) {
             destination_market_filter, {"MATCHING_ENGINE", market_name});
 
     // Order Mass Cancel Request.
+    std::string matching_engine_filter = "Destination = %0";
     auto order_mass_cancel_request_topic_tuple =
         participant.make_topic<DistributedStockExchange_OrderMassCancelRequest::
                                    OrderMassCancelRequestPubSubType,
