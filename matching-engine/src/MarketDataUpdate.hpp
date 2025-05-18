@@ -10,5 +10,5 @@ struct MarketDataUpdate {
 
   // Data sent.
   DistributedStockExchange_MarketDataIncrementalRefresh::
-      MarketDataIncrementalRefresh refresh_data;
+      MarketDataIncrementalRefresh refreshData;
 };

@@ -46,7 +46,7 @@ void MarketDataPublisherService::service() {
     // Pop off all the entries in the queue and store in map for easy access.
     while (m_market_data_publisher_queue_ptr->pop(market_data_update)) {
       market_data_updates[market_data_update->symbol] =
-          market_data_update->refresh_data;
+          market_data_update->refreshData;
 
       std::stringstream ss;
       MarketDataIncrementalRefreshLogger::log(

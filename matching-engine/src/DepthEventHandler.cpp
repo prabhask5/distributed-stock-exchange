@@ -44,9 +44,9 @@ void DepthEventHandler::on_depth_change(
 
   // Fill in simple market data update metadata.
   market_data_update->symbol = depth_order_book->get_symbol();
-  market_data_update->refresh_data.Source("MATCHING_ENGINE");
-  market_data_update->refresh_data.fix_header().MsgType("X");
-  market_data_update->refresh_data.c_NoMDEntries().resize(
+  market_data_update->refreshData.Source("MATCHING_ENGINE");
+  market_data_update->refreshData.fix_header().MsgType("X");
+  market_data_update->refreshData.c_NoMDEntries().resize(
       3 * MARKET_DATA_PRICE_DEPTH);
 
   // Populate the inner market data entry.
@@ -69,14 +69,14 @@ void DepthEventHandler::on_depth_change(
     md_entry.MDEntryType(md_entry_index < MARKET_DATA_PRICE_DEPTH
                              ? FIX::MDEntryType_BID
                              : FIX::MDEntryType_OFFER);
-    market_data_update->refresh_data.c_NoMDEntries()[md_entry_index++] =
+    market_data_update->refreshData.c_NoMDEntries()[md_entry_index++] =
         md_entry;
   }
 
   // Log relevant info about the market incremental refresh data about to be
   // sent over DDS.
   std::stringstream ss;
-  MarketDataIncrementalRefreshLogger::log(ss, market_data_update->refresh_data);
+  MarketDataIncrementalRefreshLogger::log(ss, market_data_update->refreshData);
   LOG4CXX_INFO(logger, "MarketDataIncrementalRefresh : [" << ss.str() << "]");
 
   int market_data_index =
@@ -93,14 +93,14 @@ void DepthEventHandler::on_depth_change(
     if (current_order_book_stats->second->volume > 0) {
       // Populate the data related to the "trade" action with the market price.
       set_market_data_stats_entry(
-          market_data_update->refresh_data.c_NoMDEntries()[market_data_index++],
+          market_data_update->refreshData.c_NoMDEntries()[market_data_index++],
           m_market_name, symbol, FIX::MDUpdateAction_NEW,
           FIX::MDEntryType_TRADE, depth_order_book->get_market_price(), 0);
 
       // Populate the data related to the trade volume with the "volume"
       // statistics.
       set_market_data_stats_entry(
-          market_data_update->refresh_data.c_NoMDEntries()[market_data_index++],
+          market_data_update->refreshData.c_NoMDEntries()[market_data_index++],
           m_market_name, symbol, FIX::MDUpdateAction_NEW,
           FIX::MDEntryType_TRADE_VOLUME, 0,
           current_order_book_stats->second->volume);
@@ -108,21 +108,21 @@ void DepthEventHandler::on_depth_change(
       // Populate the data related to the opening price with the "open"
       // statistics.
       set_market_data_stats_entry(
-          market_data_update->refresh_data.c_NoMDEntries()[market_data_index++],
+          market_data_update->refreshData.c_NoMDEntries()[market_data_index++],
           m_market_name, symbol, FIX::MDUpdateAction_NEW,
           FIX::MDEntryType_OPENING_PRICE,
           current_order_book_stats->second->open, 0);
 
       // Populate the data related to the low price with the "low" statistics.
       set_market_data_stats_entry(
-          market_data_update->refresh_data.c_NoMDEntries()[market_data_index++],
+          market_data_update->refreshData.c_NoMDEntries()[market_data_index++],
           m_market_name, symbol, FIX::MDUpdateAction_NEW,
           FIX::MDEntryType_TRADING_SESSION_LOW_PRICE,
           current_order_book_stats->second->low, 0);
 
       // Populate the data related to the high price with the "high" statistics.
       set_market_data_stats_entry(
-          market_data_update->refresh_data.c_NoMDEntries()[market_data_index++],
+          market_data_update->refreshData.c_NoMDEntries()[market_data_index++],
           m_market_name, symbol, FIX::MDUpdateAction_NEW,
           FIX::MDEntryType_TRADING_SESSION_HIGH_PRICE,
           current_order_book_stats->second->high, 0);
@@ -130,7 +130,7 @@ void DepthEventHandler::on_depth_change(
       // Populate the data related to the opening price with the "high"
       // statistics.
       set_market_data_stats_entry(
-          market_data_update->refresh_data.c_NoMDEntries()[market_data_index++],
+          market_data_update->refreshData.c_NoMDEntries()[market_data_index++],
           m_market_name, symbol, FIX::MDUpdateAction_NEW,
           FIX::MDEntryType_OPENING_PRICE,
           current_order_book_stats->second->high, 0);

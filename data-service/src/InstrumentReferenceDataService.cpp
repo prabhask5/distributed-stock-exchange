@@ -124,7 +124,7 @@ void InstrumentReferenceDataService::process_ref_data_request(
   for (const auto &instrument : *instrument_list_ptr) {
     security_list.c_NoRelatedSym()[instrument_index].Symbol(instrument->symbol);
     security_list.c_NoRelatedSym()[instrument_index].SecurityExchange(
-        instrument->market_name);
+        instrument->marketName);
     security_list.c_NoRelatedSym()[instrument_index].Text(
         instrument->properties);
 

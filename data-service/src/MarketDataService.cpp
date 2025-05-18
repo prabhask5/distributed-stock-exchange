@@ -132,7 +132,7 @@ bool MarketDataService::populate_market_data_snapshot_full_refresh(
     DistributedStockExchange_MarketDataSnapshotFullRefresh::
         MarketDataSnapshotFullRefresh &market_data_snapshot_full_refresh) {
   market_data_snapshot_full_refresh.Symbol(instrument.symbol);
-  market_data_snapshot_full_refresh.SecurityExchange(instrument.market_name);
+  market_data_snapshot_full_refresh.SecurityExchange(instrument.marketName);
 
   // Now we copy all the market data entries for this instrument from the stored
   // info in the cache.

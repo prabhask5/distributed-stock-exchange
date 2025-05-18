@@ -20,22 +20,22 @@ struct Instrument {
 
   Instrument(const char *market_name, const char *symbol,
              const char *properties = "")
-      : market_name(market_name), symbol(symbol), properties(properties) {};
+      : marketName(market_name), symbol(symbol), properties(properties) {};
 
   Instrument(const std::string &market_name, const std::string &symbol,
              const std::string properties = "")
-      : market_name(market_name), symbol(symbol), properties(properties) {};
+      : marketName(market_name), symbol(symbol), properties(properties) {};
 
   std::string symbol;
-  std::string market_name;
+  std::string marketName;
   std::string properties;
 
   friend bool operator<(const Instrument &i1, const Instrument &i2) {
-    return (i1.symbol + i1.market_name < i2.symbol + i2.market_name);
+    return (i1.symbol + i1.marketName < i2.symbol + i2.marketName);
   };
 
   friend bool operator==(const Instrument &i1, const Instrument &i2) {
-    return (i1.symbol == i2.symbol && i1.market_name == i2.market_name);
+    return (i1.symbol == i2.symbol && i1.marketName == i2.marketName);
   };
 };
 
@@ -43,7 +43,7 @@ template <> struct std::hash<Instrument> {
   size_t operator()(const Instrument &instr) const {
     std::size_t seed = 0;
     boost::hash_combine(seed, instr.symbol);
-    boost::hash_combine(seed, instr.market_name);
+    boost::hash_combine(seed, instr.marketName);
     boost::hash_combine(seed, instr.properties);
 
     return seed;
