@@ -192,17 +192,6 @@ int main(int argc, char *argv[]) {
         std::move(execution_report_publisher_ptr),
         std::move(order_book_stats_map_ptr));
 
-    // Filter incoming topic data by only the properties that would match the
-    // data needed for each data reader listener implementation.
-
-    // Filter expression for the MARKET_NAME specified in config file.
-    // Filter for messages for this market/security exchange.
-    std::string destination_market_filter =
-        "Destination = %0 and SecurityExchange = %1";
-
-    // Market filter: Securities List, Open Prices(Market Data Snap Shot).
-    std::string market_filter = "DestinationUser = %0";
-
     // Set up FastDDS topics and data readers for incoming requests.
 
     // New Order Single Request.
@@ -215,7 +204,8 @@ int main(int argc, char *argv[]) {
             new_order_single_topic_tuple,
             new NewOrderSingleDataReaderListener(market_ptr),
             "FILTER_MATCHING_ENGINE_NEW_ORDER_SINGLE",
-            destination_market_filter, {"MATCHING_ENGINE", market_name});
+            "Destination = %0 and SecurityExchange = %1",
+            {"MATCHING_ENGINE", market_name});
 
     // Order Cancel Request.
     auto order_cancel_request_topic_tuple = participant.make_topic<
@@ -228,10 +218,10 @@ int main(int argc, char *argv[]) {
             order_cancel_request_topic_tuple,
             new OrderCancelRequestDataReaderListener(market_ptr),
             "FILTER_MATCHING_ENGINE_ORDER_CANCEL_REQUEST",
-            destination_market_filter, {"MATCHING_ENGINE", market_name});
+            "Destination = %0 and SecurityExchange = %1",
+            {"MATCHING_ENGINE", market_name});
 
     // Order Mass Cancel Request.
-    std::string matching_engine_filter = "Destination = %0";
     auto order_mass_cancel_request_topic_tuple =
         participant.make_topic<DistributedStockExchange_OrderMassCancelRequest::
                                    OrderMassCancelRequestPubSubType,
@@ -243,7 +233,7 @@ int main(int argc, char *argv[]) {
             order_mass_cancel_request_topic_tuple,
             new OrderMassCancelRequestDataReaderListener(market_ptr),
             "FILTER_MATCHING_ENGINE_ORDER_MASS_CANCEL_REQUEST",
-            matching_engine_filter, {"MATCHING_ENGINE"});
+            "Destination = %0", {"MATCHING_ENGINE"});
 
     // Security List.
     auto security_list_topic_tuple = participant.make_topic<
@@ -254,7 +244,7 @@ int main(int argc, char *argv[]) {
         participant.make_data_reader_tuple(
             security_list_topic_tuple,
             new SecurityListDataReaderListener(market_ptr),
-            "FILTER_MATCHING_ENGINE_SECURITY_LIST", market_filter,
+            "FILTER_MATCHING_ENGINE_SECURITY_LIST", "DestinationUser = %0",
             {market_ptr->get_market_name()});
 
     // Market Data Snapshot Full Refresh.
@@ -269,8 +259,8 @@ int main(int argc, char *argv[]) {
         participant.make_data_reader_tuple(
             market_data_snapshot_full_refresh_topic_tuple,
             new MarketDataSnapshotFullRefreshDataReaderListener(market_ptr),
-            "FILTER_MATCHING_ENGINE_FULL_SNAPSHOT_REQUEST", market_filter,
-            {market_ptr->get_market_name()});
+            "FILTER_MATCHING_ENGINE_FULL_SNAPSHOT_REQUEST",
+            "DestinationUser = %0", {market_ptr->get_market_name()});
 
     // Officially start the matching engine by flipping the flag on.
     std::atomic_init(&is_running, true);

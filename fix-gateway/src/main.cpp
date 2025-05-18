@@ -186,13 +186,10 @@ int main(int argc, char *argv[]) {
 
     // Set up FastDDS topics and data readers for incoming requests.
 
-    // Filter for Logon/Logout.
-    std::string auth_comp_id_filter = "SourceUser=%0";
-
     // Logon response.
     auto logon_data_reader_tuple = participant.make_data_reader_tuple(
         logon_topic_tuple, new LogonDataReaderListener(app), "FILTERED_LOGON",
-        auth_comp_id_filter, {"AUTH"});
+        "SourceUser=%0", {"AUTH"});
 
     // Logout request.
     auto logout_topic_tuple =
@@ -202,10 +199,7 @@ int main(int argc, char *argv[]) {
                 LOGOUT_TOPIC_NAME);
     auto logout_data_reader_tuple = participant.make_data_reader_tuple(
         logout_topic_tuple, new LogoutDataReaderListener(app),
-        "FILTERED_LOGOUT", auth_comp_id_filter, {"AUTH"});
-
-    // Filter for Security List.
-    std::string target_comp_id_filter = "Destination=%0";
+        "FILTERED_LOGOUT", "SourceUser=%0", {"AUTH"});
 
     // Security List response.
     auto security_list_topic_tuple = participant.make_topic<
@@ -214,7 +208,7 @@ int main(int argc, char *argv[]) {
         SECURITY_LIST_TOPIC_NAME);
     auto security_list_data_reader_tuple = participant.make_data_reader_tuple(
         security_list_topic_tuple, new SecurityListDataReaderListener(app),
-        "FILTERED_REF_DATA", target_comp_id_filter, {fix_gateway_name});
+        "FILTERED_REF_DATA", "Destination=%0", {fix_gateway_name});
 
     // Market Data Incremental Refresh response.
     auto market_data_incremental_refresh_topic_tuple =
@@ -251,7 +245,7 @@ int main(int argc, char *argv[]) {
         participant.make_data_reader_tuple(
             execution_report_topic_tuple,
             new ExecutionReportDataReaderListener(app), "FILTERED_EXEC_REPORT",
-            target_comp_id_filter, {fix_gateway_name});
+            "Destination=%0", {fix_gateway_name});
 
     // Order Cancel Reject response.
     auto order_cancel_reject_topic_tuple = participant.make_topic<
@@ -262,7 +256,7 @@ int main(int argc, char *argv[]) {
         participant.make_data_reader_tuple(
             order_cancel_reject_topic_tuple,
             new OrderCancelRejectDataReaderListener(app),
-            "FILTERED_ORDER_CANCEL_REJECT", target_comp_id_filter,
+            "FILTERED_ORDER_CANCEL_REJECT", "Destination=%0",
             {fix_gateway_name});
 
     // Order Mass Cancel Report response.
@@ -275,8 +269,7 @@ int main(int argc, char *argv[]) {
         participant.make_data_reader_tuple(
             order_mass_cancel_report_topic_tuple,
             new OrderMassCancelReportDataReaderListener(app),
-            "FILTERED_ORDER_MASS_CANCEL", target_comp_id_filter,
-            {fix_gateway_name});
+            "FILTERED_ORDER_MASS_CANCEL", "Destination=%0", {fix_gateway_name});
 
     // Make the socket acceptor and session factory to accept new FIX
     // connections, and manage current FIX sessions.
