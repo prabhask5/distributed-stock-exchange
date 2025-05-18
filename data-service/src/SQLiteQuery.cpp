@@ -16,7 +16,7 @@ bool SQLiteQuery::execute(sqlite3 *db_connection_ptr) {
   // in the m_prepared_statement pointer. A prepared statement pointer contains
   // the information from the execution.
   int code = sqlite3_prepare_v2(db_connection_ptr, m_raw_sql_query.c_str(), -1,
-                                &m_prepared_statement, NULL);
+                                &m_prepared_statement, nullptr);
   if (code != SQLITE_OK) {
     handle_fatal(db_connection_ptr);
     return false;

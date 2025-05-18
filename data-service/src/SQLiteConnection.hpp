@@ -16,7 +16,7 @@ public:
   // pointer to it. Returns whether the query execution was successful.
   bool execute(SQLiteQuery &query);
 
-  // Just returns whether the database connection pointer is not NULL.
+  // Just returns whether the database connection pointer is not nullptr.
   bool is_connected();
 
 private:

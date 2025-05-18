@@ -9,16 +9,16 @@
 UserMap AuthHelper::m_active_user_map;
 
 AuthHelper::AuthHelper(FixSettingsPtr settings_ptr,
-                         FixSessionFactoryPtr session_factory_ptr,
-                         FixDictionaryPtr default_dictionary_ptr,
-                         std::string comp_id)
+                       FixSessionFactoryPtr session_factory_ptr,
+                       FixDictionaryPtr default_dictionary_ptr,
+                       std::string comp_id)
     : m_settings_ptr(std::move(settings_ptr)),
       m_session_factory_ptr(std::move(session_factory_ptr)),
       m_default_dictionary_ptr(std::move(default_dictionary_ptr)),
       m_comp_id(comp_id) {}
 
 bool AuthHelper::ActiveSessionIDFromMessage(const FIX::Message &message,
-                                             FIX::SessionID &session_id) {
+                                            FIX::SessionID &session_id) {
   // First parse the sender id from the message.
   FIX::SenderCompID sender_id;
   message.getHeader().getField(sender_id);
@@ -35,7 +35,7 @@ bool AuthHelper::ActiveSessionIDFromMessage(const FIX::Message &message,
 }
 
 void AuthHelper::insert_pending_connection(const std::string &connection_token,
-                                            FixSocketConnection *sc_ptr) {
+                                           FixSocketConnection *sc_ptr) {
   // This is a lock guard, holds the lock for as long as this variable is in
   // scope.
   FIX::Locker lock(m_pending_session_mutex);
@@ -132,7 +132,7 @@ void AuthHelper::process_dds_logon(FIX::Message &message) {
 }
 
 void AuthHelper::process_dds_logout(const std::string &connection_token,
-                                     FIX::Message &logout_message) {
+                                    FIX::Message &logout_message) {
   // This is a lock guard, holds the lock for as long as this variable is in
   // scope.
   FIX::Locker lock(m_pending_session_mutex);
@@ -178,7 +178,7 @@ void AuthHelper::process_dds_logout(const std::string &connection_token,
 }
 
 void AuthHelper::process_disconnect(const FIX::SessionID &session_id,
-                                     FixSocketConnection *sc_ptr) {
+                                    FixSocketConnection *sc_ptr) {
   // This is a lock guard, holds the lock for as long as this variable is in
   // scope.
   FIX::Locker lock(m_pending_session_mutex);
@@ -199,7 +199,7 @@ void AuthHelper::process_disconnect(const FIX::SessionID &session_id,
   // it.
   LOG4CXX_INFO(logger, "Disconnecting : [" << session_id.toString());
   FIX::Session *session = FIX::Session::lookupSession(session_id);
-  session->setResponder(NULL);
+  session->setResponder(nullptr);
   session->logout("Disconnected");
   m_session_factory_ptr->destroy(session);
 }
@@ -216,7 +216,7 @@ std::string AuthHelper::extract_connection_token(const FIX::Message &message) {
 }
 
 void AuthHelper::login_session(FIX::Session *session,
-                                std::string &connection_token) {
+                               std::string &connection_token) {
   // This is a lock guard, holds the lock for as long as this variable is in
   // scope.
   FIX::Locker lock(m_pending_session_mutex);
