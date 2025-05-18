@@ -15,7 +15,7 @@ class AuthService {
 public:
   AuthService(const FIX::DatabaseConnectionID &database_connection_id,
               const DataWriterContainerPtr &data_writer_container_ptr,
-              LogonQueuePtr logon_request_queue);
+              LogonQueuePtr logon_request_queue_ptr);
 
   ~AuthService();
 
@@ -34,7 +34,7 @@ private:
   // have go all the way down to the DB layer for every auth request.
   AuthCache m_credentials_cache;
 
-  LogonQueuePtr m_logon_request_queue;
+  LogonQueuePtr m_logon_request_queue_ptr;
   std::atomic<bool> m_is_running;
   std::thread m_service_thread;
 };

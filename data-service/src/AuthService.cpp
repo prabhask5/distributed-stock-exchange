@@ -12,9 +12,9 @@
 AuthService::AuthService(
     const FIX::DatabaseConnectionID &database_connection_id,
     const DataWriterContainerPtr &data_writer_container_ptr,
-    LogonQueuePtr logon_request_queue)
+    LogonQueuePtr logon_request_queue_ptr)
     : m_data_writer_container_ptr(data_writer_container_ptr),
-      m_logon_request_queue(logon_request_queue),
+      m_logon_request_queue_ptr(logon_request_queue_ptr),
       m_credentials_cache([this](const std::string &username) {
         return this->get_password(username);
       }) {
@@ -37,9 +37,9 @@ void AuthService::service() {
       return;
     }
 
-    while (!m_logon_request_queue->empty()) {
+    while (!m_logon_request_queue_ptr->empty()) {
       LogonPtr logon_ptr;
-      m_logon_request_queue->pop(logon_ptr);
+      m_logon_request_queue_ptr->pop(logon_ptr);
       authenticate(std::move(logon_ptr));
     }
 

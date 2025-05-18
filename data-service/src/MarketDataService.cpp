@@ -14,10 +14,10 @@ MarketDataService::MarketDataService(
     const FIX::DatabaseConnectionID &database_connection_id,
     const DataWriterContainerPtr &data_writer_container_ptr,
     IncrementalRefreshMapPtr incremental_refresh_map_ptr,
-    MarketDataRequestQueuePtr market_data_request_queue)
+    MarketDataRequestQueuePtr market_data_request_queue_ptr)
     : m_data_writer_container_ptr(data_writer_container_ptr),
       m_incremental_refresh_map_ptr(incremental_refresh_map_ptr),
-      m_market_data_request_queue(market_data_request_queue) {
+      m_market_data_request_queue_ptr(market_data_request_queue_ptr) {
   m_sqlite_connection_ptr =
       std::make_unique<SQLiteConnection>(database_connection_id);
 
@@ -78,9 +78,9 @@ void MarketDataService::service() {
       return;
     }
 
-    while (!m_market_data_request_queue->empty()) {
+    while (!m_market_data_request_queue_ptr->empty()) {
       MarketDataRequestPtr market_data_request_ptr;
-      m_market_data_request_queue->pop(market_data_request_ptr);
+      m_market_data_request_queue_ptr->pop(market_data_request_ptr);
       process_market_data_request(std::move(market_data_request_ptr));
     }
 
