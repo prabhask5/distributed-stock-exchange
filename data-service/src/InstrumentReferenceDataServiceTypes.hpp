@@ -6,7 +6,7 @@
 #include <memory>
 
 class Instrument; // From Instrument.hpp.
-using InstrumentPtr = std::unique_ptr<Instrument>;
+using InstrumentPtr = std::shared_ptr<Instrument>;
 
 // Maps a stock ticker symbol to an instrument representing the canonical stock
 // ticker metadata. One instrument represents the metadata for the whole stock.

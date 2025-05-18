@@ -21,7 +21,7 @@ void LogonDataReaderListener::on_data_available(DataReader *reader) {
 
       if (logon.Destination().compare("DATA_SERVICE") == 0)
         m_logon_queue_ptr->push(
-            std::make_shared<DistributedStockExchange_Logon::Logon>(logon));
+            std::make_unique<DistributedStockExchange_Logon::Logon>(logon));
     }
   }
 }

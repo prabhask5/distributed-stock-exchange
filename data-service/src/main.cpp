@@ -2,36 +2,42 @@
 #include "AuthServiceTypes.hpp"
 #include "DataServiceDataWriterContainer.hpp"
 #include "DataServiceDataWriterContainerTypes.hpp"
+#include "ExecutionReportDataReaderListener.hpp"
 #include "InstrumentReferenceDataService.hpp"
 #include "InstrumentReferenceDataServiceTypes.hpp"
+#include "LogonDataReaderListener.hpp"
+#include "MarketDataIncrementalRefreshDataReaderListener.hpp"
+#include "MarketDataRequestDataReaderListener.hpp"
 #include "MarketDataService.hpp"
 #include "MarketDataServiceTypes.hpp"
+#include "OrderMassStatusRequestDataReaderListener.hpp"
 #include "OrderMassStatusService.hpp"
 #include "OrderMassStatusServiceTypes.hpp"
 #include "SQLiteConnection.hpp"
 #include "SQLiteConnectionTypes.hpp"
+#include "SecurityListRequestDataReaderListener.hpp"
 #include <Constants.hpp>
 #include <DefaultDomainParticipant.hpp>
 #include <DefaultDomainParticipantConstants.hpp>
 #include <DefaultDomainParticipantTypes.hpp>
 #include <ExecutionReport.hpp>
-#include <ExecutionReportPubSubType.hpp>
+#include <ExecutionReportPubSubTypes.hpp>
 #include <Logon.hpp>
-#include <LogonPubSubType.hpp>
+#include <LogonPubSubTypes.hpp>
 #include <Logout.hpp>
-#include <LogoutPubSubType.hpp>
+#include <LogoutPubSubTypes.hpp>
 #include <MarketDataIncrementalRefresh.hpp>
-#include <MarketDataIncrementalRefreshPubSubType.hpp>
+#include <MarketDataIncrementalRefreshPubSubTypes.hpp>
 #include <MarketDataRequest.hpp>
-#include <MarketDataRequestPubSubType.hpp>
+#include <MarketDataRequestPubSubTypes.hpp>
 #include <MarketDataSnapshotFullRefresh.hpp>
-#include <MarketDataSnapshotFullRefreshPubSubType.hpp>
+#include <MarketDataSnapshotFullRefreshPubSubTypes.hpp>
 #include <OrderMassStatusRequest.hpp>
-#include <OrderMassStatusRequestPubSubType.hpp>
+#include <OrderMassStatusRequestPubSubTypes.hpp>
 #include <SecurityList.hpp>
-#include <SecurityListPubSubType.hpp>
+#include <SecurityListPubSubTypes.hpp>
 #include <SecurityListRequest.hpp>
-#include <SecurityListRequestPubSubType.hpp>
+#include <SecurityListRequestPubSubTypes.hpp>
 #include <atomic>
 #include <boost/asio.hpp>
 #include <boost/program_options.hpp>
@@ -194,7 +200,7 @@ int main(int argc, char *argv[]) {
 
     // Logon request.
     auto logon_data_reader_tuple = participant.make_data_reader_tuple(
-        logon_topic_tuple, new LogonDataReaderListener(logon_request_queue_ptr),
+        logon_topic_tuple, new LogonDataReaderListener(logon_queue_ptr),
         "FILTERED_LOGON", "DestinationUser = %0",
         {participant.get_participant_name()});
 

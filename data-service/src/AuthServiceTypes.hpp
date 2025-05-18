@@ -20,7 +20,7 @@ using LogonPtr = std::unique_ptr<DistributedStockExchange_Logon::Logon>;
 // authentication.
 using LogonQueue =
     boost::lockfree::spsc_queue<LogonPtr, boost::lockfree::capacity<1024>>;
-using LogonQueuePtr = std::shared_ptr<LogonQueuePtr>;
+using LogonQueuePtr = std::shared_ptr<LogonQueue>;
 
 template <typename K, typename V> class LRUCache; // From LRUCache.hpp.
 

@@ -18,8 +18,8 @@ public:
 
     if (iter != m_key_to_node.end()) {
       // Move to front (most recently used)
-      m_nodes.splice(m_nodes.begin(), m_nodes, it->second.second);
-      return it->second.first;
+      m_nodes.splice(m_nodes.begin(), m_nodes, iter->second.second);
+      return iter->second.first;
     }
 
     // If not in cache, get it using the refresh function.
@@ -43,5 +43,5 @@ private:
   size_t m_capacity;
   RefreshFunc<K, V> m_refresh_func;
   std::list<K> m_nodes;
-  std::unordered_map<K, std::pair<V, Node>> m_key_to_node;
+  std::unordered_map<K, std::pair<V, Node<K>>> m_key_to_node;
 };
