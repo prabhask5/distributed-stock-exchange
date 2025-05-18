@@ -6,7 +6,7 @@ struct DataWriterContainer {
   // Represents the execution report for an order sent by a user through the FIX
   // gateway. This report contains information about a order that is currently
   // being executed by the matching engine. This DW goes from matching engine ->
-  // FIX gateway.
+  // data service.
   DataWriterPtr execReportDW;
 
   // Represents information related to canceling one order sent by a user
