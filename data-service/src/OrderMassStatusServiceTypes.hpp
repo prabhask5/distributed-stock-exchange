@@ -33,7 +33,7 @@ class ExecutionReport;
 // This is a pointer to an execution report, which represents the status info
 // from a trade for an order.
 using ExecutionReportPtr =
-    std::unique_ptr<DistributedStockExchange_ExecutionReport::ExecutionReport>;
+    std::shared_ptr<DistributedStockExchange_ExecutionReport::ExecutionReport>;
 
 // This a list containing multiple execution reports. One order can have many
 // execution reports if it gets partially filled multiple times.
