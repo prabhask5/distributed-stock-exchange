@@ -67,7 +67,7 @@ add_subdirectory(library/dds/idl)
 include_directories(library/dds/idl)
 
 add_subdirectory(fix-gateway/src)
-# add_subdirectory(data-service/src)
+add_subdirectory(data-service/src)
 add_subdirectory(matching-engine/src)
 
 set(CMAKE_XCODE_ATTRIBUTE_OTHER_CODE_SIGN_FLAGS "-o linker-signed")
