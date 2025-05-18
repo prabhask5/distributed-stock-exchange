@@ -5,6 +5,10 @@
 #include "SQLiteConnectionTypes.hpp"
 #include <thread>
 
+// This service spins a separate thread to handle all incoming order mass status
+// requests to the data service. This class accomplishes that by storing
+// execution reports in memory from the execution report data reader listener,
+// and copying them into the DDS response.
 class OrderMassStatusService {
 public:
   OrderMassStatusService(
