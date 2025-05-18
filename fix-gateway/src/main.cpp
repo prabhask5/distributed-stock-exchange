@@ -273,8 +273,7 @@ int main(int argc, char *argv[]) {
 
     // Make the socket acceptor and session factory to accept new FIX
     // connections, and manage current FIX sessions.
-    FIX::SocketAcceptor acceptor(app, store_factory, *settings_ptr,
-                                 log_factory);
+    FixSocketAcceptor acceptor(app, store_factory, *settings_ptr, log_factory);
     FixSessionFactoryPtr session_factory_ptr =
         std::make_unique<FIX::SessionFactory>(app, store_factory, &log_factory);
 
