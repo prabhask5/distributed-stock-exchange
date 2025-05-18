@@ -13,11 +13,12 @@ namespace DistributedStockExchange_MarketDataRequest {
 class MarketDataRequest;
 }
 
+using MarketDataEntryList = std::list<
+    DistributedStockExchange_MarketDataIncrementalRefresh::NoMDEntries>;
+
 struct Instrument; // From Instrument.hpp.
-using IncrementalRefreshMap = std::unordered_map<
-    Instrument,
-    std::list<
-        DistributedStockExchange_MarketDataIncrementalRefresh::NoMDEntries>>;
+using IncrementalRefreshMap =
+    std::unordered_map<Instrument, MarketDataEntryList>;
 using IncrementalRefreshMapPtr = std::shared_ptr<IncrementalRefreshMap>;
 
 using MarketDataRequestPtr = std::unique_ptr<

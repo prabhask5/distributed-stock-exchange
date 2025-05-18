@@ -6,6 +6,10 @@
 #include <quickfix/DatabaseConnectionID.h>
 #include <thread>
 
+// This service spins a separate thread to handle all incoming security list
+// requests to the data service. This service uses instrument reference data
+// information parsed from the database alongside a security list request queue
+// to handle incoming requests with stored data.
 class InstrumentReferenceDataService {
 public:
   InstrumentReferenceDataService(
