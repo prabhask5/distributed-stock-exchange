@@ -87,12 +87,82 @@ int main(int argc, char *argv[]) {
                              << " |Market Data Publication Interval| "
                              << data_pub_interval);
 
-    // Set up market data publisher queue, data writer container, execution
+    // Make DDS participant representing matching engine, and set up
+    // publisher/subscriber.
+    DefaultDomainParticipant participant(0, "MatchingEngine");
+
+    participant.create_publisher();
+    participant.create_subscriber();
+
+    // Make the data service data writer container dependency.
+    DataWriterContainerPtr data_writer_container_ptr =
+        std::make_shared<DataWriterContainer>();
+
+    // Set up FastDDS topics and data writers for outgoing reports/requests.
+
+    // Execution Report.
+    auto execution_report_topic_tuple = participant.make_topic<
+        DistributedStockExchange_ExecutionReport::ExecutionReportPubSubType,
+        DistributedStockExchange_ExecutionReport::ExecutionReport>(
+        EXECUTION_REPORT_TOPIC_NAME);
+    data_writer_container_ptr->execReportDW =
+        participant.make_data_writer(execution_report_topic_tuple);
+
+    // Mass Cancel Report.
+    auto order_mass_cancel_report_topic_tuple = participant.make_topic<
+        DistributedStockExchange_OrderMassCancelReport::
+            OrderMassCancelReportPubSubType,
+        DistributedStockExchange_OrderMassCancelReport::OrderMassCancelReport>(
+        ORDER_MASS_CANCEL_REPORT_TOPIC_NAME);
+    data_writer_container_ptr->orderMassCancelReportDW =
+        participant.make_data_writer(order_mass_cancel_report_topic_tuple);
+
+    // Security List Request.
+    auto security_list_request_topic_tuple = participant.make_topic<
+        DistributedStockExchange_SecurityListRequest::
+            SecurityListRequestPubSubType,
+        DistributedStockExchange_SecurityListRequest::SecurityListRequest>(
+        SECURITY_LIST_REQUEST_TOPIC_NAME);
+    SecurityListRequestDataWriterListenerPtr
+        security_list_request_data_writer_listener_ptr =
+            std::make_unique<SecurityListRequestDataWriterListener>(market_ptr);
+    data_writer_container_ptr->securityListRequestDW =
+        participant.make_data_writer(
+            security_list_request_topic_tuple,
+            security_list_request_data_writer_listener_ptr.get());
+
+    // Order Cancel Reject Report.
+    auto order_cancel_reject_topic_tuple = participant.make_topic<
+        DistributedStockExchange_OrderCancelReject::OrderCancelRejectPubSubType,
+        DistributedStockExchange_OrderCancelReject::OrderCancelReject>(
+        ORDER_CANCEL_REJECT_TOPIC_NAME);
+    data_writer_container_ptr->orderCancelRejectDW =
+        participant.make_data_writer(order_cancel_reject_topic_tuple);
+
+    // Market Data Incremental Refresh Report.
+    auto market_data_incremental_refresh_topic_tuple =
+        participant
+            .make_topic<DistributedStockExchange_MarketDataIncrementalRefresh::
+                            MarketDataIncrementalRefreshPubSubType,
+                        DistributedStockExchange_MarketDataIncrementalRefresh::
+                            MarketDataIncrementalRefresh>(
+                MARKET_DATA_INCREMENTAL_REFRESH_TOPIC_NAME);
+    data_writer_container_ptr->marketDataIncrementalRefreshDW =
+        participant.make_data_writer(
+            market_data_incremental_refresh_topic_tuple);
+
+    // Market Data Request.
+    auto market_data_request_topic_tuple = participant.make_topic<
+        DistributedStockExchange_MarketDataRequest::MarketDataRequestPubSubType,
+        DistributedStockExchange_MarketDataRequest::MarketDataRequest>(
+        MARKET_DATA_REQUEST_TOPIC_NAME);
+    data_writer_container_ptr->marketDataRequestDW =
+        participant.make_data_writer(market_data_request_topic_tuple);
+
+    // Set up market data publisher queue, execution
     // report publisher, and order book stock statistics dependency pointers.
     MarketDataPublisherQueuePtr market_data_publisher_queue_ptr =
         std::make_shared<MarketDataPublisherQueue>();
-    DataWriterContainerPtr data_writer_container_ptr =
-        std::make_shared<DataWriterContainer>();
     ExecutionReportPublisherPtr execution_report_publisher_ptr =
         std::make_shared<ExecutionReportPublisher>(data_writer_container_ptr);
     OrderBookStockStatsMapPtr order_book_stats_map_ptr =
@@ -107,6 +177,11 @@ int main(int argc, char *argv[]) {
         std::make_shared<DepthEventHandler>(order_book_stats_map_ptr,
                                             market_data_publisher_queue_ptr,
                                             market_name);
+
+    // Create and start the market data publisher service thread.
+    MarketDataPublisherServicePtr market_data_publisher_service_ptr(
+        data_writer_container_ptr, std::move(market_data_publisher_queue_ptr),
+        data_pub_interval);
 
     // Make top level Market class.
     MarketPtr market_ptr = std::make_shared<Market>(
@@ -132,36 +207,28 @@ int main(int argc, char *argv[]) {
     // Market filter: Securities List, Open Prices(Market Data Snap Shot).
     std::string market_filter = "DestinationUser = %0";
 
-    // Make DDS participant representing matching engine, and set up
-    // publisher/subscriber.
-    DefaultDomainParticipantPtr participant_ptr =
-        std::make_unique<DefaultDomainParticipant>(0, "MatchingEngine");
-
-    participant_ptr->create_publisher();
-    participant_ptr->create_subscriber();
-
     // Set up FastDDS topics and data readers for incoming requests.
 
     // New Order Single Request.
-    auto new_order_single_topic_tuple = participant_ptr->make_topic<
+    auto new_order_single_topic_tuple = participant.make_topic<
         DistributedStockExchange_NewOrderSingle::NewOrderSinglePubSubType,
         DistributedStockExchange_NewOrderSingle::NewOrderSingle>(
         NEW_ORDER_SINGLE_TOPIC_NAME);
     auto new_order_single_data_reader_tuple =
-        participant_ptr->make_data_reader_tuple(
+        participant.make_data_reader_tuple(
             new_order_single_topic_tuple,
             new NewOrderSingleDataReaderListener(market_ptr),
             "FILTER_MATCHING_ENGINE_NEW_ORDER_SINGLE",
             destination_market_filter, {"MATCHING_ENGINE", market_name});
 
     // Order Cancel Request.
-    auto order_cancel_request_topic_tuple = participant_ptr->make_topic<
+    auto order_cancel_request_topic_tuple = participant.make_topic<
         DistributedStockExchange_OrderCancelRequest::
             OrderCancelRequestPubSubType,
         DistributedStockExchange_OrderCancelRequest::OrderCancelRequest>(
         ORDER_CANCEL_REQUEST_TOPIC_NAME);
     auto order_cancel_request_data_reader_tuple =
-        participant_ptr->make_data_reader_tuple(
+        participant.make_data_reader_tuple(
             order_cancel_request_topic_tuple,
             new OrderCancelRequestDataReaderListener(market_ptr),
             "FILTER_MATCHING_ENGINE_ORDER_CANCEL_REQUEST",
@@ -169,26 +236,25 @@ int main(int argc, char *argv[]) {
 
     // Order Mass Cancel Request.
     auto order_mass_cancel_request_topic_tuple =
-        participant_ptr
-            ->make_topic<DistributedStockExchange_OrderMassCancelRequest::
-                             OrderMassCancelRequestPubSubType,
-                         DistributedStockExchange_OrderMassCancelRequest::
-                             OrderMassCancelRequest>(
-                ORDER_MASS_CANCEL_REQUEST_TOPIC_NAME);
+        participant.make_topic<DistributedStockExchange_OrderMassCancelRequest::
+                                   OrderMassCancelRequestPubSubType,
+                               DistributedStockExchange_OrderMassCancelRequest::
+                                   OrderMassCancelRequest>(
+            ORDER_MASS_CANCEL_REQUEST_TOPIC_NAME);
     auto order_mass_cancel_request_topic_data_reader_tuple =
-        participant_ptr->make_data_reader_tuple(
+        participant.make_data_reader_tuple(
             order_mass_cancel_request_topic_tuple,
             new OrderMassCancelRequestDataReaderListener(market_ptr),
             "FILTER_MATCHING_ENGINE_ORDER_MASS_CANCEL_REQUEST",
             matching_engine_filter, {"MATCHING_ENGINE"});
 
     // Security List.
-    auto security_list_topic_tuple = participant_ptr->make_topic<
+    auto security_list_topic_tuple = participant.make_topic<
         DistributedStockExchange_SecurityList::SecurityListPubSubType,
         DistributedStockExchange_SecurityList::SecurityList>(
         SECURITY_LIST_TOPIC_NAME);
     auto security_list_topic_request_data_reader_tuple =
-        participant_ptr->make_data_reader_tuple(
+        participant.make_data_reader_tuple(
             security_list_topic_tuple,
             new SecurityListDataReaderListener(market_ptr),
             "FILTER_MATCHING_ENGINE_SECURITY_LIST", market_filter,
@@ -196,85 +262,18 @@ int main(int argc, char *argv[]) {
 
     // Market Data Snapshot Full Refresh.
     auto market_data_snapshot_full_refresh_topic_tuple =
-        participant_ptr->make_topic<
-            DistributedStockExchange_MarketDataSnapshotFullRefresh::
-                MarketDataSnapshotFullRefreshPubSubType,
-            DistributedStockExchange_MarketDataSnapshotFullRefresh::
-                MarketDataSnapshotFullRefresh>(
-            MARKET_DATA_SNAPSHOT_FULL_REFRESH_TOPIC_NAME);
+        participant
+            .make_topic<DistributedStockExchange_MarketDataSnapshotFullRefresh::
+                            MarketDataSnapshotFullRefreshPubSubType,
+                        DistributedStockExchange_MarketDataSnapshotFullRefresh::
+                            MarketDataSnapshotFullRefresh>(
+                MARKET_DATA_SNAPSHOT_FULL_REFRESH_TOPIC_NAME);
     auto market_data_snapshot_full_refresh_data_reader_tuple =
-        participant_ptr->make_data_reader_tuple(
+        participant.make_data_reader_tuple(
             market_data_snapshot_full_refresh_topic_tuple,
             new MarketDataSnapshotFullRefreshDataReaderListener(market_ptr),
             "FILTER_MATCHING_ENGINE_FULL_SNAPSHOT_REQUEST", market_filter,
             {market_ptr->get_market_name()});
-
-    // Set up FastDDS topics and data writers for outgoing reports/requests.
-
-    // Execution Report.
-    auto execution_report_topic_tuple = participant_ptr->make_topic<
-        DistributedStockExchange_ExecutionReport::ExecutionReportPubSubType,
-        DistributedStockExchange_ExecutionReport::ExecutionReport>(
-        EXECUTION_REPORT_TOPIC_NAME);
-    data_writer_container_ptr->execReportDW =
-        participant_ptr->make_data_writer(execution_report_topic_tuple);
-
-    // Mass Cancel Report.
-    auto order_mass_cancel_report_topic_tuple = participant_ptr->make_topic<
-        DistributedStockExchange_OrderMassCancelReport::
-            OrderMassCancelReportPubSubType,
-        DistributedStockExchange_OrderMassCancelReport::OrderMassCancelReport>(
-        ORDER_MASS_CANCEL_REPORT_TOPIC_NAME);
-    data_writer_container_ptr->orderMassCancelReportDW =
-        participant_ptr->make_data_writer(order_mass_cancel_report_topic_tuple);
-
-    // Security List Request.
-    auto security_list_request_topic_tuple = participant_ptr->make_topic<
-        DistributedStockExchange_SecurityListRequest::
-            SecurityListRequestPubSubType,
-        DistributedStockExchange_SecurityListRequest::SecurityListRequest>(
-        SECURITY_LIST_REQUEST_TOPIC_NAME);
-    SecurityListRequestDataWriterListenerPtr
-        security_list_request_data_writer_listener_ptr =
-            std::make_unique<SecurityListRequestDataWriterListener>(market_ptr);
-    data_writer_container_ptr->securityListRequestDW =
-        participant_ptr->make_data_writer(
-            security_list_request_topic_tuple,
-            security_list_request_data_writer_listener_ptr.get());
-
-    // Order Cancel Reject Report.
-    auto order_cancel_reject_topic_tuple = participant_ptr->make_topic<
-        DistributedStockExchange_OrderCancelReject::OrderCancelRejectPubSubType,
-        DistributedStockExchange_OrderCancelReject::OrderCancelReject>(
-        ORDER_CANCEL_REJECT_TOPIC_NAME);
-    data_writer_container_ptr->orderCancelRejectDW =
-        participant_ptr->make_data_writer(order_cancel_reject_topic_tuple);
-
-    // Market Data Incremental Refresh Report.
-    auto market_data_incremental_refresh_topic_tuple =
-        participant_ptr
-            ->make_topic<DistributedStockExchange_MarketDataIncrementalRefresh::
-                             MarketDataIncrementalRefreshPubSubType,
-                         DistributedStockExchange_MarketDataIncrementalRefresh::
-                             MarketDataIncrementalRefresh>(
-                MARKET_DATA_INCREMENTAL_REFRESH_TOPIC_NAME);
-    data_writer_container_ptr->marketDataIncrementalRefreshDW =
-        participant_ptr->make_data_writer(
-            market_data_incremental_refresh_topic_tuple);
-
-    // Market Data Request.
-    auto market_data_request_topic_tuple = participant_ptr->make_topic<
-        DistributedStockExchange_MarketDataRequest::MarketDataRequestPubSubType,
-        DistributedStockExchange_MarketDataRequest::MarketDataRequest>(
-        MARKET_DATA_REQUEST_TOPIC_NAME);
-    data_writer_container_ptr->marketDataRequestDW =
-        participant_ptr->make_data_writer(market_data_request_topic_tuple);
-
-    // Create and start the market data publisher service thread.
-    MarketDataPublisherServicePtr market_data_publisher_service_ptr =
-        std::make_unique<MarketDataPublisherService>(
-            data_writer_container_ptr->marketDataIncrementalRefreshDW.get(),
-            std::move(market_data_publisher_queue_ptr), data_pub_interval);
 
     // Officially start the matching engine by flipping the flag on.
     std::atomic_init(&is_running, true);

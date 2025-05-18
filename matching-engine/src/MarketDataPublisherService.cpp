@@ -3,6 +3,7 @@
 #include "MarketDataPublisherService.hpp"
 #include "MarketDataUpdate.hpp"
 #include "MarketDataUpdateTypes.hpp"
+#include "MatchingEngineDataWriterContainer.hpp"
 #include <DefaultDomainParticipantConstants.hpp>
 #include <LoggerHelper.hpp>
 #include <MarketDataIncrementalRefresh.hpp>
@@ -87,7 +88,7 @@ void MarketDataPublisherService::service() {
         MarketDataIncrementalRefreshLogger::log(ss, market_data_refresh_chunk);
 
         eprosima::fastdds::dds::ReturnCode_t code =
-            m_market_data_incremental_refresh_dw->write(
+            data_writer_container_ptr->marketDataIncrementalRefreshDW->write(
                 &market_data_refresh_chunk);
         if (code != eprosima::fastdds::dds::RETCODE_OK)
           LOG4CXX_ERROR(logger, "MarketDataIncrementalRefresh :" << code);

@@ -1,7 +1,7 @@
 #pragma once
 
 #include "MarketDataUpdateTypes.hpp"
-#include <DefaultDomainParticipantTypes.hpp>
+#include "MatchingEngineDataWriterContainerTypes.hpp"
 #include <thread>
 
 // This service is a separate thread to incrementally send market data updates
@@ -9,7 +9,7 @@
 class MarketDataPublisherService {
 public:
   MarketDataPublisherService(
-      DataWriter *market_data_incremental_refresh_dw,
+      const DataWriterContainerPtr &data_writer_container_ptr,
       MarketDataPublisherQueuePtr market_data_publisher_queue_ptr,
       unsigned int price_depth_pub_interval);
 
@@ -19,7 +19,7 @@ public:
 
 private:
   // Data writing dependencies.
-  MarketDataPublisherQueuePtr m_market_data_publisher_queue_ptr;
+  DataWriterContainerPtr data_writer_container_ptr;
   DataWriter *m_market_data_incremental_refresh_dw;
 
   // Service thread metadata.
