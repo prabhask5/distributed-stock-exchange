@@ -94,9 +94,40 @@ int main(int argc, char *argv[]) {
     participant.create_publisher();
     participant.create_subscriber();
 
-    // Make the data service data writer container dependency.
+    // Set up market data publisher queue, data writer container, execution
+    // report publisher, and order book stock statistics dependency pointers.
+    MarketDataPublisherQueuePtr market_data_publisher_queue_ptr =
+        std::make_shared<MarketDataPublisherQueue>();
     DataWriterContainerPtr data_writer_container_ptr =
         std::make_shared<DataWriterContainer>();
+    ExecutionReportPublisherPtr execution_report_publisher_ptr =
+        std::make_shared<ExecutionReportPublisher>(data_writer_container_ptr);
+    OrderBookStockStatsMapPtr order_book_stats_map_ptr =
+        std::make_shared<OrderBookStockStatsMap>();
+
+    // Set up event handler dependency pointers.
+    OrderEventHandlerPtr order_event_handler_ptr =
+        std::make_shared<OrderEventHandler>(execution_report_publisher_ptr);
+    TradeEventHandlerPtr trade_event_handler_ptr =
+        std::make_shared<TradeEventHandler>(order_book_stats_map_ptr);
+    DepthEventHandlerPtr depth_event_handler_ptr =
+        std::make_shared<DepthEventHandler>(order_book_stats_map_ptr,
+                                            market_data_publisher_queue_ptr,
+                                            market_name);
+
+    // Create and start the market data publisher service thread.
+    MarketDataPublisherService market_data_publisher_service(
+        data_writer_container_ptr, std::move(market_data_publisher_queue_ptr),
+        data_pub_interval);
+
+    // Make top level Market class.
+    MarketPtr market_ptr = std::make_shared<Market>(
+        market_name, data_service_name, market_data_publisher_queue_ptr,
+        std::move(data_writer_container_ptr),
+        std::move(order_event_handler_ptr), std::move(trade_event_handler_ptr),
+        std::move(depth_event_handler_ptr),
+        std::move(execution_report_publisher_ptr),
+        std::move(order_book_stats_map_ptr));
 
     // Set up FastDDS topics and data writers for outgoing reports/requests.
 
@@ -158,39 +189,6 @@ int main(int argc, char *argv[]) {
         MARKET_DATA_REQUEST_TOPIC_NAME);
     data_writer_container_ptr->marketDataRequestDW =
         participant.make_data_writer(market_data_request_topic_tuple);
-
-    // Set up market data publisher queue, execution
-    // report publisher, and order book stock statistics dependency pointers.
-    MarketDataPublisherQueuePtr market_data_publisher_queue_ptr =
-        std::make_shared<MarketDataPublisherQueue>();
-    ExecutionReportPublisherPtr execution_report_publisher_ptr =
-        std::make_shared<ExecutionReportPublisher>(data_writer_container_ptr);
-    OrderBookStockStatsMapPtr order_book_stats_map_ptr =
-        std::make_shared<OrderBookStockStatsMap>();
-
-    // Set up event handler dependency pointers.
-    OrderEventHandlerPtr order_event_handler_ptr =
-        std::make_shared<OrderEventHandler>(execution_report_publisher_ptr);
-    TradeEventHandlerPtr trade_event_handler_ptr =
-        std::make_shared<TradeEventHandler>(order_book_stats_map_ptr);
-    DepthEventHandlerPtr depth_event_handler_ptr =
-        std::make_shared<DepthEventHandler>(order_book_stats_map_ptr,
-                                            market_data_publisher_queue_ptr,
-                                            market_name);
-
-    // Create and start the market data publisher service thread.
-    MarketDataPublisherServicePtr market_data_publisher_service_ptr(
-        data_writer_container_ptr, std::move(market_data_publisher_queue_ptr),
-        data_pub_interval);
-
-    // Make top level Market class.
-    MarketPtr market_ptr = std::make_shared<Market>(
-        market_name, data_service_name, market_data_publisher_queue_ptr,
-        std::move(data_writer_container_ptr),
-        std::move(order_event_handler_ptr), std::move(trade_event_handler_ptr),
-        std::move(depth_event_handler_ptr),
-        std::move(execution_report_publisher_ptr),
-        std::move(order_book_stats_map_ptr));
 
     // Set up FastDDS topics and data readers for incoming requests.
 

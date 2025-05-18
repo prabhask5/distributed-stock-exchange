@@ -19,8 +19,8 @@ public:
 
 private:
   // Data writing dependencies.
-  DataWriterContainerPtr data_writer_container_ptr;
-  DataWriter *m_market_data_incremental_refresh_dw;
+  MarketDataPublisherQueuePtr m_market_data_publisher_queue_ptr;
+  DataWriterContainerPtr m_data_writer_container_ptr;
 
   // Service thread metadata.
   std::atomic<bool> m_is_running;

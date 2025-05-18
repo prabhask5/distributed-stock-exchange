@@ -11,10 +11,10 @@
 #include <map>
 
 MarketDataPublisherService::MarketDataPublisherService(
-    DataWriter *market_data_incremental_refresh_dw,
+    const DataWriterContainerPtr &data_writer_container_ptr,
     MarketDataPublisherQueuePtr market_data_publisher_queue_ptr,
     unsigned int price_depth_pub_interval)
-    : m_market_data_incremental_refresh_dw(market_data_incremental_refresh_dw),
+    : m_data_writer_container_ptr(data_writer_container_ptr),
       m_market_data_publisher_queue_ptr(market_data_publisher_queue_ptr),
       m_price_depth_pub_interval(price_depth_pub_interval) {
   std::atomic_init(&m_is_running, true);
@@ -88,7 +88,7 @@ void MarketDataPublisherService::service() {
         MarketDataIncrementalRefreshLogger::log(ss, market_data_refresh_chunk);
 
         eprosima::fastdds::dds::ReturnCode_t code =
-            data_writer_container_ptr->marketDataIncrementalRefreshDW->write(
+            m_data_writer_container_ptr->marketDataIncrementalRefreshDW->write(
                 &market_data_refresh_chunk);
         if (code != eprosima::fastdds::dds::RETCODE_OK)
           LOG4CXX_ERROR(logger, "MarketDataIncrementalRefresh :" << code);
