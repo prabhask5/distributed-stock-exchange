@@ -11,7 +11,7 @@
 
 AuthService::AuthService(
     const FIX::DatabaseConnectionID &database_connection_id,
-    DataWriterContainerPtr data_writer_container_ptr,
+    const DataWriterContainerPtr &data_writer_container_ptr,
     LogonQueuePtr logon_request_queue)
     : m_data_writer_container_ptr(data_writer_container_ptr),
       m_logon_request_queue(logon_request_queue),

@@ -14,7 +14,7 @@
 class AuthService {
 public:
   AuthService(const FIX::DatabaseConnectionID &database_connection_id,
-              DataWriterContainerPtr data_writer_container_ptr,
+              const DataWriterContainerPtr &data_writer_container_ptr,
               LogonQueuePtr logon_request_queue);
 
   ~AuthService();
