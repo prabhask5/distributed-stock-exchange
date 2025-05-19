@@ -2,7 +2,6 @@
 /build/
 /include/
 env.sh
-log.txt
 /scripts/
 /spec/
 /bin/
@@ -11,3 +10,4 @@ log.txt
 /venv/
 library/dds/gentools/__pycache__
 /lib/
+/logs/

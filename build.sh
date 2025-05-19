@@ -1,6 +1,6 @@
 #!/bin/bash
 
-exec &>log.txt
+exec &>logs/log.txt
 set -x 
 
 DSE_SOURCE_DIR=`pwd`
@@ -158,6 +158,7 @@ fi
 cd $DSE_SOURCE_DIR
 
 /bin/cat <<EOM > $DSE_SOURCE_DIR/env.sh
+. $DSE_SOURCE_DIR/env.sh
 
 export DSE_HOME=$DSE_SOURCE_DIR
 export DEPS_HOME=$INSTALL_DIR
