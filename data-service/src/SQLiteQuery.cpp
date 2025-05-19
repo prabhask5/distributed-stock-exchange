@@ -34,11 +34,6 @@ bool SQLiteQuery::execute(sqlite3 *db_connection_ptr) {
     }
   }
 
-  // In the case we're in write mode, we don't need to read anything from the
-  // output, we'll just return if sqlite3_step = SQLITE_DONE.
-  if (!in_read_mode())
-    return sqlite3_step(m_prepared_statement) == SQLITE_DONE;
-
   int num_cols = sqlite3_column_count(m_prepared_statement);
 
   while ((code = sqlite3_step(m_prepared_statement)) == SQLITE_ROW) {
@@ -52,7 +47,7 @@ bool SQLiteQuery::execute(sqlite3 *db_connection_ptr) {
     m_output_table.emplace_back(row);
   }
 
-  return in_read_mode() && code == SQLITE_OK;
+  return code == SQLITE_DONE;
 }
 
 void SQLiteQuery::handle_fatal(sqlite3 *db_connection_ptr) {
