@@ -45,7 +45,7 @@ void MarketDataService::initialize() {
       "imm.instrument_name=i.instrument_name AND m.market_name=imm.market_name "
       "AND hp.business_date=(SELECT MAX(business_date) FROM hist_price WHERE "
       "instrument_name=i.instrument_name)";
-  SQLiteQuery market_data_query(market_data_query_str, {});
+  SQLiteQuery market_data_query(market_data_query_str, true, {});
   m_sqlite_connection_ptr->execute(market_data_query);
 
   for (int row = 0; row < market_data_query.get_num_rows(); ++row) {

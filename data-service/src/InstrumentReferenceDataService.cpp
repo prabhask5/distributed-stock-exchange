@@ -41,7 +41,8 @@ void InstrumentReferenceDataService::initialize() {
       "i.instrument_name AND u.user_group = ugm_map.user_group AND "
       "m.market_name = im_map.market_name AND im_map.market_name = "
       "ugm_map.market_name";
-  SQLiteQuery instrument_ref_data_query(instrument_ref_data_query_str, {});
+  SQLiteQuery instrument_ref_data_query(instrument_ref_data_query_str, true,
+                                        {});
   m_sqlite_connection_ptr->execute(instrument_ref_data_query);
 
   // Populate the user instrument list map and the instrument map using the

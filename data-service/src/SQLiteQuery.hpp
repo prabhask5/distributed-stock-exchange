@@ -7,7 +7,7 @@
 // This class encapsulates a SQL query sent to the SQLite database.
 class SQLiteQuery {
 public:
-  SQLiteQuery(const std::string &sql_query,
+  SQLiteQuery(const std::string &sql_query, bool in_read_mode,
               const std::vector<std::string> &parameters);
 
   ~SQLiteQuery();
@@ -30,9 +30,14 @@ public:
   // database after executing the query.
   std::string get_value(int row, int col) const;
 
+  // Checks whether the query currently being executed is a read query or not (a
+  // write query).
+  bool in_read_mode() const;
+
 private:
   sqlite3_stmt *m_prepared_statement;
   std::string m_raw_sql_query;
+  bool m_in_read_mode;
   std::vector<std::string> m_parameters;
   StringTable m_output_table;
 };

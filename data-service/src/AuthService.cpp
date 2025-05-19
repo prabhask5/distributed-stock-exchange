@@ -108,7 +108,7 @@ std::string AuthService::get_password(const std::string &username) {
       "user_group WHERE user_group = ?";
   std::vector<std::string> parameters = {username};
 
-  SQLiteQuery auth_query(auth_query_str, parameters);
+  SQLiteQuery auth_query(auth_query_str, true, parameters);
   m_sqlite_connection_ptr->execute(auth_query);
 
   if (auth_query.get_num_rows() == 0)

@@ -1,10 +1,10 @@
 #include "SQLiteQuery.hpp"
 #include <DefaultDomainParticipantConstants.hpp>
 
-SQLiteQuery::SQLiteQuery(const std::string &sql_query,
+SQLiteQuery::SQLiteQuery(const std::string &sql_query, bool in_read_mode,
                          const std::vector<std::string> &parameters)
     : m_prepared_statement(nullptr), m_raw_sql_query(sql_query),
-      m_parameters(std::move(parameters)) {}
+      m_in_read_mode(in_read_mode), m_parameters(std::move(parameters)) {}
 
 SQLiteQuery::~SQLiteQuery() {
   // This method destroyes a SQLite prepared statement.
@@ -34,6 +34,11 @@ bool SQLiteQuery::execute(sqlite3 *db_connection_ptr) {
     }
   }
 
+  // In the case we're in write mode, we don't need to read anything from the
+  // output, we'll just return if sqlite3_step = SQLITE_DONE.
+  if (!in_read_mode())
+    return sqlite3_step(m_prepared_statement) == SQLITE_DONE;
+
   int num_cols = sqlite3_column_count(m_prepared_statement);
 
   while ((code = sqlite3_step(m_prepared_statement)) == SQLITE_ROW) {
@@ -47,7 +52,7 @@ bool SQLiteQuery::execute(sqlite3 *db_connection_ptr) {
     m_output_table.emplace_back(row);
   }
 
-  return code == SQLITE_OK;
+  return in_read_mode() && code == SQLITE_OK;
 }
 
 void SQLiteQuery::handle_fatal(sqlite3 *db_connection_ptr) {
@@ -65,3 +70,5 @@ unsigned long SQLiteQuery::get_num_rows() const {
 std::string SQLiteQuery::get_value(int row, int col) const {
   return m_output_table[row][col];
 }
+
+bool SQLiteQuery::in_read_mode() const { return m_in_read_mode; }
