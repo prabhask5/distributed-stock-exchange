@@ -47,7 +47,7 @@ using OrderToExecutionReportsMapPtr =
     std::shared_ptr<OrderToExecutionReportsMap>;
 
 // Maps a stock ticker symbol, to a map of orders with their execution reports.
-using SymbolToOrderExecutionReportsMap =
+using UserToOrderExecutionReportsMap =
     std::unordered_map<std::string, OrderToExecutionReportsMapPtr>;
-using SymbolToOrderExecutionReportsMapPtr =
-    std::shared_ptr<SymbolToOrderExecutionReportsMap>;
+using UserToOrderExecutionReportsMapPtr =
+    std::shared_ptr<UserToOrderExecutionReportsMap>;

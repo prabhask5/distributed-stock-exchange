@@ -65,4 +65,40 @@ CREATE TABLE IF NOT EXISTS user_group_markets (
     UNIQUE(user_group, market_name)
 );
 
+-- Stores order execution reports.
+CREATE TABLE IF NOT EXISTS execution_reports (
+    user_group TEXT,
+    order_id TEXT,
+    begin_string TEXT,
+    body_length INTEGER,
+    msg_type TEXT,
+    sender_comp_id TEXT,
+    target_comp_id TEXT,
+    msg_seq_num INTEGER,
+    sender_sub_id TEXT,
+    target_sub_id TEXT,
+    sending_time INTEGER,
+    orig_cl_ord_id TEXT,
+    exec_id TEXT,
+    exec_type TEXT,
+    ord_status TEXT,
+    ord_rej_reason INTEGER,
+    symbol TEXT,
+    security_exchange TEXT,
+    side TEXT,
+    order_qty INTEGER,
+    ord_type TEXT,
+    price REAL,
+    stop_px REAL,
+    time_in_force TEXT,
+    exec_inst TEXT,
+    last_qty INTEGER,
+    last_px REAL,
+    leaves_qty INTEGER,
+    cum_qty INTEGER,
+    avg_px REAL,
+    transact_time INTEGER,
+    text TEXT
+);
+
 EOF

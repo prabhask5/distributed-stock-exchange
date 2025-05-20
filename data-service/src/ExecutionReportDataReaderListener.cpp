@@ -4,10 +4,10 @@
 #include <ExecutionReportLogger.hpp>
 
 ExecutionReportDataReaderListener::ExecutionReportDataReaderListener(
-    const SymbolToOrderExecutionReportsMapPtr
-        &symbol_to_order_execution_reports_map_ptr)
-    : m_symbol_to_order_execution_reports_map_ptr(
-          symbol_to_order_execution_reports_map_ptr) {}
+    const UserToOrderExecutionReportsMapPtr
+        &user_to_order_execution_reports_map_ptr)
+    : m_user_to_order_execution_reports_map_ptr(
+          user_to_order_execution_reports_map_ptr) {}
 
 void ExecutionReportDataReaderListener::on_data_available(DataReader *reader) {
   DistributedStockExchange_ExecutionReport::ExecutionReport execution_report;
@@ -26,10 +26,10 @@ void ExecutionReportDataReaderListener::on_data_available(DataReader *reader) {
       // the order execution reports list map to use in OrderMassStatusService.
 
       auto oer_map_iter =
-          m_symbol_to_order_execution_reports_map_ptr->find(username);
-      if (oer_map_iter == m_symbol_to_order_execution_reports_map_ptr->end())
+          m_user_to_order_execution_reports_map_ptr->find(username);
+      if (oer_map_iter == m_user_to_order_execution_reports_map_ptr->end())
         oer_map_iter =
-            m_symbol_to_order_execution_reports_map_ptr
+            m_user_to_order_execution_reports_map_ptr
                 ->emplace(username,
                           std::make_shared<OrderToExecutionReportsMap>())
                 .first;

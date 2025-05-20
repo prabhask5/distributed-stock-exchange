@@ -177,9 +177,8 @@ int main(int argc, char *argv[]) {
     // OrderMassStatusService.
     OrderMassStatusRequestQueuePtr order_mass_status_request_queue_ptr =
         std::make_shared<OrderMassStatusRequestQueue>();
-    SymbolToOrderExecutionReportsMapPtr
-        symbol_to_order_execution_reports_map_ptr =
-            std::make_shared<SymbolToOrderExecutionReportsMap>();
+    UserToOrderExecutionReportsMapPtr user_to_order_execution_reports_map_ptr =
+        std::make_shared<UserToOrderExecutionReportsMap>();
 
     // MarketDataService.
     MarketDataRequestQueuePtr market_data_request_queue_ptr =
@@ -194,7 +193,7 @@ int main(int argc, char *argv[]) {
         participant.make_data_reader_tuple(
             execution_report_topic_tuple,
             new ExecutionReportDataReaderListener(
-                symbol_to_order_execution_reports_map_ptr),
+                user_to_order_execution_reports_map_ptr),
             "EXECUTION_REPORT_FILTER", "Source = %0 and SourceUser = %1",
             {"MATCHING_ENGINE", participant.get_participant_name()});
 
@@ -272,9 +271,9 @@ int main(int argc, char *argv[]) {
         std::move(incremental_refresh_map_ptr),
         std::move(market_data_request_queue_ptr));
     OrderMassStatusService order_mass_status_service(
-        data_writer_container_ptr,
+        database_connection_id, data_writer_container_ptr,
         std::move(order_mass_status_request_queue_ptr),
-        std::move(symbol_to_order_execution_reports_map_ptr));
+        std::move(user_to_order_execution_reports_map_ptr));
 
     // Officially start the data service by flipping the flag on.
     std::atomic_init(&is_running, true);

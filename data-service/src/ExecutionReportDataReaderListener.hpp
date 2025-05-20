@@ -9,12 +9,11 @@
 class ExecutionReportDataReaderListener : public DataReaderListener {
 public:
   ExecutionReportDataReaderListener(
-      const SymbolToOrderExecutionReportsMapPtr
-          &symbol_to_order_execution_reports_map_ptr);
+      const UserToOrderExecutionReportsMapPtr
+          &user_to_order_execution_reports_map_ptr);
 
   virtual void on_data_available(DataReader *reader) override;
 
 private:
-  SymbolToOrderExecutionReportsMapPtr
-      m_symbol_to_order_execution_reports_map_ptr;
+  UserToOrderExecutionReportsMapPtr m_user_to_order_execution_reports_map_ptr;
 };
