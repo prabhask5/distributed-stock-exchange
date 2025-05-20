@@ -1,6 +1,6 @@
 #!/bin/bash
 
-. $DSE_HOME/env.sh
+source ../env.sh
 
 exec &>$DSE_HOME/logs/matchingengine.script.log.txt
 set -x

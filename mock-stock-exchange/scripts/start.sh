@@ -1,5 +1,7 @@
 #!/bin/bash
 
+source ../../env.sh
+
 trap cleanup 1 2 3 6
 
 cleanup()

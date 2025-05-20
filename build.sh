@@ -158,18 +158,15 @@ fi
 cd $DSE_SOURCE_DIR
 
 /bin/cat <<EOM > $DSE_SOURCE_DIR/env.sh
-. $DSE_SOURCE_DIR/env.sh
 
 export DSE_HOME=$DSE_SOURCE_DIR
-export DEPS_HOME=$INSTALL_DIR
-
-export DYLD_LIBRARY_PATH=$DEPS_HOME/lib:$DSE_HOME/lib:$DYLD_LIBRARY_PATH
-export LOG4CXX_CONFIGURATION=$DSE_HOME/config/log4cxx.xml
-
-export EXCHANGE_BASEDIR=$DSE_HOME/mock-stock-exchange
-export EXCHANGE_LOGDIR=$EXCHANGE_BASEDIR/logs
+export LOG4CXX_CONFIGURATION=$DSE_SOURCE_DIR/config/log4cxx.xml
+export EXCHANGE_BASEDIR=/mock-stock-exchange
+export EXCHANGE_LOGDIR=${DSE_SOURCE_DIR}${EXCHANGE_BASEDIR}/logs
 
 EOM
+
+chmod +x $DSE_SOURCE_DIR/env.sh
 
 mkdir -p build
 cd build

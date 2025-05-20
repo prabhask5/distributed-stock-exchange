@@ -80,6 +80,6 @@ install(CODE "
         execute_process(COMMAND chmod +x \${script})
     endforeach()
 ")
-install(FILES 	fix-gateway/scripts/fixgateway.sh data-service/scripts/dataservice.sh matching-engine/scripts/matchingengine.sh DESTINATION scripts)
+install(PROGRAMS fix-gateway/scripts/fixgateway.sh data-service/scripts/dataservice.sh matching-engine/scripts/matchingengine.sh DESTINATION scripts)
 install(FILES 	config/log4cxx.xml DESTINATION config)
 install(FILES 	fix-gateway/spec/Fix44.xml DESTINATION spec)

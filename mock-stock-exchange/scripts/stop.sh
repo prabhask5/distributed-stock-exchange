@@ -1,5 +1,7 @@
 #!/bin/bash
 
+source ../../env.sh
+
 sleep 1
 $DSE_HOME/scripts/dataservice.sh stop data_service_a.ini
 

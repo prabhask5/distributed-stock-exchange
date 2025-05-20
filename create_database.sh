@@ -1,6 +1,6 @@
 #!/bin/sh
 
-. $DSE_HOME/env.sh
+source ./env.sh
 
 sqlite3 ${DSE_HOME}${EXCHANGE_BASEDIR}/data/dse.db <<EOF
 
