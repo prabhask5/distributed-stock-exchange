@@ -31,8 +31,7 @@ CREATE TABLE IF NOT EXISTS instruments (
 -- Historical price data per instrument and business date.
 CREATE TABLE IF NOT EXISTS historical_prices (
     instrument_name TEXT,
-    business_date INTEGER,
-    opening_price INTEGER,
+    last_price INTEGER,
     last_update_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY(instrument_name) REFERENCES instruments(name),
     UNIQUE(instrument_name, business_date)
