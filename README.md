@@ -11,27 +11,27 @@ An implementation of a FIX protocol-based distributed stock exchange trading sys
 
 |FIX Message|DDS Topic|Source|Destination|Content Description|
 |-----------|---|------|--------------------------|-----------|
-|Login(A)|LOGON_TOPIC|FIXGateway|DataService|Converted to IDL FIX Login|
-|Login(A)|LOGON_TOPIC|DataService|FIXGateway|Successfully Authenticated FIX Session by a Data Service |
-|Logout(5)|LOGOUT_TOPIC|DataService|FIXGateway|Unsuccessfully Authenticate FIX Session by Data Service|
-|NewOrderSingle(D)|NEW_ORDER_SINGLE_TOPIC|FIXGateway|MatchingEngine|New order single|
-|ExecutionReport(8)|EXECUTION_REPORT_TOPIC|MatchingEngine|FIXGateway|Execution Report to be sent to a client|
-|ExecutionReport(8)|EXECUTION_REPORT_TOPIC|MatchingEngine|DataService|Execution Report to be store to service Order Mass Status Requests|
-|OrderCancel Request(F)|ORDER_CANCEL_  REQUEST_TOPIC|FIXGateway|MatchingEngine|Converted to IDL Cancel Request from FIX Client|
-|OrderCancel Reject(9)|ORDER_CANCEL_REJECT_ TOPIC|MatchingEngine|FIXGateway|IDL Cancel Reject, if order can't be cancelled|
-|OrderCancelReplace Request(G)|ORDER_CANCEL_ REPLACE_REQUEST_TOPIC_NAME|FIXGateway|MatchingEngine|Converted to IDL Cancel Replace Request from FIX Client|
-|MassCancel Request(q)|ORDER_MASS_CANCEL_ REQUEST_TOPIC|FIXGateway|MatchingEngines|Mass Cancel requested by FIX Client or FIX Client Logout/Disconnect|
-|MassCancel Report(r)|ORDER_MASS_CANCEL_ REPORT_TOPIC|MatchingEngines|FIXGateway|Results of Mass Cancel Request|
-|MarketData Request(V)|MARKET_DATA_REQUEST _TOPIC|FIXGateway|DataService|Request for the current state of Order Book(Top 5 levels)|
-|MarketDataSnapshotFull Refresh(W)|MARKET_DATA_SNAPSHOT _FULL_REFRESH_TOPIC|DataService|FIXGateway|Current Market Data Snapshot(Top 5 levels)|
-|MarketDataSnapshotFull Refresh(W)|MARKET_DATA_SNAPSHOT _FULL_REFRESH_TOPIC|Data Service|MatchingEngine|OpeningPrices|
-|MarketDataIncremental Refresh(X)|MARKET_DATA_SNAPSHOT _FULL_REFRESH_TOPIC|MatchingEngine|FIXGateway|Incremental Market Data Request(Top 5 levels)|
-|MarketDataIncremental Refresh(X)|MARKET_DATA_SNAPSHOT _FULL_REFRESH_TOPIC|MatchingEngine|FIXGateway|Incremental Market Data Request(Top 5 levels)|
-|Security ListRequest(x)|SECURITY_LIST_REQUEST _TOPIC|FIXGateway|DataService|FIX Client initiated Security List Request|
-|SecurityList(y)|SECURITY_LIST_TOPIC|DataService|FIXGateway|Security list reply for FIX Client Request|
-|SecuritList Request(x)|SECURITY_LIST_REQUEST _TOPIC|MatchingEngine|DataService|Security List Request for Order Book setup|
-|SecurityList(y)|SECURITY_LIST_TOPIC|DataService|MatchingEngine|Security List for OrderBook Setup|
-|OrderMassStatus Request(AF)|ORDER_MASS_STATUS_ REQUEST_TOPIC|FIXGateway|DataService|Initiated by FIX Client Mass Status Request|
+|Login Request|LOGON_TOPIC|fix_gateway|data_service|External FIX Login Request (New FIX Session)|
+|Login Response|LOGON_TOPIC|data_service|fix_gateway|Successful Authentication of FIX Session by Data Service|
+|Logout Response|LOGOUT_TOPIC|data_service|fix_gateway|Unsuccessful Authentication of FIX Session by Data Service|
+|NewOrderSingle Request|NEW_ORDER_SINGLE_TOPIC|fix_gateway|matching_engine|External FIX New Order Single Request|
+|OrderCancel Request|ORDER_CANCEL_REQUEST_TOPIC|fix_gateway|matching_engine|External FIX Order Cancel Request|
+|OrderCancelReject Response|ORDER_CANCEL_REJECT_TOPIC|matching_engine|fix_gateway|If Order Can't Be Cancelled For Some Reason|
+|OrderMassCancel Request|ORDER_MASS_CANCEL_REQUEST_TOPIC|fix_gateway|matching_engine|External FIX OrderMassCancel Request or FIX Client Logout/Disconnect|
+|OrderMassCancel Response|ORDER_MASS_CANCEL_REPORT_TOPIC|matching_engine|fix_gateway|Results of Mass Cancel Request|
+|SecurityList Request|SECURITY_LIST_REQUEST_TOPIC|fix_gateway|data_service|External FIX SecurityList Request|
+|SecurityList Response|SECURITY_LIST_TOPIC|data_service|fix_gateway|Contains List of Financial Securities and Related Metadata for Stock Exchange|
+|MarketData Request|MARKET_DATA_REQUEST_TOPIC|fix_gateway|data_service|External FIX Market Data Request|
+|MarketDataSnapshotFullRefresh Response|MARKET_DATA_SNAPSHOT_FULL_REFRESH_TOPIC|data_service|fix_gateway|Current Market Data Snapshot (Top 5 levels)|
+|OrderMassStatus Request|ORDER_MASS_STATUS_REQUEST_TOPIC|fix_gateway|data_service|External FIX Order Mass Status Request|
+|ExecutionReport Response|EXECUTION_REPORT_TOPIC|data_service|fix_gateway|All Execution Reports for Orders Tied to Client (Response to Order Mass Status Request)|
+|SecurityList Request|SECURITY_LIST_REQUEST_TOPIC|matching_engine|data_service|Security List Request for Matching Engine Initialization|
+|SecurityList Response|SECURITY_LIST_TOPIC|data_service|matching_engine|Contains List of Financial Securities and Related Metadata for Stock Exchange|
+|MarketData Request|MARKET_DATA_REQUEST_TOPIC|matching_engine|data_service|Market Data Request for Matching Engine Initialization|
+|MarketDataSnapshotFullRefresh Response|MARKET_DATA_SNAPSHOT_FULL_REFRESH_TOPIC|data_service|matching_engine|Contains Opening Prices|
+|ExecutionReport Data|EXECUTION_REPORT_TOPIC|matching_engine|data_service|Execution Report to Be Stored to Service Order Mass Status Requests|
+|MarketDataIncrementalRefresh Data|MARKET_DATA_SNAPSHOT_FULL_REFRESH_TOPIC|matching_engine|fix_gateway|Incremental Market Data to Surface to FIX Client|
+|MarketDataIncrementalRefresh Data|MARKET_DATA_SNAPSHOT_FULL_REFRESH_TOPIC|matching_engine|data_service|Incremental Refresh Data to Be Stored to Service Market Data Requests|
 
 ## Getting Started
 
