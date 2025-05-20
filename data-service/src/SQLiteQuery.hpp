@@ -8,7 +8,7 @@
 class SQLiteQuery {
 public:
   SQLiteQuery(const std::string &sql_query, bool in_read_mode,
-              const std::vector<std::string> &parameters);
+              std::vector<std::string> &&parameters);
 
   ~SQLiteQuery();
 
@@ -33,6 +33,10 @@ public:
   // Checks whether the query currently being executed is a read query or not (a
   // write query).
   bool in_read_mode() const;
+
+  // Setter methods.
+
+  void set_parameters(std::vector<std::string> &&parameters);
 
 private:
   sqlite3_stmt *m_prepared_statement;

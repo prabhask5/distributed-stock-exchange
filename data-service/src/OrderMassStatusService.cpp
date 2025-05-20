@@ -29,6 +29,15 @@ OrderMassStatusService::OrderMassStatusService(
 OrderMassStatusService::~OrderMassStatusService() {
   // Persist all the execution report information in the database before
   // shutdown.
+
+  // For optimization, begin transaction before many inserts.
+  SQLiteQuery begin_tx("BEGIN TRANSACTION;", false, {});
+  m_sqlite_connection_ptr->execute(begin_tx);
+
+  std::string insert_query_str = "INSERT INTO execution_reports VALUES (?, ?, "
+                                 "?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, "
+                                 "?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+  SQLiteQuery insert_query(insert_query_str, false, {});
   for (const auto &user_pair : *m_user_to_order_execution_reports_map_ptr) {
     const std::string &user = user_pair.first;
     const auto &order_map = user_pair.second;
@@ -38,10 +47,6 @@ OrderMassStatusService::~OrderMassStatusService() {
       const auto &report_list = order_pair.second;
 
       for (const auto &report : *report_list) {
-        std::string insert_sql = "INSERT INTO execution_reports VALUES (?, ?, "
-                                 "?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, "
-                                 "?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-
         std::vector<std::string> params = {
             user,
             order_id,
@@ -76,11 +81,15 @@ OrderMassStatusService::~OrderMassStatusService() {
             std::to_string(report->TransactTime()),
             report->Text()};
 
-        SQLiteQuery insert_query(insert_sql, false, params);
+        insert_query.set_parameters(std::move(params));
         m_sqlite_connection_ptr->execute(insert_query);
       }
     }
   }
+
+  // Commit transaction after inserts.
+  SQLiteQuery end_tx("COMMIT;", false, {});
+  m_sqlite_connection_ptr->execute(end_tx);
 
   m_is_running.store(false);
   m_service_thread.join();

@@ -3,6 +3,7 @@
 #include "AuthServiceTypes.hpp"
 #include "DataServiceDataWriterContainerTypes.hpp"
 #include "SQLiteConnectionTypes.hpp"
+#include "SQLiteQuery.hpp"
 #include <LRUCache.hpp>
 #include <quickfix/DatabaseConnectionID.h>
 #include <thread>
@@ -28,6 +29,7 @@ private:
 
 private:
   SQLiteConnectionPtr m_sqlite_connection_ptr;
+  SQLiteQuery m_auth_query;
   DataWriterContainerPtr m_data_writer_container_ptr;
 
   // This cache stores usernames and passwords from the database so we don't

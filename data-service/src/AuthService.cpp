@@ -17,7 +17,9 @@ AuthService::AuthService(
       m_logon_request_queue_ptr(logon_request_queue_ptr),
       m_credentials_cache([this](const std::string &username) {
         return this->get_password(username);
-      }) {
+      }),
+      m_auth_query("SELECT password FROM user_groups WHERE name = ?;", true,
+                   {}) {
   m_sqlite_connection_ptr =
       std::make_unique<SQLiteConnection>(database_connection_id);
 
@@ -103,15 +105,12 @@ void AuthService::authenticate(LogonPtr logon_ptr) {
 }
 
 std::string AuthService::get_password(const std::string &username) {
-  std::string auth_query_str =
-      "SELECT password FROM user_groups WHERE name = ?;";
   std::vector<std::string> parameters = {username};
+  m_auth_query.set_parameters(std::move(parameters));
+  m_sqlite_connection_ptr->execute(m_auth_query);
 
-  SQLiteQuery auth_query(auth_query_str, true, parameters);
-  m_sqlite_connection_ptr->execute(auth_query);
-
-  if (auth_query.get_num_rows() == 0)
+  if (m_auth_query.get_num_rows() == 0)
     return "";
   else
-    return auth_query.get_value(0, 0);
+    return m_auth_query.get_value(0, 0);
 }

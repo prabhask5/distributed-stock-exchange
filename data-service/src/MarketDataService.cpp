@@ -30,18 +30,19 @@ MarketDataService::MarketDataService(
 MarketDataService::~MarketDataService() {
   // Persist all the latest market data entries for a specific instrument
   // name/market name combination from the incremental refresh map.
+
+  // Set up a SQLite query to update the database.
+  std::string market_data_update_query_str =
+      "UPDATE historical_prices SET last_price = ? WHERE instrument_name = ? "
+      "AND market_name = ?;";
+  SQLiteQuery market_data_update_query(market_data_update_query_str, false, {});
   for (const auto &entry_iter : *m_incremental_refresh_map_ptr) {
     const Instrument &instrument = entry_iter.first;
     int last_price = entry_iter.second.back().MDEntryPx();
 
-    // Set up a SQLite query to update the database.
-    std::string market_data_update_query_str =
-        "UPDATE historical_prices SET last_price = ? WHERE instrument_name = ? "
-        "AND market_name = ?;";
     std::vector<std::string> parameters = {
         std::to_string(last_price), instrument.symbol, instrument.marketName};
-    SQLiteQuery market_data_update_query(market_data_update_query_str, false,
-                                         parameters);
+    market_data_update_query.set_parameters(std::move(parameters));
     m_sqlite_connection_ptr->execute(market_data_update_query);
   }
 
