@@ -28,13 +28,15 @@ CREATE TABLE IF NOT EXISTS instruments (
     last_update_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
--- Historical price data per instrument and business date.
+-- Historical last price data per instrument/market combination.
 CREATE TABLE IF NOT EXISTS historical_prices (
     instrument_name TEXT,
-    last_price INTEGER,
+    market_name TEXT,
+    last_price TEXT,
     last_update_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY(instrument_name) REFERENCES instruments(name),
-    UNIQUE(instrument_name, business_date)
+    FOREIGN KEY(market_name) REFERENCES markets(name),
+    UNIQUE(instrument_name, market_name)
 );
 
 -- Lists available markets (e.g., NASDAQ, NYSE).
