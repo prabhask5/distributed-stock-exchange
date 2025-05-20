@@ -35,12 +35,10 @@ void InstrumentReferenceDataService::initialize() {
   // based on their user group and the markets mapped to those groups. This is
   // used to populate both the instrument map and the user instrument list map.
   std::string instrument_ref_data_query_str =
-      "SELECT i.instrument_name, i.properties, u.user_name, m.market_name FROM "
-      "user_code u, instrument i, market m, instrument_market_map im_map, "
-      "user_group_market_map ugm_map WHERE im_map.instrument_name = "
-      "i.instrument_name AND u.user_group = ugm_map.user_group AND "
-      "m.market_name = im_map.market_name AND im_map.market_name = "
-      "ugm_map.market_name";
+      "SELECT i.name, i.properties, u.username, m.name FROM users u, "
+      "instruments i, markets m, instrument_markets im, user_group_markets ugm "
+      "WHERE im.instrument_name = i.name AND u.user_group = ugm.user_group AND "
+      "m.name = im.market_name AND im.market_name = ugm.market_name;";
   SQLiteQuery instrument_ref_data_query(instrument_ref_data_query_str, true,
                                         {});
   m_sqlite_connection_ptr->execute(instrument_ref_data_query);

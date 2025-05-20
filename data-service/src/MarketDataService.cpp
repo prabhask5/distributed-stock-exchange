@@ -38,13 +38,12 @@ void MarketDataService::initialize() {
   // is basically used to determine the initial incremental refresh data that we
   // store in memory.
   std::string market_data_query_str =
-      "SELECT i.instrument_name, m.market_name, "
-      "json_extract(hp.properties,\"$.open\") AS open_price FROM hist_price "
-      "hp, instrument i, market m, instrument_market_map imm WHERE "
-      "hp.instrument_name=i.instrument_name AND "
-      "imm.instrument_name=i.instrument_name AND m.market_name=imm.market_name "
-      "AND hp.business_date=(SELECT MAX(business_date) FROM hist_price WHERE "
-      "instrument_name=i.instrument_name)";
+      "SELECT i.name AS instrument_name, m.name AS market_name, "
+      "hp.opening_price FROM historical_prices hp, instruments i, markets m, "
+      "instrument_markets im WHERE hp.instrument_name = i.name AND "
+      "im.instrument_name = i.name AND m.name = im.market_name AND "
+      "hp.business_date = (SELECT MAX(business_date) FROM historical_prices "
+      "WHERE instrument_name = i.name);";
   SQLiteQuery market_data_query(market_data_query_str, true, {});
   m_sqlite_connection_ptr->execute(market_data_query);
 

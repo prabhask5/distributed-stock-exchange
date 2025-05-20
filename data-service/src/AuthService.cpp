@@ -104,8 +104,7 @@ void AuthService::authenticate(LogonPtr logon_ptr) {
 
 std::string AuthService::get_password(const std::string &username) {
   std::string auth_query_str =
-      "SELECT json_extract(properties, \"$.password\") AS password FROM "
-      "user_group WHERE user_group = ?";
+      "SELECT password FROM user_groups WHERE name = ?;";
   std::vector<std::string> parameters = {username};
 
   SQLiteQuery auth_query(auth_query_str, true, parameters);
