@@ -1,6 +1,8 @@
 #!/bin/bash
 
+mkdir -p logs
 exec &>logs/log.txt
+set -e
 set -x 
 
 DSE_SOURCE_DIR=`pwd`
@@ -8,17 +10,7 @@ DEPS_BUILD_DIR=$DSE_SOURCE_DIR/deps
 
 mkdir -p $DEPS_BUILD_DIR 
 
-if [[ "$OSTYPE" == "darwin"* ]]; then
-	CXXFLAGS="-DWAZOO_64_BIT -std=c++11 -stdlib=libc++"
-fi
-
-if [ -z "$1" ] 
-then
-    INSTALL_DIR=$DEPS_BUILD_DIR
-    echo "Install directory is not supplied, installing in $INSTALL_DIR/"
-else
-    INSTALL_DIR=$1
-fi
+INSTALL_DIR=$DEPS_BUILD_DIR
 
 FAST_CDR_PKG=2.3.0
 FAST_DDS_PKG=3.2.1
@@ -171,10 +163,21 @@ chmod +x $DSE_SOURCE_DIR/env.sh
 mkdir -p build
 cd build
 
-# For MacOS target
-cmake -G Xcode .. -Dfastcdr_DIR=$INSTALL_DIR/lib/cmake/fastcdr/ -Dfastdds_DIR=$INSTALL_DIR/share/fastdds/cmake/ -Dfoonathan_memory_DIR=$INSTALL_DIR/lib/foonathan_memory/cmake/ -Dlog4cxx_DIR=$INSTALL_DIR/lib/cmake/log4cxx -DCMAKE_INSTALL_PREFIX=$DSE_SOURCE_DIR -DBoost_INCLUDE_DIR=$INSTALL_DIR/include -DQUICKFIX_INSTALL_PREFIX=$INSTALL_DIR
+CMAKE_GENERATOR=""
+if [[ "$(uname)" == "Darwin" ]]; then
+    CMAKE_GENERATOR="-G Xcode"
+fi
 
-# For Linux target
-# cmake .. -Dfastcdr_DIR=$INSTALL_DIR/lib/cmake/fastcdr/ -Dfastdds_DIR=$INSTALL_DIR/share/fastdds/cmake/ -Dfoonathan_memory_DIR=$INSTALL_DIR/lib/foonathan_memory/cmake/ -Dlog4cxx_DIR=$INSTALL_DIR/lib/cmake/log4cxx -DCMAKE_INSTALL_PREFIX=$DSE_SOURCE_DIR -DBoost_INCLUDE_DIR=$INSTALL_DIR/include -DQUICKFIX_INSTALL_PREFIX=$INSTALL_DIR
+CMAKE_ARGS=(
+  -Dfastcdr_DIR=$INSTALL_DIR/lib/cmake/fastcdr/
+  -Dfastdds_DIR=$INSTALL_DIR/share/fastdds/cmake/
+  -Dfoonathan_memory_DIR=$INSTALL_DIR/lib/foonathan_memory/cmake/
+  -Dlog4cxx_DIR=$INSTALL_DIR/lib/cmake/log4cxx
+  -DCMAKE_INSTALL_PREFIX=$DSE_SOURCE_DIR
+  -DBoost_INCLUDE_DIR=$INSTALL_DIR/include
+  -DQUICKFIX_INSTALL_PREFIX=$INSTALL_DIR
+)
+
+cmake $CMAKE_GENERATOR .. "${CMAKE_ARGS[@]}"
 
 cmake --build . --target install
